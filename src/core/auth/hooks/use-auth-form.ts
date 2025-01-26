@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useLogin } from './use-auth'
+import { useLogin } from './use-auth-api'
 
 const schema = z.object({
   dni: z
