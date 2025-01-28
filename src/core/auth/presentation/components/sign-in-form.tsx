@@ -23,7 +23,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useAuthForm } from '../../hooks/use-auth-form'
 
-export const LoginForm = () => {
+export const SignInForm = () => {
   const router = useRouter()
   const { form, isLoading, onSubmit } = useAuthForm()
 
@@ -46,12 +46,12 @@ export const LoginForm = () => {
           <CardContent className='grid gap-4'>
             <FormField
               control={form.control}
-              name='dni'
+              name='username'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Cédula</FormLabel>
+                  <FormLabel>Usuario</FormLabel>
                   <FormControl>
-                    <Input placeholder='1442121323' {...field} />
+                    <Input placeholder='chu2409' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

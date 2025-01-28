@@ -17,16 +17,27 @@ class ApiClient {
       })
 
       // Interceptor de request
-      ApiClient.instance.interceptors.request.use(
-        (config) => {
-          const token = localStorage.getItem('token')
-          if (token) {
-            config.headers['Authorization'] = `Bearer ${token}`
-          }
-          return config
-        },
-        (error) => Promise.reject(error),
-      )
+      // ApiClient.instance.interceptors.request.use(
+      //   (config) => {
+      //     const token = localStorage.getItem('token')
+      //     if (token) {
+      //       config.headers['Authorization'] = `Bearer ${token}`
+      //     }
+      //     return config
+      //   },
+      //   (error) => Promise.reject(error),
+      // )
+
+      ApiClient.instance.interceptors.request.use((config) => {
+        // eslint-disable-next-line no-console
+        console.log('📡 Axios Request:', {
+          url: process.env.NEXT_PUBLIC_API_URL + config.url!,
+          method: config.method,
+          headers: config.headers,
+          data: config.data,
+        })
+        return config
+      })
 
       // Interceptor de response
       ApiClient.instance.interceptors.response.use(
@@ -38,8 +49,8 @@ class ApiClient {
           // Manejo centralizado de errores
           if (error.response?.status === 401) {
             // Manejar token expirado
-            localStorage.removeItem('token')
-            window.location.href = '/login'
+            // localStorage.removeItem('token')
+            // window.location.href = '/login'
           }
           return Promise.reject(error)
         },

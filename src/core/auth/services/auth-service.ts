@@ -1,12 +1,12 @@
 import { apiClient } from '@/config/http/api-client'
-import { ILoginReq, ILoginRes } from '../models/login-dto'
+import { ISignInReq, ISignInRes } from '../models/sign-in-dto'
 import { AUTH_API_ROUTES } from '../constants/auth-api-routes'
 
 export const authService = {
-  async login(loginDto: ILoginReq) {
-    const response = await apiClient.post<ILoginRes>(
-      AUTH_API_ROUTES.LOGIN,
-      loginDto,
+  async signIn(dto: ISignInReq) {
+    const response = await apiClient.post<ISignInRes>(
+      AUTH_API_ROUTES.SIGN_IN,
+      dto,
     )
 
     return response.data

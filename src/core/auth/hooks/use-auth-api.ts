@@ -1,13 +1,13 @@
 import { useMutation } from '@tanstack/react-query'
-import { ILoginReq, ILoginRes } from '../models/login-dto'
+import { ISignInReq, ISignInRes } from '../models/sign-in-dto'
 import { authService } from '../services/auth-service'
 
-export const useLogin = () => {
+export const useSignIn = () => {
   return useMutation({
-    mutationFn: async (values: ILoginReq): Promise<ILoginRes> => {
-      const data = await authService.login(values)
+    mutationFn: async (values: ISignInReq): Promise<ISignInRes> => {
+      const data = await authService.signIn(values)
 
-      localStorage.setItem('token', data.token)
+      // localStorage.setItem('token', data.token)
 
       return data
     },
