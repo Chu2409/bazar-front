@@ -1,6 +1,6 @@
 export interface IApiResponse<T> {
   success: boolean
-  data: T
+  data: T | null
   message: IApiMessage
 }
 export interface IApiMessage {
