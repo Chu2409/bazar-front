@@ -7,6 +7,7 @@ import axios, {
 } from 'axios'
 import { IApiResponse } from './api-response'
 import { toast } from '@/shared/hooks/use-toast'
+import { tokenStorage } from '@/shared/utils/token-storage'
 
 class ApiClient {
   private static instance: AxiosInstance
@@ -23,6 +24,17 @@ class ApiClient {
         },
         validateStatus: () => true,
       })
+
+      ApiClient.instance.interceptors.request.use(
+        (config) => {
+          const token = tokenStorage.getToken()
+          if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`
+          }
+          return config
+        },
+        (error) => Promise.reject(error),
+      )
 
       ApiClient.instance.interceptors.response.use(
         (response: AxiosResponse<IApiResponse<unknown>>) => {
