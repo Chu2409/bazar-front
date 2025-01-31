@@ -1,5 +1,12 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+/* eslint-disable no-console */
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+} from 'axios'
 import { IApiResponse } from './api-response'
+import { toast } from '@/shared/hooks/use-toast'
 
 class ApiClient {
   private static instance: AxiosInstance
@@ -14,45 +21,31 @@ class ApiClient {
         headers: {
           'Content-Type': 'application/json',
         },
+        validateStatus: () => true,
       })
 
-      // Interceptor de request
-      // ApiClient.instance.interceptors.request.use(
-      //   (config) => {
-      //     const token = localStorage.getItem('token')
-      //     if (token) {
-      //       config.headers['Authorization'] = `Bearer ${token}`
-      //     }
-      //     return config
-      //   },
-      //   (error) => Promise.reject(error),
-      // )
-
-      ApiClient.instance.interceptors.request.use((config) => {
-        // eslint-disable-next-line no-console
-        console.log('📡 Axios Request:', {
-          url: process.env.NEXT_PUBLIC_API_URL + config.url!,
-          method: config.method,
-          headers: config.headers,
-          data: config.data,
-        })
-        return config
-      })
-
-      // Interceptor de response
       ApiClient.instance.interceptors.response.use(
         (response: AxiosResponse<IApiResponse<unknown>>) => {
-          // Transformación de respuesta si es necesario
+          console.log('📡 Axios Response:', response.data)
+          handleApiResponse(response.data)
+
           return response
         },
-        (error) => {
-          // Manejo centralizado de errores
-          if (error.response?.status === 401) {
-            // Manejar token expirado
-            // localStorage.removeItem('token')
-            // window.location.href = '/login'
+        (error: AxiosError<IApiResponse<unknown>>) => {
+          console.log('📡 Axios Error:', error.response?.data)
+
+          if (error.response?.data) {
+            handleApiResponse(error.response.data)
+          } else {
+            // Para errores no controlados (como errores de red)
+            toast({
+              title: 'Error',
+              description: 'Error de conexión con el servidor',
+              variant: 'destructive',
+            })
           }
-          return Promise.reject(error)
+
+          return Promise.reject(error.response)
         },
       )
     }
@@ -60,7 +53,6 @@ class ApiClient {
   }
 }
 
-// Helper para tipos con genéricos
 export const apiClient = {
   get: async <T>(
     url: string,
@@ -99,4 +91,43 @@ export const apiClient = {
     const response = await client.delete<IApiResponse<T>>(url, config)
     return response.data
   },
+}
+
+const handleApiResponse = (response: IApiResponse<unknown>) => {
+  const { success, message } = response
+
+  if (!message.displayable && process.env.NODE_ENV === 'development') {
+    toast({
+      title: 'Debug Error',
+      description: Array.isArray(message.content)
+        ? message.content.join(', ')
+        : message.content,
+      variant: 'default',
+      className: 'bg-yellow-500 text-black',
+    })
+    return
+  }
+
+  if (success) {
+    toast({
+      title: 'Éxito',
+      description: Array.isArray(message.content)
+        ? message.content.join(', ')
+        : message.content,
+      variant: 'default',
+      className: 'bg-green-500 text-white',
+    })
+    return
+  }
+
+  if (!success && message.displayable) {
+    toast({
+      title: 'Error',
+      description: Array.isArray(message.content)
+        ? message.content.join(', ')
+        : message.content,
+      variant: 'destructive',
+    })
+    return
+  }
 }
