@@ -5,7 +5,7 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
 } from 'axios'
-import { IApiResponse } from './api-response'
+import { IApiRes } from './api-response'
 import { toast } from '@/shared/hooks/use-toast'
 import { tokenStorage } from '@/shared/utils/token-storage'
 
@@ -36,13 +36,13 @@ class ApiClient {
       )
 
       ApiClient.instance.interceptors.response.use(
-        (response: AxiosResponse<IApiResponse<unknown>>) => {
+        (response: AxiosResponse<IApiRes<unknown>>) => {
           console.log('📡 Axios Response:', response.data)
           handleApiResponse(response.data)
 
           return response
         },
-        (error: AxiosError<IApiResponse<unknown>>) => {
+        (error: AxiosError<IApiRes<unknown>>) => {
           console.log('📡 Axios Error:', error.response?.data)
 
           if (error.response?.data) {
@@ -68,9 +68,9 @@ export const apiClient = {
   get: async <T>(
     url: string,
     config?: AxiosRequestConfig,
-  ): Promise<IApiResponse<T>> => {
+  ): Promise<IApiRes<T>> => {
     const client = ApiClient.getInstance()
-    const response = await client.get<IApiResponse<T>>(url, config)
+    const response = await client.get<IApiRes<T>>(url, config)
     return response.data
   },
 
@@ -78,9 +78,9 @@ export const apiClient = {
     url: string,
     data?: unknown,
     config?: AxiosRequestConfig,
-  ): Promise<IApiResponse<T>> => {
+  ): Promise<IApiRes<T>> => {
     const client = ApiClient.getInstance()
-    const response = await client.post<IApiResponse<T>>(url, data, config)
+    const response = await client.post<IApiRes<T>>(url, data, config)
     return response.data
   },
 
@@ -88,23 +88,23 @@ export const apiClient = {
     url: string,
     data?: unknown,
     config?: AxiosRequestConfig,
-  ): Promise<IApiResponse<T>> => {
+  ): Promise<IApiRes<T>> => {
     const client = ApiClient.getInstance()
-    const response = await client.put<IApiResponse<T>>(url, data, config)
+    const response = await client.put<IApiRes<T>>(url, data, config)
     return response.data
   },
 
   delete: async <T>(
     url: string,
     config?: AxiosRequestConfig,
-  ): Promise<IApiResponse<T>> => {
+  ): Promise<IApiRes<T>> => {
     const client = ApiClient.getInstance()
-    const response = await client.delete<IApiResponse<T>>(url, config)
+    const response = await client.delete<IApiRes<T>>(url, config)
     return response.data
   },
 }
 
-const handleApiResponse = (response: IApiResponse<unknown>) => {
+const handleApiResponse = (response: IApiRes<unknown>) => {
   const { success, message } = response
 
   if (!message.displayable && process.env.NODE_ENV === 'development') {

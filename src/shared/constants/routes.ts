@@ -1,11 +1,4 @@
-import {
-  LucideIcon,
-  Home,
-  Inbox,
-  Calendar,
-  Search,
-  Settings,
-} from 'lucide-react'
+import { LucideIcon, Home, Inbox } from 'lucide-react'
 
 interface MenuItem {
   title: string
@@ -20,23 +13,16 @@ export const routes: MenuItem[] = [
     icon: Home,
   },
   {
-    title: 'Inbox',
-    url: '#',
+    title: 'Productos',
+    url: '/products',
     icon: Inbox,
   },
-  {
-    title: 'Calendar',
-    url: '#',
-    icon: Calendar,
-  },
-  {
-    title: 'Search',
-    url: '#',
-    icon: Search,
-  },
-  {
-    title: 'Settings',
-    url: '#',
-    icon: Settings,
-  },
 ]
+
+export const getRoute = (title: string) => {
+  return routes.find((route) => route.title === title)
+}
+
+export const getRouteByURL = (url: string) => {
+  return routes.find((route) => route.url === url)
+}

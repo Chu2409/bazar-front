@@ -1,3 +1,5 @@
+'use client'
+
 import { routes } from '@/constants/routes'
 import {
   SidebarContent,
@@ -9,8 +11,11 @@ import {
   SidebarMenuItem,
 } from '@/ui-components/sidebar'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 const NavbarContent = () => {
+  const pathname = usePathname()
+
   return (
     <SidebarContent>
       <SidebarGroup>
@@ -19,7 +24,7 @@ const NavbarContent = () => {
           <SidebarMenu>
             {routes.map((item) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton asChild isActive={pathname === item.url}>
                   <Link href={item.url}>
                     <item.icon />
                     <span>{item.title}</span>

@@ -1,10 +1,10 @@
-import { IApiResponse } from '@/config/http/api-response'
+import { IApiRes } from '@/config/http/api-response'
 import { useToast } from './use-toast'
 
 export function useApiToast() {
   const { toast } = useToast()
 
-  const showToastFromResponse = <T>(response: IApiResponse<T>) => {
+  const showToastFromResponse = <T>(response: IApiRes<T>) => {
     const { success, message } = response
 
     // Caso 1: Respuesta exitosa
