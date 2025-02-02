@@ -8,7 +8,7 @@ export const useSignIn = () => {
     mutationFn: async (values: ISignInReq) => {
       const data = await authService.signIn(values)
 
-      tokenStorage.setToken(data!.token)
+      if (data) tokenStorage.setToken(data.token)
     },
   })
 }

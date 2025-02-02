@@ -22,7 +22,6 @@ class ApiClient {
         headers: {
           'Content-Type': 'application/json',
         },
-        validateStatus: () => true,
       })
 
       ApiClient.instance.interceptors.request.use(
@@ -57,7 +56,7 @@ class ApiClient {
             })
           }
 
-          return Promise.reject(error.response)
+          return Promise.reject(error)
         },
       )
     }
