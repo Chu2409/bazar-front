@@ -24,13 +24,13 @@
     ],
     "paths": {
       "@/ui-components/*": [
-        "./src/shared/components/ui/*"
+        "./src/common/components/ui/*"
       ],
       "@/components/*": [
-        "./src/shared/components/custom/*"
+        "./src/common/components/custom/*"
       ],
       "@/constants/*": [
-        "./src/shared/constants/*"
+        "./src/common/constants/*"
       ],
       "@/*": [
         "./src/*"

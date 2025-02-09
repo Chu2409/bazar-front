@@ -6,8 +6,9 @@ import axios, {
   AxiosResponse,
 } from 'axios'
 import { IApiRes } from './api-response'
-import { toast } from '@/shared/hooks/use-toast'
-import { tokenStorage } from '@/shared/utils/token-storage'
+import { showErrorToast, showResponseToast } from '@/common/utils/toast'
+import { useAuthStore } from '@/core/auth/context/use-auth-store'
+import { getToken, removeToken } from '@/common/utils/token-storage'
 
 class ApiClient {
   private static instance: AxiosInstance
@@ -25,8 +26,8 @@ class ApiClient {
       })
 
       ApiClient.instance.interceptors.request.use(
-        (config) => {
-          const token = tokenStorage.getToken()
+        async (config) => {
+          const token = await getToken()
           if (token) {
             config.headers['Authorization'] = `Bearer ${token}`
           }
@@ -38,22 +39,35 @@ class ApiClient {
       ApiClient.instance.interceptors.response.use(
         (response: AxiosResponse<IApiRes<unknown>>) => {
           console.log('📡 Axios Response:', response.data)
-          handleApiResponse(response.data)
-
+          showResponseToast(response.data)
           return response
         },
-        (error: AxiosError<IApiRes<unknown>>) => {
+        async (error: AxiosError<IApiRes<unknown>>) => {
           console.log('📡 Axios Error:', error.response?.data)
 
-          if (error.response?.data) {
-            handleApiResponse(error.response.data)
-          } else {
-            // Para errores no controlados (como errores de red)
-            toast({
-              title: 'Error',
-              description: 'Error de conexión con el servidor',
-              variant: 'destructive',
-            })
+          // Si hay una respuesta del servidor, significa que el servidor respondió con un error HTTP
+          if (error.response) {
+            // Caso específico de autenticación
+            if (error.response.status === 401) {
+              await removeToken()
+              const clearUser = useAuthStore.getState().clearUser
+              clearUser()
+              showErrorToast('Vuelve a iniciar sesión')
+            }
+            // Para todos los demás casos donde el servidor respondió con un formato válido
+            else if (error.response.data) {
+              showResponseToast(error.response.data)
+              // Retornamos la respuesta para que pueda ser manejada por el código que hizo la petición
+              return Promise.resolve(error.response)
+            }
+          }
+          // Error de red o timeout
+          else if (error.request) {
+            showErrorToast('Error de conexión con el servidor')
+          }
+          // Otros errores
+          else {
+            showErrorToast('Error al procesar la solicitud')
           }
 
           return Promise.reject(error)
@@ -69,9 +83,16 @@ export const apiClient = {
     url: string,
     config?: AxiosRequestConfig,
   ): Promise<IApiRes<T>> => {
-    const client = ApiClient.getInstance()
-    const response = await client.get<IApiRes<T>>(url, config)
-    return response.data
+    try {
+      const client = ApiClient.getInstance()
+      const response = await client.get<IApiRes<T>>(url, config)
+      return response.data
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.data) {
+        return error.response.data
+      }
+      throw error
+    }
   },
 
   post: async <T>(
@@ -79,9 +100,16 @@ export const apiClient = {
     data?: unknown,
     config?: AxiosRequestConfig,
   ): Promise<IApiRes<T>> => {
-    const client = ApiClient.getInstance()
-    const response = await client.post<IApiRes<T>>(url, data, config)
-    return response.data
+    try {
+      const client = ApiClient.getInstance()
+      const response = await client.post<IApiRes<T>>(url, data, config)
+      return response.data
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.data) {
+        return error.response.data
+      }
+      throw error
+    }
   },
 
   put: async <T>(
@@ -89,56 +117,31 @@ export const apiClient = {
     data?: unknown,
     config?: AxiosRequestConfig,
   ): Promise<IApiRes<T>> => {
-    const client = ApiClient.getInstance()
-    const response = await client.put<IApiRes<T>>(url, data, config)
-    return response.data
+    try {
+      const client = ApiClient.getInstance()
+      const response = await client.put<IApiRes<T>>(url, data, config)
+      return response.data
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.data) {
+        return error.response.data
+      }
+      throw error
+    }
   },
 
   delete: async <T>(
     url: string,
     config?: AxiosRequestConfig,
   ): Promise<IApiRes<T>> => {
-    const client = ApiClient.getInstance()
-    const response = await client.delete<IApiRes<T>>(url, config)
-    return response.data
+    try {
+      const client = ApiClient.getInstance()
+      const response = await client.delete<IApiRes<T>>(url, config)
+      return response.data
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.data) {
+        return error.response.data
+      }
+      throw error
+    }
   },
-}
-
-const handleApiResponse = (response: IApiRes<unknown>) => {
-  const { success, message } = response
-
-  if (!message.displayable && process.env.NODE_ENV === 'development') {
-    toast({
-      title: 'Debug Error',
-      description: Array.isArray(message.content)
-        ? message.content.join(', ')
-        : message.content,
-      variant: 'default',
-      className: 'bg-yellow-500 text-black',
-    })
-    return
-  }
-
-  if (success) {
-    toast({
-      title: 'Éxito',
-      description: Array.isArray(message.content)
-        ? message.content.join(', ')
-        : message.content,
-      variant: 'default',
-      className: 'bg-green-500 text-white',
-    })
-    return
-  }
-
-  if (!success && message.displayable) {
-    toast({
-      title: 'Error',
-      description: Array.isArray(message.content)
-        ? message.content.join(', ')
-        : message.content,
-      variant: 'destructive',
-    })
-    return
-  }
 }

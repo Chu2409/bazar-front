@@ -1,9 +1,9 @@
-import NavbarInset from '@/shared/components/layout/navbar/inset'
+import NavbarInset from '@/common/components/layout/navbar/inset'
 import { Sidebar, SidebarProvider } from '@/ui-components/sidebar'
 import { cookies } from 'next/headers'
-import NavbarHeader from '@/shared/components/layout/navbar/header'
-import NavbarContent from '@/shared/components/layout/navbar/content'
-import { NavbarFooter } from '@/shared/components/layout/navbar/footer'
+import NavbarHeader from '@/common/components/layout/navbar/header'
+import NavbarContent from '@/common/components/layout/navbar/content'
+import { NavbarFooter } from '@/common/components/layout/navbar/footer'
 
 const RoutesLayout = async ({ children }: { children: React.ReactNode }) => {
   const cookieStore = await cookies()

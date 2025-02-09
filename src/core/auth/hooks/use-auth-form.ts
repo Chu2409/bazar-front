@@ -1,8 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useSignIn } from './use-auth-api'
+import { useSignIn } from './use-auth-service'
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 const schema = z.object({
   username: z
@@ -21,6 +22,11 @@ export const useAuthForm = () => {
   const router = useRouter()
   const { isPending, mutateAsync } = useSignIn()
 
+  useEffect(() => {
+    router.prefetch('/products')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const form = useForm<FormFields>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -32,13 +38,12 @@ export const useAuthForm = () => {
   const onSubmit = async (values: FormFields) => {
     await mutateAsync(values)
 
-    router.push('/products')
+    router.replace('/products')
   }
 
   return {
     form,
-    isLoading: isPending,
-    onSubmit: form.handleSubmit(onSubmit),
     isPending,
+    onSubmit: form.handleSubmit(onSubmit),
   }
 }
