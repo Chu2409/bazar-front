@@ -6,13 +6,13 @@ export const DEFAULT_PAGE_LIMIT = 10
 
 export const getPaginationParams = (params: IPaginationParams) => {
   const page = Math.max(1, Number(params?.page) || 1)
-  const size = Math.max(1, Number(params?.size) || DEFAULT_PAGE_LIMIT)
-  const skip = (page - 1) * size
+  const limit = Math.max(1, Number(params?.limit) || DEFAULT_PAGE_LIMIT)
+  const skip = (page - 1) * limit
 
   return {
     skip,
     page,
-    size,
+    limit,
   }
 }
 

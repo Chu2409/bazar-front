@@ -45,13 +45,13 @@ export function DataTablePagination({
         <p className='text-sm font-medium'>Items por página</p>
 
         <Select
-          value={`${metadata.size}`}
+          value={`${metadata.limit}`}
           onValueChange={(value) => {
             handlePageSize(Number(value))
           }}
         >
           <SelectTrigger className='h-8 w-[70px]'>
-            <SelectValue placeholder={metadata.size} />
+            <SelectValue placeholder={metadata.limit} />
           </SelectTrigger>
 
           <SelectContent side='top'>

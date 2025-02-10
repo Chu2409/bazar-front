@@ -10,7 +10,7 @@ export interface IApiRes<T> {
 }
 export interface IApiPaginationMeta {
   page: number
-  size: number
+  limit: number
   total: number
   pages: number
 }

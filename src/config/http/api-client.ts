@@ -36,6 +36,16 @@ class ApiClient {
         (error) => Promise.reject(error),
       )
 
+      ApiClient.instance.interceptors.request.use((config) => {
+        console.log('📡 Axios Request:', {
+          url: process.env.NEXT_PUBLIC_API_URL! + config.url,
+          method: config.method,
+          headers: config.headers,
+          data: config.data,
+        })
+        return config
+      })
+
       ApiClient.instance.interceptors.response.use(
         (response: AxiosResponse<IApiRes<unknown>>) => {
           console.log('📡 Axios Response:', response.data)

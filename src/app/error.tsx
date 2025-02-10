@@ -20,11 +20,11 @@ export default function Error({
   const { push } = useRouter()
 
   const handleClick = () => {
-    push('/inventory')
+    push('/products')
   }
 
   return (
-    <main>
+    <main className='h-full'>
       <div className='h-full flex items-center justify-center p-4'>
         <Card className='w-full max-w-md shadow-lg'>
           <CardHeader className='text-center pb-2'>

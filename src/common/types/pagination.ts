@@ -1,6 +1,6 @@
 export interface IPaginationParams {
   page?: string
-  size?: string
+  limit?: string
   search?: string
   sort?: string
   order?: string
