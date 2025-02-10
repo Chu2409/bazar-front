@@ -35,11 +35,7 @@ export const useAuthForm = () => {
     },
   })
 
-  const onSubmit = async (values: FormFields) => {
-    await mutateAsync(values)
-
-    router.replace('/products')
-  }
+  const onSubmit = async (values: FormFields) => await mutateAsync(values)
 
   return {
     form,

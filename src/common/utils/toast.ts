@@ -4,50 +4,43 @@ import { toast } from '../hooks/use-toast'
 const isProduction = process.env.NODE_ENV === 'production'
 
 export const showResponseToast = (response: IApiRes<unknown>) => {
-  if (!response.message.displayable && isProduction) return
-
   const { success, message } = response
+  if (!message.displayable && isProduction) return
+
+  const msg = Array.isArray(message.content)
+    ? message.content.join(', ')
+    : message.content
 
   if (!message.displayable) {
-    toast({
-      title: 'Debug Error',
-      description: Array.isArray(message.content)
-        ? message.content.join(', ')
-        : message.content,
-      variant: 'default',
-      className: 'bg-yellow-500 text-black',
-    })
-    return
-  }
+    showDebugToast(msg)
+  } else if (success) {
+    showSuccessToast(msg)
+  } else showErrorToast(msg)
+}
 
-  if (success) {
-    toast({
-      title: 'Éxito',
-      description: Array.isArray(message.content)
-        ? message.content.join(', ')
-        : message.content,
-      variant: 'default',
-      className: 'bg-green-500 text-white',
-    })
-
-    return
-  }
-
+export const showSuccessToast = (message: string, title?: string) => {
   toast({
-    title: 'Error',
-    description: Array.isArray(message.content)
-      ? message.content.join(', ')
-      : message.content,
+    title: title || 'Success',
+    description: message,
+    variant: 'default',
+    className: 'bg-green-500 text-white',
+  })
+}
+
+export const showErrorToast = (message: string, title?: string) => {
+  toast({
+    title: title || 'Error',
+    description: message,
     variant: 'destructive',
     className: 'bg-red-500 text-white',
   })
 }
 
-export const showErrorToast = (message: string) => {
+export const showDebugToast = (message: string, title?: string) => {
   toast({
-    title: 'Error',
+    title: title || 'Debug',
     description: message,
-    variant: 'destructive',
-    className: 'bg-red-500 text-white',
+    variant: 'default',
+    className: 'bg-yellow-500 text-black',
   })
 }

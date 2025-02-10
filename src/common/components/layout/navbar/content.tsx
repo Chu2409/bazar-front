@@ -19,7 +19,7 @@ const NavbarContent = () => {
   return (
     <SidebarContent>
       <SidebarGroup>
-        <SidebarGroupLabel>Application</SidebarGroupLabel>
+        <SidebarGroupLabel>Aplicación</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
             {routes.map((item) => (

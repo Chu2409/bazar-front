@@ -3,14 +3,23 @@ import { ISignInReq } from '../models/sign-in-dto'
 import { authApi } from '../api/auth-api'
 import { getToken, removeToken, setToken } from '@/common/utils/token-storage'
 import { useAuthStore } from '../context/use-auth-store'
+import { useRouter } from 'next/navigation'
 
 export const useSignIn = () => {
+  const router = useRouter()
+  const setUser = useAuthStore((state) => state.setUser)
+
   return useMutation({
     mutationFn: async (values: ISignInReq) => {
       const data = await authApi.signIn(values)
 
       if (data) {
         await setToken(data.token)
+
+        const user = await authApi.getMe()
+        setUser(user)
+
+        router.replace('/products')
       }
     },
   })
@@ -38,10 +47,12 @@ export const useValidateToken = () => {
 
 export const useSignOut = () => {
   const clearUser = useAuthStore((state) => state.clearUser)
+  const router = useRouter()
 
   const signOut = async () => {
     clearUser()
     await removeToken()
+    router.push('/sign-in')
   }
 
   return signOut

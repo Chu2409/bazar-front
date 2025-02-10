@@ -1,4 +1,12 @@
-import { LucideIcon, Home, Inbox } from 'lucide-react'
+import {
+  LucideIcon,
+  Inbox,
+  Boxes,
+  Tag,
+  Package,
+  Users,
+  BadgeDollarSign,
+} from 'lucide-react'
 
 interface MenuItem {
   title: string
@@ -8,14 +16,34 @@ interface MenuItem {
 
 export const routes: MenuItem[] = [
   {
-    title: 'Home',
-    url: '#',
-    icon: Home,
+    title: 'Ventas',
+    url: '/sales',
+    icon: BadgeDollarSign,
+  },
+  {
+    title: 'Inventario',
+    url: '/inventory',
+    icon: Boxes,
   },
   {
     title: 'Productos',
     url: '/products',
     icon: Inbox,
+  },
+  {
+    title: 'Clientes',
+    url: '/customers',
+    icon: Users,
+  },
+  {
+    title: 'Categorías',
+    url: '/categories',
+    icon: Tag,
+  },
+  {
+    title: 'Proveedores',
+    url: '/suppliers',
+    icon: Package,
   },
 ]
 
