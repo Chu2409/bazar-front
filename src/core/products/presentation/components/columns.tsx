@@ -1,11 +1,15 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-import { IProduct } from '../../models/product'
-import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
+import { IProductWithCategory } from '../../models/product'
 import { FlagIndicator } from '@/components/flag-indicator'
+import { formatMoney } from '@/common/utils/money-formatter'
+import { DataTableRowActions } from '@/components/table/data-table-row-actions'
+import { useProductStore } from '../../context/use-product-store'
+import { useToggleProductStatus } from '../../hooks/use-products-service'
 
-export const productsColumns: ColumnDef<IProduct>[] = [
+export const productsColumns: ColumnDef<IProductWithCategory>[] = [
   {
     accessorKey: 'id',
     meta: 'Id',
@@ -14,8 +18,7 @@ export const productsColumns: ColumnDef<IProduct>[] = [
   },
   {
     accessorKey: 'name',
-    meta: 'Nombre',
-    header: () => <DataTableColumnHeader title='Nombre' sort='name' />,
+    header: 'Nombre',
   },
   {
     accessorKey: 'status',
@@ -23,26 +26,38 @@ export const productsColumns: ColumnDef<IProduct>[] = [
     header: '',
     cell: ({ row }) => !row.original.active && <FlagIndicator />,
   },
-  // {
-  //   id: 'actions',
-  //   cell: ({ row }) => {
-  //     // eslint-disable-next-line react-hooks/rules-of-hooks
-  //     const onOpen = useProductModal((state) => state.onOpen)
+  {
+    accessorKey: 'retailPrice',
+    header: 'Precio/Menor',
+    cell: ({ row }) => formatMoney(row.original.retailPrice),
+  },
+  {
+    accessorKey: 'wholesalePrice',
+    header: 'Precio/Mayor',
+    cell: ({ row }) => formatMoney(row.original.wholesalePrice),
+  },
+  {
+    accessorKey: 'wholesaleQty',
+    header: 'Cant. Min. Mayor',
+  },
+  {
+    id: 'actions',
+    cell: ({ row }) => {
+      const onOpen = useProductStore.getState().onOpen
+      const { mutateAsync } = useToggleProductStatus(row.original.id)
 
-  //     const toggleStatus = async (id: number, status: boolean) => {
-  //       const { data: deleted } = await toggleProductStatus(id, status)
+      const toggleStatus = async () => {
+        const status = await mutateAsync()
+        return status
+      }
 
-  //       return deleted
-  //     }
-
-  //     return (
-  //       <DataTableRowActions
-  //         id={row.original.id}
-  //         status={row.original.active}
-  //         toggleStatus={toggleStatus}
-  //         onEdit={() => onOpen(row.original)}
-  //       />
-  //     )
-  //   },
-  // },
+      return (
+        <DataTableRowActions
+          status={row.original.active}
+          toggleStatus={toggleStatus}
+          onEdit={() => onOpen(row.original)}
+        />
+      )
+    },
+  },
 ]

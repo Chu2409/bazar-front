@@ -1,19 +1,15 @@
 'use client'
 
+import LoadingSkeleton from '@/common/components/layout/loading-skeleton'
 import { useProductsFindAll } from '@/core/products/hooks/use-products-service'
 import ProductsView from '@/core/products/presentation/views/products-view'
-import { Suspense } from 'react'
 
 const ProductsPage = () => {
   const { data, isLoading } = useProductsFindAll()
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading || !data) return <LoadingSkeleton />
 
-  return (
-    <Suspense>
-      <ProductsView products={data!} />
-    </Suspense>
-  )
+  return <ProductsView products={data} />
 }
 
 export default ProductsPage

@@ -82,7 +82,10 @@ export function NavbarFooter() {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
 
-              <DropdownMenuItem onClick={handleSignOut}>
+              <DropdownMenuItem
+                onClick={handleSignOut}
+                className='cursor-pointer'
+              >
                 <LogOut />
                 Salir
               </DropdownMenuItem>

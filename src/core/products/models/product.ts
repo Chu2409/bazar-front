@@ -1,3 +1,5 @@
+import { ICategory } from '@/core/categories/models/category'
+
 export interface IProduct {
   id: number
   barcode: string | null
@@ -10,4 +12,8 @@ export interface IProduct {
   image: string | null
   active: boolean
   categoryId: number
+}
+
+export interface IProductWithCategory extends IProduct {
+  category: ICategory
 }

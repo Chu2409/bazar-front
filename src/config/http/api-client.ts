@@ -9,6 +9,7 @@ import { IApiRes } from './api-response'
 import { showErrorToast, showResponseToast } from '@/common/utils/toast'
 import { useAuthStore } from '@/core/auth/context/use-auth-store'
 import { getToken, removeToken } from '@/common/utils/token-storage'
+import { redirect } from 'next/navigation'
 
 class ApiClient {
   private static instance: AxiosInstance
@@ -63,6 +64,7 @@ class ApiClient {
               const clearUser = useAuthStore.getState().clearUser
               clearUser()
               showErrorToast('Vuelve a iniciar sesión')
+              redirect('/sign-in')
             }
             // Para todos los demás casos donde el servidor respondió con un formato válido
             else if (error.response.data) {
@@ -122,14 +124,14 @@ export const apiClient = {
     }
   },
 
-  put: async <T>(
+  patch: async <T>(
     url: string,
     data?: unknown,
     config?: AxiosRequestConfig,
   ): Promise<IApiRes<T>> => {
     try {
       const client = ApiClient.getInstance()
-      const response = await client.put<IApiRes<T>>(url, data, config)
+      const response = await client.patch<IApiRes<T>>(url, data, config)
       return response.data
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.data) {
