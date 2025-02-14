@@ -1,7 +1,8 @@
 import { apiClient } from '@/config/http/api-client'
 import { PRODUCTS_API_ROUTES } from '../constants/products-api-routes'
 import { IApiPaginatedRes } from '@/config/http/api-response'
-import { IProductWithCategory } from '../models/product'
+import { IProduct, IProductWithCategory } from '../models/product'
+import { IProductReq } from '../models/product-dto'
 
 export const productsApi = {
   async findAll() {
@@ -20,6 +21,15 @@ export const productsApi = {
   async toggleStatus(id: number) {
     const response = await apiClient.patch<boolean>(
       PRODUCTS_API_ROUTES.TOGGLE_STATUS(id),
+    )
+
+    return response.data
+  },
+
+  async create(product: IProductReq) {
+    const response = await apiClient.post<IProduct>(
+      PRODUCTS_API_ROUTES.CREATE,
+      product,
     )
 
     return response.data
