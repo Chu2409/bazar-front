@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import axios, {
   AxiosError,
   AxiosInstance,
@@ -37,24 +36,24 @@ class ApiClient {
         (error) => Promise.reject(error),
       )
 
-      ApiClient.instance.interceptors.request.use((config) => {
-        console.log('📡 Axios Request:', {
-          url: process.env.NEXT_PUBLIC_API_URL! + config.url,
-          method: config.method,
-          headers: config.headers,
-          data: config.data,
-        })
-        return config
-      })
+      // ApiClient.instance.interceptors.request.use((config) => {
+      //   console.log('📡 Axios Request:', {
+      //     url: process.env.NEXT_PUBLIC_API_URL! + config.url,
+      //     method: config.method,
+      //     headers: config.headers,
+      //     data: config.data,
+      //   })
+      //   return config
+      // })
 
       ApiClient.instance.interceptors.response.use(
         (response: AxiosResponse<IApiRes<unknown>>) => {
-          console.log('📡 Axios Response:', response.data)
+          // console.log('📡 Axios Response:', response.data)
           showResponseToast(response.data)
           return response
         },
         async (error: AxiosError<IApiRes<unknown>>) => {
-          console.log('📡 Axios Error:', error.response?.data)
+          // console.log('📡 Axios Error:', error.response?.data)
 
           // Si hay una respuesta del servidor, significa que el servidor respondió con un error HTTP
           if (error.response) {

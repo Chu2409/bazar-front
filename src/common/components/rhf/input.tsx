@@ -4,13 +4,21 @@ import { Input } from '@/ui-components/input'
 import { Label } from '@/ui-components/label'
 import { Button } from '@/ui-components/button'
 import { Eye, EyeClosed } from 'lucide-react'
+import { cn } from '@/common/lib/utils'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   name: string
   label: string
 }
 
-const RHFInput = ({ name, label, className, type, ...rest }: Props) => {
+const RHFInput = ({
+  name,
+  label,
+  className,
+  type,
+  disabled,
+  ...rest
+}: Props) => {
   const [showPassword, setShowPassword] = useState(false)
 
   const {
@@ -32,11 +40,12 @@ const RHFInput = ({ name, label, className, type, ...rest }: Props) => {
         render={({ field }) => (
           <div className='relative'>
             <Input
-              id={name}
-              className={className}
-              type={type === 'password' && showPassword ? 'text' : type}
               {...field}
               {...rest}
+              disabled={disabled}
+              id={name}
+              className={cn('bg-white', className)}
+              type={type === 'password' && showPassword ? 'text' : type}
             />
 
             {type === 'password' && (

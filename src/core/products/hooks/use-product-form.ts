@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
 import { useCreateProduct } from './use-products-service'
+import { useProductStore } from '../context/use-product-store'
+import { useEffect } from 'react'
 
 const schema = z.object({
   barcode: z.string().optional(),
@@ -35,21 +35,41 @@ const schema = z.object({
 type FormFields = z.infer<typeof schema>
 
 export const useProductForm = () => {
-  const router = useRouter()
-  const { isPending, mutateAsync } = useCreateProduct()
+  const product = useProductStore((state) => state.product)
 
-  useEffect(() => {
-    router.prefetch('/products')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const { isPending, mutateAsync } = useCreateProduct()
 
   const form = useForm<FormFields>({
     resolver: zodResolver(schema),
-    // defaultValues: {
-    //   username: '',
-    //   password: '',
-    // },
+    defaultValues: {
+      barcode: product?.barcode || undefined,
+      name: product?.name,
+      description: product?.description || undefined,
+      retailPrice: product?.retailPrice,
+      wholesalePrice: product?.wholesalePrice,
+      wholesaleQty: product?.wholesaleQty,
+      minStock: product?.minStock,
+      image: product?.image || undefined,
+      active: product?.active,
+      categoryId: product?.categoryId,
+    },
   })
+
+  useEffect(() => {
+    form.reset({
+      barcode: product?.barcode || undefined,
+      name: product?.name,
+      description: product?.description || undefined,
+      retailPrice: product?.retailPrice,
+      wholesalePrice: product?.wholesalePrice,
+      wholesaleQty: product?.wholesaleQty,
+      minStock: product?.minStock,
+      image: product?.image || undefined,
+      active: product?.active,
+      categoryId: product?.categoryId,
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product])
 
   const onSubmit = async (values: FormFields) => await mutateAsync(values)
 
