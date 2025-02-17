@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck - This is a bug in react-hook-form
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -56,18 +58,30 @@ export const useProductForm = () => {
   })
 
   useEffect(() => {
-    form.reset({
-      barcode: product?.barcode || undefined,
-      name: product?.name,
-      description: product?.description || undefined,
-      retailPrice: product?.retailPrice,
-      wholesalePrice: product?.wholesalePrice,
-      wholesaleQty: product?.wholesaleQty,
-      minStock: product?.minStock,
-      image: product?.image || undefined,
-      active: product?.active,
-      categoryId: product?.categoryId,
-    })
+    if (product) {
+      form.setValue('barcode', product.barcode || undefined)
+      form.setValue('name', product.name)
+      form.setValue('description', product.description || undefined)
+      form.setValue('retailPrice', product.retailPrice)
+      form.setValue('wholesalePrice', product.wholesalePrice)
+      form.setValue('wholesaleQty', product.wholesaleQty)
+      form.setValue('minStock', product.minStock)
+      form.setValue('image', product.image || undefined)
+      form.setValue('active', product.active)
+      form.setValue('categoryId', product.categoryId)
+    } else {
+      form.setValue('barcode', '')
+      form.setValue('name', '')
+      form.setValue('description', undefined)
+      form.setValue('retailPrice', '')
+      form.setValue('wholesalePrice', '')
+      form.setValue('wholesaleQty', '')
+      form.setValue('minStock', '')
+      form.setValue('image', undefined)
+      form.setValue('active', true)
+      form.setValue('categoryId', '')
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product])
 

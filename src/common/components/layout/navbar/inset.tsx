@@ -18,7 +18,7 @@ const NavbarInset = ({
 
   return (
     <SidebarInset className='md:peer-data-[variant=inset]:m-0 md:peer-data-[variant=inset]:rounded-none'>
-      <header className='flex h-12 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 shadow-sm border-b '>
+      <header className='flex h-14 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-14 shadow-sm border-b '>
         <div className='flex items-center gap-2 px-4'>
           <SidebarTrigger className='-ml-1' />
 

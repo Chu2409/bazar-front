@@ -10,10 +10,12 @@ import RHFSelector from '@/common/components/rhf/selector'
 import { IOption } from '@/common/types/filters'
 import RHFCheckbox from '@/common/components/rhf/checkbox'
 import RHFImageUpload from '@/common/components/rhf/image-upload'
+import { useProductStore } from '../../context/use-product-store'
 
 export const ProductForm = () => {
   const { form, isPending, onSubmit } = useProductForm()
   const { data } = useCategoriesFindAll()
+  const product = useProductStore((state) => state.product)
 
   const categories: IOption[] =
     data?.records.map((category) => ({
@@ -92,7 +94,7 @@ export const ProductForm = () => {
           type='submit'
           className='w-full gap-x-2 mt-4'
         >
-          Crear
+          {product ? 'Actualizar' : 'Agregar'}
           <Plus className='w-4 h-4' />
         </Button>
       </form>
