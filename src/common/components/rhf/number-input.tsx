@@ -11,7 +11,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   label: string
 }
 
-const RHFInput = ({
+const RHFNumberInput = ({
   name,
   label,
   className,
@@ -41,6 +41,11 @@ const RHFInput = ({
           <div className='relative'>
             <Input
               id={name}
+              className={cn('bg-white', className)}
+              disabled={disabled}
+              placeholder={placeholder}
+              type='number'
+              value={value ?? ''}
               onChange={(e) => {
                 const value = e.target.value
                 if (value === '') {
@@ -49,11 +54,6 @@ const RHFInput = ({
                   onChange(value)
                 }
               }}
-              value={value ?? ''}
-              className={cn('bg-white', className)}
-              disabled={disabled}
-              placeholder={placeholder}
-              type={type === 'password' && showPassword ? 'text' : type}
             />
 
             {type === 'password' && (
@@ -75,4 +75,4 @@ const RHFInput = ({
     </div>
   )
 }
-export default RHFInput
+export default RHFNumberInput

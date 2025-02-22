@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/ui-components/button'
-import { Plus } from 'lucide-react'
+import { Pencil, Plus } from 'lucide-react'
 import RHFInput from '@/common/components/rhf/input'
 import { FormProvider } from 'react-hook-form'
 import { useProductForm } from '../../hooks/use-product-form'
@@ -25,7 +25,7 @@ export const ProductForm = () => {
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={onSubmit} className='grid gap-6 w-full '>
+      <form onSubmit={onSubmit} className='grid gap-5 w-full '>
         <div className='grid gap-x-2 grid-cols-2 gap-y-6'>
           <RHFInput name='name' label='Nombre' placeholder='Ligas Multicolor' />
 
@@ -35,6 +35,7 @@ export const ProductForm = () => {
             placeholder='1234567890'
           />
         </div>
+
         <RHFInput
           name='description'
           label='Descripción'
@@ -92,10 +93,15 @@ export const ProductForm = () => {
         <Button
           disabled={isPending}
           type='submit'
-          className='w-full gap-x-2 mt-4'
+          className='w-full gap-x-2 mt-2'
         >
           {product ? 'Actualizar' : 'Agregar'}
-          <Plus className='w-4 h-4' />
+
+          {product ? (
+            <Pencil className='w-4 h-4' />
+          ) : (
+            <Plus className='w-4 h-4' />
+          )}
         </Button>
       </form>
     </FormProvider>

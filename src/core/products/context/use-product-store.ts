@@ -3,14 +3,14 @@ import { IProductWithCategory } from '../models/product'
 
 interface State {
   isOpen: boolean
-  onOpen: (provider: IProductWithCategory | null) => void
-  product: IProductWithCategory | null
+  onOpen: (provider?: IProductWithCategory) => void
+  product?: IProductWithCategory
   onClose: () => void
 }
 
 export const useProductStore = create<State>((set) => ({
   isOpen: false,
-  product: null,
+  product: undefined,
   onOpen: (product) => set({ product, isOpen: true }),
   onClose: () => set({ isOpen: false }),
 }))

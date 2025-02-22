@@ -20,7 +20,7 @@ const ProductsView = ({
 
   return (
     <>
-      <CornerButton title='Agregar producto' onClick={() => onOpen(null)} />
+      <CornerButton title='Agregar producto' onClick={() => onOpen()} />
 
       <MainContainer isOpen={isOpen}>
         <DataContainer>

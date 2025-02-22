@@ -34,4 +34,13 @@ export const productsApi = {
 
     return response.data
   },
+
+  async update(id: number, product: Partial<IProductReq>) {
+    const response = await apiClient.patch<IProduct>(
+      PRODUCTS_API_ROUTES.UPDATE(id),
+      product,
+    )
+
+    return response
+  },
 }
