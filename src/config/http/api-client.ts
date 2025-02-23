@@ -9,6 +9,7 @@ import { showErrorToast, showResponseToast } from '@/common/utils/toast'
 import { useAuthStore } from '@/core/auth/context/use-auth-store'
 import { getToken, removeToken } from '@/common/utils/token-storage'
 import { redirect } from 'next/navigation'
+import qs from 'query-string'
 
 class ApiClient {
   private static instance: AxiosInstance
@@ -22,6 +23,9 @@ class ApiClient {
         timeout: 10000,
         headers: {
           'Content-Type': 'application/json',
+        },
+        paramsSerializer: {
+          serialize: (params) => qs.stringify(params, { arrayFormat: 'none' }),
         },
       })
 

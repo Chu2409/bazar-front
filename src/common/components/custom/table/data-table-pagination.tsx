@@ -31,7 +31,7 @@ export function DataTablePagination({
 
   const handlePageSize = (size: number) => {
     const newUrl = formUrlQuery({
-      key: 'size',
+      key: 'limit',
       value: size.toString(),
       params: searchParams,
     })

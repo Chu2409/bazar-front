@@ -140,3 +140,47 @@ export const removeValueFromArrayQuery = ({
     { skipNull: true },
   )
 }
+
+export const removeValueFromQuery = ({
+  params,
+  key,
+}: {
+  params: ReadonlyURLSearchParams
+  key: string
+}) => {
+  const currentUrl = qs.parse(params.toString())
+
+  delete currentUrl[key]
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true },
+  )
+}
+
+export const removeAllExceptKeysFromQuery = ({
+  params,
+  keys,
+}: {
+  params: ReadonlyURLSearchParams
+  keys: string[]
+}) => {
+  const currentUrl = qs.parse(params.toString())
+
+  Object.keys(currentUrl).forEach((key) => {
+    if (!keys.includes(key)) {
+      delete currentUrl[key]
+    }
+  })
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true },
+  )
+}

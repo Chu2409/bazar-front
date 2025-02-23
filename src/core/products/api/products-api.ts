@@ -3,16 +3,17 @@ import { PRODUCTS_API_ROUTES } from '../constants/products-api-routes'
 import { IApiPaginatedRes } from '@/config/http/api-response'
 import { IProduct, IProductWithCategory } from '../models/product'
 import { IProductReq } from '../models/product-dto'
+import { ProductsFiltersDto } from '../models/products-filters-dto'
+import { ensureDefaultParams } from '@/common/models/base-params-dto'
 
 export const productsApi = {
-  async findAll() {
+  async findAll(params: ProductsFiltersDto) {
+    const normalizedParams = ensureDefaultParams(params)
+
     const response = await apiClient.get<
       IApiPaginatedRes<IProductWithCategory>
     >(PRODUCTS_API_ROUTES.FIND_ALL, {
-      params: {
-        page: 1,
-        limit: 10,
-      },
+      params: normalizedParams,
     })
 
     return response.data

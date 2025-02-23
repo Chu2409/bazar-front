@@ -19,6 +19,7 @@ import {
 } from '@/ui-components/table'
 import { IApiPaginatedRes } from '@/config/http/api-response'
 import { ITableFilter } from '@/common/types/filters'
+import { useEffect } from 'react'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -43,10 +44,10 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
   })
 
-  // useEffect(() => {
-  //   table.setPageSize(metadata.limit)
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [metadata])
+  useEffect(() => {
+    table.setPageSize(metadata.limit)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [metadata.limit])
 
   return (
     <div className='space-y-4'>

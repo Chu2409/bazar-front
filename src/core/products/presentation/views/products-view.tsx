@@ -8,6 +8,7 @@ import { CornerButton } from '@/components/corner-button'
 import { DetailsContainer } from '@/common/components/layout/details-container'
 import { MainContainer } from '@/common/components/layout/main-container'
 import { DataContainer } from '@/common/components/layout/data-container'
+import { useProductsFilters } from '../../hooks/use-products-filters'
 
 const ProductsView = ({
   products,
@@ -17,6 +18,8 @@ const ProductsView = ({
   const isOpen = useProductStore((state) => state.isOpen)
   const onClose = useProductStore((state) => state.onClose)
   const onOpen = useProductStore((state) => state.onOpen)
+
+  const filters = useProductsFilters()
 
   return (
     <>
@@ -28,7 +31,7 @@ const ProductsView = ({
             data={products}
             columns={productsColumns}
             inputFilterKey='name'
-            // filters={productFilters}
+            filters={filters}
           />
         </DataContainer>
 

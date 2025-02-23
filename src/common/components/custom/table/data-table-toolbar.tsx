@@ -3,11 +3,15 @@
 import { Table } from '@tanstack/react-table'
 
 import { DataTableFacetedFilter } from './data-table-faceted-filter'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { ChangeEvent, useCallback, useState } from 'react'
 import debounce from 'just-debounce-it'
 import { ITableFilter } from '@/common/types/filters'
-import { formUrlQuery } from '@/common/utils/pagination'
+import {
+  formUrlQuery,
+  removeValueFromQuery,
+  removeAllExceptKeysFromQuery,
+} from '@/common/utils/pagination'
 import { Input } from '@/ui-components/input'
 import { Button } from '@/ui-components/button'
 import { X } from 'lucide-react'
@@ -33,7 +37,6 @@ export function DataTableToolbar<TData>({
 
   const { replace } = useRouter()
   const searchParams = useSearchParams()
-  const pathName = usePathname()
 
   const [inputValue, setInputValue] = useState<string>(
     () => searchParams.get('search') || '',
@@ -48,11 +51,19 @@ export function DataTableToolbar<TData>({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const applyFilter = useCallback(
     debounce((value: string) => {
-      const url = formUrlQuery({
-        params: searchParams,
-        key: 'search',
-        value,
-      })
+      let url
+      if (value === '') {
+        url = removeValueFromQuery({
+          params: searchParams,
+          key: 'search',
+        })
+      } else {
+        url = formUrlQuery({
+          params: searchParams,
+          key: 'search',
+          value,
+        })
+      }
 
       replace(url, { scroll: false })
     }, 500),
@@ -61,7 +72,22 @@ export function DataTableToolbar<TData>({
 
   const handleClearFilters = () => {
     setInputValue('')
-    replace(pathName, { scroll: false })
+
+    const url = removeAllExceptKeysFromQuery({
+      params: searchParams,
+      keys: ['limit', 'page'],
+    })
+
+    replace(url, { scroll: false })
+  }
+
+  const hasActiveFilters = (searchParams: URLSearchParams): boolean => {
+    const ignoredParams = ['limit', 'page']
+
+    const activeFilters = Array.from(searchParams.entries()).filter(
+      ([key]) => !ignoredParams.includes(key),
+    )
+    return activeFilters.length > 0
   }
 
   return (
@@ -96,7 +122,7 @@ export function DataTableToolbar<TData>({
             <DataTableStatusFilter />
           )}
 
-          {searchParams.size > 0 && (
+          {hasActiveFilters(searchParams) && (
             <Button
               variant='ghost'
               onClick={() => handleClearFilters()}

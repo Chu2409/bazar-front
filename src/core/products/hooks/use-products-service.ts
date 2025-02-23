@@ -2,11 +2,12 @@ import { useQuery, useMutation } from '@tanstack/react-query'
 import { productsApi } from '../api/products-api'
 import { IProductReq } from '../models/product-dto'
 import queryClient from '@/config/http/query-client'
+import { ProductsFiltersDto } from '../models/products-filters-dto'
 
-export const useProductsFindAll = (page: number = 1, limit: number = 10) => {
+export const useProductsFindAll = (params: ProductsFiltersDto) => {
   return useQuery({
-    queryKey: ['products', page, limit],
-    queryFn: () => productsApi.findAll() || [],
+    queryKey: ['products', params],
+    queryFn: () => productsApi.findAll(params) || [],
     placeholderData: (previousData) => previousData,
   })
 }

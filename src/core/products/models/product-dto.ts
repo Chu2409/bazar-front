@@ -5,8 +5,8 @@ export interface IProductReq {
   wholesaleQty: number
   minStock: number
   categoryId: number
-  barcode?: string | undefined
-  description?: string | undefined
-  image?: string | undefined
-  active?: boolean | undefined
+  barcode?: string
+  description?: string
+  image?: string
+  active?: boolean
 }

@@ -27,6 +27,11 @@ export const productsColumns: ColumnDef<IProductWithCategory>[] = [
     cell: ({ row }) => !row.original.active && <FlagIndicator />,
   },
   {
+    accessorKey: 'categoryId',
+    header: 'Categoría',
+    cell: ({ row }) => row.original.category.name,
+  },
+  {
     accessorKey: 'retailPrice',
     header: 'Precio/Menor',
     cell: ({ row }) => formatMoney(row.original.retailPrice),
