@@ -13,7 +13,7 @@ const ProductsPage = () => {
 
   if (isLoading || !data) return <LoadingSkeleton />
 
-  return <ProductsView products={data} />
+  return <ProductsView data={data} />
 }
 
 export default ProductsPage

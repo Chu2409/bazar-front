@@ -13,7 +13,7 @@ import RHFImageUpload from '@/common/components/rhf/image-upload'
 import { useProductStore } from '../../context/use-product-store'
 
 export const ProductForm = () => {
-  const { form, isPending, onSubmit } = useProductForm()
+  const { form, isPending, onSubmit, isDirty } = useProductForm()
   const { data } = useCategoriesFindAll()
   const product = useProductStore((state) => state.product)
 
@@ -91,7 +91,7 @@ export const ProductForm = () => {
         <RHFImageUpload name='image' label='Imagen' />
 
         <Button
-          disabled={isPending}
+          disabled={isPending || !isDirty}
           type='submit'
           className='w-full gap-x-2 mt-2'
         >

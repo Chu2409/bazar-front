@@ -11,9 +11,9 @@ import { DataContainer } from '@/common/components/layout/data-container'
 import { useProductsFilters } from '../../hooks/use-products-filters'
 
 const ProductsView = ({
-  products,
+  data,
 }: {
-  products: IApiPaginatedRes<IProductWithCategory>
+  data: IApiPaginatedRes<IProductWithCategory>
 }) => {
   const isOpen = useProductStore((state) => state.isOpen)
   const onClose = useProductStore((state) => state.onClose)
@@ -28,7 +28,7 @@ const ProductsView = ({
       <MainContainer isOpen={isOpen}>
         <DataContainer>
           <DataTable
-            data={products}
+            data={data}
             columns={productsColumns}
             inputFilterKey='name'
             filters={filters}

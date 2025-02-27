@@ -90,6 +90,7 @@ export const useProductForm = () => {
 
   return {
     form,
+    isDirty: form.formState.isDirty,
     isPending: createPending || updatePending,
     onSubmit: form.handleSubmit(onSubmit),
   }

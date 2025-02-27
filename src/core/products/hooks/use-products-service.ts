@@ -7,7 +7,16 @@ import { ProductsFiltersDto } from '../models/products-filters-dto'
 export const useProductsFindAll = (params: ProductsFiltersDto) => {
   return useQuery({
     queryKey: ['products', params],
-    queryFn: () => productsApi.findAll(params) || [],
+    queryFn: () =>
+      productsApi.findAll({
+        categoryId: params.categoryId,
+        page: params.page,
+        limit: params.limit,
+        search: params.search,
+        order: params.order,
+        sort: params.sort,
+        status: params.status,
+      }) || [],
     placeholderData: (previousData) => previousData,
   })
 }
