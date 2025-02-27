@@ -2,7 +2,7 @@ import { IOption, ITableFilter } from '@/common/types/filters'
 import { useCategoriesFindAll } from '@/core/categories/hooks/use-categories-service'
 
 export const useProductsFilters = (): ITableFilter[] => {
-  const { data: categories } = useCategoriesFindAll()
+  const { data: categories } = useCategoriesFindAll({})
   const categoriesMap: IOption[] =
     categories?.records.map((category) => ({
       id: category.id,

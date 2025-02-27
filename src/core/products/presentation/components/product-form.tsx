@@ -5,16 +5,16 @@ import { Pencil, Plus } from 'lucide-react'
 import RHFInput from '@/common/components/rhf/input'
 import { FormProvider } from 'react-hook-form'
 import { useProductForm } from '../../hooks/use-product-form'
-import { useCategoriesFindAll } from '@/core/categories/hooks/use-categories-service'
 import RHFSelector from '@/common/components/rhf/selector'
 import { IOption } from '@/common/types/filters'
 import RHFCheckbox from '@/common/components/rhf/checkbox'
 import RHFImageUpload from '@/common/components/rhf/image-upload'
 import { useProductStore } from '../../context/use-product-store'
+import { useCategoriesFindAll } from '@/core/categories/hooks/use-categories-service'
 
 export const ProductForm = () => {
   const { form, isPending, onSubmit, isDirty } = useProductForm()
-  const { data } = useCategoriesFindAll()
+  const { data } = useCategoriesFindAll({})
   const product = useProductStore((state) => state.product)
 
   const categories: IOption[] =
