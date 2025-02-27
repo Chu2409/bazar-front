@@ -1,10 +1,61 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import { categoriesApi } from '../api/categories-api'
+import { ICategoryReq } from '../models/category-dto'
+import queryClient from '@/config/http/query-client'
+import { CategoryFiltersDto } from '../models/category-filters-dto'
 
-export const useCategoriesFindAll = (page: number = 1, limit: number = 10) => {
+export const useCategoriesFindAll = (params: CategoryFiltersDto) => {
   return useQuery({
-    queryKey: ['categories', page, limit],
-    queryFn: () => categoriesApi.findAll(),
+    queryKey: ['categories', params],
+    queryFn: () =>
+      categoriesApi.findAll({
+        page: params.page,
+        limit: params.limit,
+        search: params.search,
+        status: params.status,
+      }) || [],
     placeholderData: (previousData) => previousData,
+  })
+}
+
+export const useToggleCategoryStatus = (id: number) => {
+  return useMutation({
+    mutationKey: ['categories', id],
+    mutationFn: async () => {
+      const status = await categoriesApi.toggleStatus(id)
+      queryClient.invalidateQueries({
+        queryKey: ['categories'],
+      })
+
+      return status
+    },
+  })
+}
+
+export const useCreateCategory = () => {
+  return useMutation({
+    mutationKey: ['categories'],
+    mutationFn: async (data: ICategoryReq) => {
+      const created = await categoriesApi.create(data)
+      queryClient.invalidateQueries({
+        queryKey: ['categories'],
+      })
+
+      return created
+    },
+  })
+}
+
+export const useUpdateCategory = (id: number) => {
+  return useMutation({
+    mutationKey: ['categories', id],
+    mutationFn: async (data: Partial<ICategoryReq>) => {
+      const updated = await categoriesApi.update(id, data)
+      queryClient.invalidateQueries({
+        queryKey: ['categories'],
+      })
+
+      return updated
+    },
   })
 }

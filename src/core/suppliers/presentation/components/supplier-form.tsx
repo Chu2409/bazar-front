@@ -31,7 +31,7 @@ export const SupplierForm = () => {
           name='active'
           label='Activo'
           placeholder='Activo'
-          description='Estado del producto'
+          description='Estado del proveedor'
         />
 
         <Button
