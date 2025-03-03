@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { useCreateProduct, useUpdateProduct } from './use-products-service'
 import { useProductStore } from '../context/use-product-store'
 import { useEffect } from 'react'
-import { getChangedFields } from '@/common/utils/field-changes'
+import { getChangedFields } from '@/common/utils/forms'
 
 const schema = z.object({
   barcode: z.string().optional(),

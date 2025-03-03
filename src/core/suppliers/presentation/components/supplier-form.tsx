@@ -14,7 +14,7 @@ export const SupplierForm = () => {
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={onSubmit} className='grid gap-5 w-full '>
+      <form onSubmit={onSubmit} className='grid gap-6 w-full '>
         <div className='grid gap-x-2 grid-cols-2 gap-y-6'>
           <RHFInput name='phone' label='Teléfono' placeholder='1234567890' />
 

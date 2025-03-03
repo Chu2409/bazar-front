@@ -14,7 +14,7 @@ export const CategoryForm = () => {
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={onSubmit} className='grid gap-5 w-full '>
+      <form onSubmit={onSubmit} className='grid gap-6 w-full'>
         <RHFInput name='name' label='Nombre' placeholder='Útiles Escolares' />
 
         <RHFCheckbox

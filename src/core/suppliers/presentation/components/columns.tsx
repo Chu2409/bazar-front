@@ -26,12 +26,12 @@ export const suppliersColumns: ColumnDef<ISupplier>[] = [
     cell: ({ row }) => !row.original.active && <FlagIndicator />,
   },
   {
-    accessorKey: 'phone',
-    header: 'Teléfono',
-  },
-  {
     accessorKey: 'address',
     header: 'Dirección',
+  },
+  {
+    accessorKey: 'phone',
+    header: 'Teléfono',
   },
   {
     id: 'actions',

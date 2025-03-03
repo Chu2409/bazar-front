@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { useCreateCategory, useUpdateCategory } from './use-categories-service'
 import { useCategoryStore } from '../context/use-category-store'
 import { useEffect } from 'react'
-import { getChangedFields } from '@/common/utils/field-changes'
+import { getChangedFields } from '@/common/utils/forms'
 
 const schema = z.object({
   name: z.string({ message: 'Ingresa el nombre de la categoría' }).min(5, {

@@ -1,6 +1,6 @@
-const MAIN_ROUTE = '/categories'
+const MAIN_ROUTE = '/customers'
 
-export const CATEGORIES_API_ROUTES = {
+export const CUSTOMERS_API_ROUTES = {
   FIND_ALL: `${MAIN_ROUTE}`,
   CREATE: `${MAIN_ROUTE}`,
   UPDATE: (id: number) => `${MAIN_ROUTE}/${id}`,

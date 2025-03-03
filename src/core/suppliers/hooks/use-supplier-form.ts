@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { useCreateSupplier, useUpdateSupplier } from './use-suppliers-service'
 import { useSupplierStore } from '../context/use-supplier-store'
 import { useEffect } from 'react'
-import { getChangedFields } from '@/common/utils/field-changes'
+import { getChangedFields } from '@/common/utils/forms'
 
 const schema = z.object({
   name: z.string({ message: 'Ingresa el nombre del proveedor' }).min(5, {

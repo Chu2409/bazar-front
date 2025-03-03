@@ -5,6 +5,7 @@ import { Label } from '@/ui-components/label'
 import { Button } from '@/ui-components/button'
 import { Eye, EyeOff } from 'lucide-react'
 import { cn } from '@/common/lib/utils'
+import { getError } from '@/common/utils/forms'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   name: string
@@ -26,7 +27,7 @@ const RHFInput = ({
     formState: { errors },
   } = useFormContext()
 
-  const error = errors[name]?.message
+  const error = getError(name, errors)
 
   return (
     <div className='flex flex-col gap-2'>
