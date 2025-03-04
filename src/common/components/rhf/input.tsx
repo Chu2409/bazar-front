@@ -18,6 +18,7 @@ const RHFInput = ({
   className,
   type,
   disabled,
+  value: inputValue,
   placeholder,
 }: Props) => {
   const [showPassword, setShowPassword] = useState(false)
@@ -50,7 +51,7 @@ const RHFInput = ({
                   onChange(value)
                 }
               }}
-              value={value ?? ''}
+              value={inputValue ?? value ?? ''}
               className={cn('bg-white', className)}
               disabled={disabled}
               placeholder={placeholder}

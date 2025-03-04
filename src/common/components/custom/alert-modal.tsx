@@ -5,6 +5,7 @@ import { Modal } from './modal'
 import { Button } from '@/ui-components/button'
 
 interface AlertModalProps {
+  description?: string
   isOpen: boolean
   onClose: () => void
   onConfirm: () => void
@@ -12,6 +13,7 @@ interface AlertModalProps {
 }
 
 export const AlertModal: React.FC<AlertModalProps> = ({
+  description,
   isOpen,
   onClose,
   onConfirm,
@@ -28,7 +30,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   return (
     <Modal
       title='Estas seguro?'
-      description='Esta acción se puede revertir'
+      description={description || 'Esta acción se puede deshacer'}
       isOpen={isOpen}
       onClose={onClose}
       className='max-w-sm md:max-w-lg'

@@ -7,11 +7,19 @@ import { useEffect } from 'react'
 import { getChangedFields } from '@/common/utils/forms'
 
 const schema = z.object({
-  barcode: z.string().optional(),
+  barcode: z
+    .string({ message: 'Ingrese el código de barras' })
+    .regex(/^\d+$/, 'Debe contener solo números')
+    .optional(),
   name: z.string({ message: 'Ingresa el nombre del producto' }).min(5, {
     message: 'Mínimo 5 caracteres',
   }),
-  description: z.string().optional(),
+  description: z
+    .string({ message: 'Ingresa la descripcion del producto' })
+    .min(5, {
+      message: 'Mínimo 5 caracteres',
+    })
+    .optional(),
   retailPrice: z.coerce
     .number({ message: 'Ingresa el precio de venta' })
     .min(0, {

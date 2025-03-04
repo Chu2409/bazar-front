@@ -10,8 +10,13 @@ const schema = z.object({
   name: z.string({ message: 'Ingresa el nombre del proveedor' }).min(5, {
     message: 'Mínimo 5 caracteres',
   }),
-  phone: z.string().optional(),
-  address: z.string().optional(),
+  phone: z
+    .string({ message: 'Ingresa el número de teléfono del proveedor' })
+    .regex(/^\d+$/, 'Debe contener solo números')
+    .optional(),
+  address: z
+    .string({ message: 'Ingresa la dirección del proveedor' })
+    .optional(),
   active: z.boolean().default(true),
 })
 
@@ -50,13 +55,12 @@ export const useSupplierForm = () => {
   const onSubmit = async (values: FormFields) => {
     if (supplier) {
       const changedFields = getChangedFields(defaultValues, values)
-
-      await updateProduct(changedFields)
+      const updated = await updateProduct(changedFields)
+      if (updated) onClose()
     } else {
-      await createProduct(values)
+      const created = await createProduct(values)
+      if (created) onClose()
     }
-
-    onClose()
   }
 
   return {

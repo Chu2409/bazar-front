@@ -11,18 +11,20 @@ import {
 } from '@/ui-components/dropdown-menu'
 import { Button } from '@/ui-components/button'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
-import { Ban, Ellipsis, Eye, RefreshCcw } from 'lucide-react'
+import { Ban, Ellipsis, Eye, RefreshCcw, Trash } from 'lucide-react'
 
 interface DataTableRowActionsProps {
-  status: boolean
+  status?: boolean
   toggleStatus?: () => Promise<boolean | null>
   onEdit: () => void
+  onDelete?: () => Promise<object | null>
 }
 
 export function DataTableRowActions({
   status,
   toggleStatus,
   onEdit,
+  onDelete,
 }: DataTableRowActionsProps) {
   const { showSuccessToast, showErrorToast } = useCustomToast()
 
@@ -48,13 +50,33 @@ export function DataTableRowActions({
     setIsOpen(false)
   }
 
+  const onDeleteClick = async () => {
+    setIsLoading(true)
+
+    const response = await onDelete!()
+
+    if (response) {
+      showSuccessToast('Eliminado correctamente')
+    } else {
+      showErrorToast('Error al eliminar')
+    }
+
+    setIsLoading(false)
+    setIsOpen(false)
+  }
+
   return (
     <>
       <AlertModal
+        description={
+          onDelete
+            ? 'Esta acción no se puede deshacer'
+            : '¿Estás seguro de que deseas cambiar el estado?'
+        }
         isOpen={isOpen}
         isLoading={isLoading}
         onClose={() => setIsOpen(false)}
-        onConfirm={onToggleClick}
+        onConfirm={onDeleteClick || onToggleClick}
       />
 
       <DropdownMenu>
@@ -93,6 +115,19 @@ export function DataTableRowActions({
                     Activar <RefreshCcw />
                   </>
                 )}
+              </DropdownMenuItem>
+            </>
+          )}
+
+          {onDelete && (
+            <>
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem
+                className='flex items-center justify-between cursor-pointer'
+                onClick={() => setIsOpen(true)}
+              >
+                Eliminar <Trash />
               </DropdownMenuItem>
             </>
           )}

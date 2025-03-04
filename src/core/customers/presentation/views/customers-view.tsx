@@ -23,7 +23,7 @@ const CustomersView = ({ data }: { data: IApiPaginatedRes<ICustomer> }) => {
           <DataTable
             data={data}
             columns={customersColumns}
-            inputFilterKey='name'
+            inputFilterKey='identifications'
           />
         </DataContainer>
 

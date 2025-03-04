@@ -19,13 +19,23 @@ const schema = z.object({
       .min(2, {
         message: 'Mínimo 2 caracteres',
       }),
-    secondName: z.string().optional(),
+    secondName: z
+      .string({ message: 'Ingresa el 2do nombre del cliente' })
+      .min(2, {
+        message: 'Mínimo 2 caracteres',
+      })
+      .optional(),
     firstSurname: z
       .string({ message: 'Ingresa el 1er apellido del cliente' })
       .min(2, {
         message: 'Mínimo 2 caracteres',
       }),
-    secondSurname: z.string().optional(),
+    secondSurname: z
+      .string({ message: 'Ingresa el 2do nombre del cliente' })
+      .min(2, {
+        message: 'Mínimo 2 caracteres',
+      })
+      .optional(),
     phoneNumbers: z.array(
       z.object(
         {

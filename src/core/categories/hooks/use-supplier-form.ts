@@ -46,13 +46,12 @@ export const useCategoryForm = () => {
   const onSubmit = async (values: FormFields) => {
     if (data) {
       const changedFields = getChangedFields(defaultValues, values)
-
-      await updateProduct(changedFields)
+      const updated = await updateProduct(changedFields)
+      if (updated) onClose()
     } else {
-      await createProduct(values)
+      const created = await createProduct(values)
+      if (created) onClose()
     }
-
-    onClose()
   }
 
   return {
