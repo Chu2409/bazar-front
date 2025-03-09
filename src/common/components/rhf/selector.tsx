@@ -43,6 +43,7 @@ const RHFSelector = ({
   const currentValue = watch(name)
 
   const [title, setTitle] = useState<string | null>()
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     const selectedOption = options.find((opt) => opt.id === currentValue)
@@ -60,7 +61,7 @@ const RHFSelector = ({
         control={control}
         name={name}
         render={({ field: { onChange, value } }) => (
-          <Popover>
+          <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild disabled={disabled}>
               <Button
                 variant='outline'
@@ -95,9 +96,10 @@ const RHFSelector = ({
                     {options.map((opt) => (
                       <CommandItem
                         key={`${opt.id}`}
-                        onSelect={() =>
+                        onSelect={() => {
                           onChange(opt.id === value ? '' : opt.id)
-                        }
+                          setOpen(false) // Cierra el popover después de seleccionar
+                        }}
                         className='cursor-pointer bg-white'
                       >
                         {opt.label}

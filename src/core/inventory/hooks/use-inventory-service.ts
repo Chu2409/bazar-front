@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { inventoryApi } from '../api/inventory-api'
 import { InventoryFiltersDto } from '../models/inventory-filters-dto'
 import queryClient from '@/config/http/query-client'
+import { IInventoryReq } from '../models/inventory-dto'
 
 export const useInventoryFindAll = (params: InventoryFiltersDto) => {
   return useQuery({
@@ -47,31 +48,31 @@ export const useInventoryDelete = (id: number) => {
 //   })
 // }
 
-// export const useCreateCustomer = () => {
-//   return useMutation({
-//     mutationKey: ['customers'],
-//     mutationFn: async (data: IInventoryReq) => {
-//       const created = await inventoryApi.create(data)
-//       if (created)
-//         queryClient.invalidateQueries({
-//           queryKey: ['customers'],
-//         })
+export const useInventoryCreate = () => {
+  return useMutation({
+    mutationKey: ['inventory'],
+    mutationFn: async (data: IInventoryReq) => {
+      const created = await inventoryApi.create(data)
+      if (created)
+        queryClient.invalidateQueries({
+          queryKey: ['inventory'],
+        })
 
-//       return created
-//     },
-//   })
-// }
+      return created
+    },
+  })
+}
 
-// export const useUpdateCustomer = (id: number) => {
-//   return useMutation({
-//     mutationKey: ['customers', id],
-//     mutationFn: async (data: Partial<IInventoryReq>) => {
-//       const updated = await inventoryApi.update(id, data)
-//       queryClient.invalidateQueries({
-//         queryKey: ['customers'],
-//       })
+export const useInventoryUpdate = (id: number) => {
+  return useMutation({
+    mutationKey: ['inventory', id],
+    mutationFn: async (data: Partial<IInventoryReq>) => {
+      const updated = await inventoryApi.update(id, data)
+      queryClient.invalidateQueries({
+        queryKey: ['inventory'],
+      })
 
-//       return updated
-//     },
-//   })
-// }
+      return updated
+    },
+  })
+}

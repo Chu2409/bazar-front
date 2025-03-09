@@ -1,7 +1,8 @@
-import { IPersonReq } from '@/core/people/models/person-dto'
-
 export interface IInventoryReq {
-  person: IPersonReq
-  address?: string
-  active?: boolean
+  purchasedQty: number
+  unitCost: number
+  totalCost: number
+  productId: number
+  supplierId: number
+  stock?: number
 }
