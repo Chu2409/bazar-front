@@ -11,6 +11,7 @@ import RHFCheckbox from '@/common/components/rhf/checkbox'
 import RHFImageUpload from '@/common/components/rhf/image-upload'
 import { useProductStore } from '../../context/use-product-store'
 import { useCategoriesFindAll } from '@/core/categories/hooks/use-categories-service'
+import RHFBarcodeScanner from '@/common/components/rhf/barcode-scanner'
 
 export const ProductForm = () => {
   const { form, isPending, onSubmit, isDirty } = useProductForm()
@@ -29,10 +30,16 @@ export const ProductForm = () => {
         <div className='grid gap-x-2 grid-cols-2 gap-y-6'>
           <RHFInput name='name' label='Nombre' placeholder='Ligas Multicolor' />
 
-          <RHFInput
+          {/* <RHFInput
             name='barcode'
             label='Código de barras'
             placeholder='1234567890'
+          /> */}
+
+          <RHFBarcodeScanner
+            name='barcode'
+            label='Código de barras'
+            placeholder='Escanea o ingresa el código'
           />
         </div>
 
