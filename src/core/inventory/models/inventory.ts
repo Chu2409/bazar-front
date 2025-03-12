@@ -1,4 +1,4 @@
-import { IProductWithCategory } from '@/core/products/models/product'
+import { IProduct, IProductWithCategory } from '@/core/products/models/product'
 import { ISupplier } from '@/core/suppliers/models/supplier'
 
 export interface IInventory {
@@ -14,4 +14,8 @@ export interface IInventory {
 export interface IInventoryWithProductSupplier extends IInventory {
   product: IProductWithCategory
   supplier: ISupplier
+}
+
+export interface IInventoryWithProduct extends IInventory {
+  product: IProduct
 }
