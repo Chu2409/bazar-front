@@ -1,4 +1,4 @@
-import { ItemDto } from './item.dto'
+import { ItemDto } from '../../../items/models/req/item.dto'
 
 export interface SaleDto {
   subTotal: number

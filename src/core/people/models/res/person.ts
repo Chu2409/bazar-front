@@ -1,4 +1,4 @@
-import { Identification } from './identification'
+import { Identification } from '../../../identifications/models/res/identification'
 
 export interface Person {
   id: number

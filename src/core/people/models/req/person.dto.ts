@@ -1,4 +1,4 @@
-import { IdentificationDto } from './identification.dto'
+import { IdentificationDto } from '../../../identifications/models/req/identification.dto'
 
 export interface PersonDto {
   email: string

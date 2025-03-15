@@ -7,7 +7,7 @@ import { DataTableRowActions } from '@/components/table/data-table-row-actions'
 import { useSaleStore } from '../../context/use-sale-store'
 import { formatDate } from '@/common/utils/date-formatter'
 import { Badge } from '@/ui-components/badge'
-import { getIdentificationTypeLabel } from '@/core/people/models/res/identification-type'
+import { getIdentificationTypeLabel } from '@/core/identifications/models/res/identification-type'
 
 export const salesColumns: ColumnDef<Sale>[] = [
   {

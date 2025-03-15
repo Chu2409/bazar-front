@@ -8,7 +8,7 @@ import { useCustomerStore } from '../../context/use-customer-store'
 import { useToggleCustomerStatus } from '../../hooks/use-customers-service'
 import { Customer } from '../../models/res/customer'
 import { Badge } from '@/ui-components/badge'
-import { getIdentificationTypeLabel } from '@/core/people/models/res/identification-type'
+import { getIdentificationTypeLabel } from '@/core/identifications/models/res/identification-type'
 
 export const customersColumns: ColumnDef<Customer>[] = [
   {
