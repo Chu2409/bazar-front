@@ -3,6 +3,7 @@ import { suppliersApi } from '../api/suppliers-api'
 import { ISupplierReq } from '../models/supplier-dto'
 import queryClient from '@/config/http/query-client'
 import { SuppliersFiltersDto } from '../models/supplier-filters-dto'
+import { SuppliersSearchDto } from '../models/req/search.dto'
 
 export const useSuppliersFindAll = (params: SuppliersFiltersDto) => {
   return useQuery({
@@ -29,6 +30,17 @@ export const useToggleSupplierStatus = (id: number) => {
 
       return status
     },
+  })
+}
+
+export const useGetBySearchSuppliers = (params: SuppliersSearchDto) => {
+  return useQuery({
+    queryKey: ['suppliers', params],
+    queryFn: () =>
+      suppliersApi.getBySearch({
+        search: params.search,
+      }),
+    placeholderData: (previousData) => previousData,
   })
 }
 

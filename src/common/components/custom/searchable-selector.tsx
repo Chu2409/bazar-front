@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import debounce from 'just-debounce-it'
 import {
@@ -19,38 +18,32 @@ import { Button } from '@/ui-components/button'
 import { cn } from '@/common/lib/utils'
 import { IOption } from '@/common/types/filters'
 
-interface SearchableSelectorProps {
-  value?: IOption // Ahora manejamos directamente el ID
-  onChange: (value?: IOption) => void // Callback recibe directamente el ID
+interface Params {
+  value?: IOption
+  onChange: (value?: IOption) => void
+  options: IOption[]
+  onSearchChange: (value: string) => void
+  isLoading?: boolean
   disabled?: boolean
   placeholder?: string
   searchPlaceholder?: string
   emptyMessage?: string
-  fetchItems: (searchTerm: string) => Promise<any[]>
-  mapToOption: (item: any) => IOption
-  debounceTime?: number
-  minSearchLength?: number
 }
 
 export function SearchableSelector({
   value,
   onChange,
   disabled = false,
+  isLoading = false,
+  onSearchChange,
+  options,
   placeholder = 'Seleccione una opción',
   searchPlaceholder = 'Buscar...',
   emptyMessage = 'No hay resultados disponibles',
-  fetchItems,
-  mapToOption,
-  debounceTime = 500,
-  minSearchLength = 1,
-}: SearchableSelectorProps) {
+}: Params) {
   const [open, setOpen] = useState(false)
-  const [options, setOptions] = useState<IOption[]>([])
   const [inputValue, setInputValue] = useState<string>('')
-  const [searchValue, setSearchValue] = useState<string>('')
-  const [isLoading, setIsLoading] = useState(false)
 
-  // Encuentra la opción seleccionada actual basada en el ID
   const selectedOption = options.find((option) => option.id === value?.id)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,35 +55,10 @@ export function SearchableSelector({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSearch = useCallback(
     debounce((value: string) => {
-      setSearchValue(value)
-    }, debounceTime),
+      onSearchChange(value)
+    }, 600),
     [],
   )
-
-  useEffect(() => {
-    if (searchValue.length < minSearchLength) {
-      setOptions([])
-      return
-    }
-
-    const performSearch = async () => {
-      setIsLoading(true)
-      try {
-        const results = await fetchItems(searchValue)
-        // Mapear los items al formato IOption usando la función de mapeo proporcionada
-        const mappedOptions = results.map(mapToOption)
-        setOptions(mappedOptions)
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (error) {
-        setOptions([])
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    performSearch()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchValue])
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -123,13 +91,8 @@ export function SearchableSelector({
               <div className='py-6 text-center text-sm text-muted-foreground'>
                 Cargando...
               </div>
-            ) : options.length === 0 &&
-              searchValue.length >= minSearchLength ? (
+            ) : options.length === 0 ? (
               <CommandEmpty>{emptyMessage}</CommandEmpty>
-            ) : searchValue.length < minSearchLength ? (
-              <div className='py-6 text-center text-sm text-muted-foreground'>
-                Ingrese al menos {minSearchLength} caracteres para buscar
-              </div>
             ) : (
               <CommandGroup>
                 {options.map((option) => (

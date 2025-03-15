@@ -20,6 +20,17 @@ export const categoriesApi = {
     return response.data
   },
 
+  async getBySearch(params: CategoryFiltersDto) {
+    const response = await apiClient.get<ICategory[]>(
+      CATEGORIES_API_ROUTES.GET_BY_SEARCH,
+      {
+        params,
+      },
+    )
+
+    return response.data!
+  },
+
   async toggleStatus(id: number) {
     const response = await apiClient.patch<boolean>(
       CATEGORIES_API_ROUTES.TOGGLE_STATUS(id),

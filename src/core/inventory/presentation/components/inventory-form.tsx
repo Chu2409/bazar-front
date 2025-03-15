@@ -6,28 +6,35 @@ import RHFInput from '@/common/components/rhf/input'
 import { FormProvider } from 'react-hook-form'
 import { useInventoryForm } from '../../hooks/use-inventory-form'
 import { useInventoryStore } from '../../context/use-inventory-store'
-import RHFSelector from '@/common/components/rhf/selector'
-import { useProductsFindAll } from '@/core/products/hooks/use-products-service'
+import { useGetBySearchProducts } from '@/core/products/hooks/use-products-service'
 import { IOption } from '@/common/types/filters'
-import { useSuppliersFindAll } from '@/core/suppliers/hooks/use-suppliers-service'
+import { useGetBySearchSuppliers } from '@/core/suppliers/hooks/use-suppliers-service'
+import RHFSearchableSelector from '@/common/components/rhf/searchable-selector'
+import { useMemo, useState } from 'react'
 
 export const InventoryForm = () => {
   const { form, isPending, onSubmit, isDirty } = useInventoryForm()
-  const { data: productsToFilter } = useProductsFindAll({})
-  const { data: suppliersToFilter } = useSuppliersFindAll({})
   const data = useInventoryStore((state) => state.data)
 
-  const products: IOption[] =
-    productsToFilter?.records.map((product) => ({
-      id: product.id,
-      label: product.name,
-    })) ?? []
+  const [suppliersSearch, setSuppliersSearch] = useState<string>('')
+  const { data: sup } = useGetBySearchSuppliers({ search: suppliersSearch })
+  const suppliers: IOption[] = useMemo(() => {
+    if (!sup || sup.length === 0) return []
+    return sup.map((ent) => ({
+      id: ent.id,
+      label: ent.name,
+    }))
+  }, [sup])
 
-  const suppliers: IOption[] =
-    suppliersToFilter?.records.map((supplier) => ({
-      id: supplier.id,
-      label: supplier.name,
-    })) ?? []
+  const [productsSearch, setProductsSearch] = useState<string>('')
+  const { data: pro } = useGetBySearchProducts({ search: productsSearch })
+  const products: IOption[] = useMemo(() => {
+    if (!pro || pro.length === 0) return []
+    return pro.map((ent) => ({
+      id: ent.id,
+      label: ent.name,
+    }))
+  }, [pro])
 
   return (
     <FormProvider {...form}>
@@ -57,15 +64,17 @@ export const InventoryForm = () => {
           />
         </div>
 
-        <RHFSelector
+        <RHFSearchableSelector
           name='productId'
+          onSearchChange={setProductsSearch}
           label='Producto'
           placeholder='Selecciona un producto'
           options={products}
         />
 
-        <RHFSelector
+        <RHFSearchableSelector
           name='supplierId'
+          onSearchChange={setSuppliersSearch}
           label='Proveedor'
           placeholder='Selecciona un proveedor'
           options={suppliers}

@@ -3,6 +3,7 @@ import { customersApi } from '../api/customers-api'
 import queryClient from '@/config/http/query-client'
 import { CustomerFiltersDto } from '../models/customers-filters-dto'
 import { ICustomerReq } from '../models/customer-dto'
+import { CustomersSearchDto } from '../models/req/search.dto'
 
 export const useCustomersFindAll = (params: CustomerFiltersDto) => {
   return useQuery({
@@ -29,6 +30,17 @@ export const useToggleCustomerStatus = (id: number) => {
 
       return status
     },
+  })
+}
+
+export const useGetBySearchCustomers = (params: CustomersSearchDto) => {
+  return useQuery({
+    queryKey: ['customers', params],
+    queryFn: () =>
+      customersApi.getBySearch({
+        search: params.search,
+      }),
+    placeholderData: (previousData) => previousData,
   })
 }
 

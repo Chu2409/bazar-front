@@ -23,13 +23,13 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   name: string
   label: string
   options: IOption[]
-  onInputChange?: (value: string) => void
+  onSearchChange: (value: string) => void
 }
 
 const RHFSelector = ({
   name,
   label,
-  onInputChange,
+  onSearchChange,
   options,
   disabled,
 }: Props) => {
@@ -81,11 +81,11 @@ const RHFSelector = ({
               align='start'
             >
               <Command className='shadow-md'>
-                {onInputChange && (
+                {onSearchChange && (
                   <Input
                     placeholder='Ingrese el nombre...'
                     className='mb-1'
-                    onChange={(e) => onInputChange(e.target.value)}
+                    onChange={(e) => onSearchChange(e.target.value)}
                   />
                 )}
 

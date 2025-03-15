@@ -5,33 +5,38 @@ import { Pencil, Plus } from 'lucide-react'
 import RHFInput from '@/common/components/rhf/input'
 import { FormProvider } from 'react-hook-form'
 import { useSaleForm } from '../../hooks/use-sale-form'
-import RHFSelector from '@/common/components/rhf/selector'
 import { IOption } from '@/common/types/filters'
 import { useSaleStore } from '../../context/use-sale-store'
-import { useCustomersFindAll } from '@/core/customers/hooks/use-customers-service'
+import { useGetBySearchCustomers } from '@/core/customers/hooks/use-customers-service'
 import RHFSearchableItemsArray from './items-input'
+import { useMemo, useState } from 'react'
+import RHFSearchableSelector from '@/common/components/rhf/searchable-selector'
 
 export const SaleForm = () => {
   const { form, isPending, onSubmit, isDirty } = useSaleForm()
-  const { data: customersToFilter } = useCustomersFindAll({})
   const product = useSaleStore((state) => state.entity)
 
-  const customers: IOption[] =
-    customersToFilter?.records.map((customer) => ({
-      id: customer.id,
-      label: customer.person.firstName + ' ' + customer.person.firstSurname,
-    })) ?? []
+  const [custSearch, setCustSearch] = useState<string>('')
+  const { data } = useGetBySearchCustomers({ search: custSearch })
+  const customers: IOption[] = useMemo(() => {
+    if (!data || data.length === 0) return []
+    return data.map((ent) => ({
+      id: ent.id,
+      label: ent.person.firstName + ' ' + ent.person.firstSurname,
+    }))
+  }, [data])
 
   return (
     <FormProvider {...form}>
       <form onSubmit={onSubmit} className='grid gap-4'>
         <div className='grid grid-cols-2 gap-6 items-start'>
           <div className='grid gap-6'>
-            <RHFSelector
+            <RHFSearchableSelector
               name='customerId'
+              onSearchChange={setCustSearch}
               label='Cliente'
-              options={customers}
               placeholder='Selecciona un cliente'
+              options={customers}
             />
 
             <div className='grid gap-x-2 grid-cols-2 gap-y-6'>

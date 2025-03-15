@@ -5,6 +5,7 @@ import { IProduct, IProductWithCategory } from '../models/product'
 import { IProductReq } from '../models/product-dto'
 import { ProductsFiltersDto } from '../models/products-filters-dto'
 import { ensureDefaultParams } from '@/common/models/base-params-dto'
+import { ProductsSearchDto } from '../models/req/products-search.dto'
 
 export const productsApi = {
   async findAll(params: ProductsFiltersDto) {
@@ -17,6 +18,17 @@ export const productsApi = {
     })
 
     return response.data
+  },
+
+  async getBySearch(params: ProductsSearchDto) {
+    const response = await apiClient.get<IProduct[]>(
+      PRODUCTS_API_ROUTES.GET_BY_SEARCH,
+      {
+        params,
+      },
+    )
+
+    return response.data!
   },
 
   async toggleStatus(id: number) {

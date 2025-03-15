@@ -3,6 +3,7 @@ import { inventoryApi } from '../api/inventory-api'
 import { InventoryFiltersDto } from '../models/inventory-filters-dto'
 import queryClient from '@/config/http/query-client'
 import { IInventoryReq } from '../models/inventory-dto'
+import { InventorySearchDto } from '../models/req/search.dto'
 
 export const useInventoryFindAll = (params: InventoryFiltersDto) => {
   return useQuery({
@@ -20,6 +21,17 @@ export const useInventoryFindAll = (params: InventoryFiltersDto) => {
   })
 }
 
+export const useGetBySearchInventory = (params: InventorySearchDto) => {
+  return useQuery({
+    queryKey: ['inventory', params],
+    queryFn: () =>
+      inventoryApi.getBySearch({
+        search: params.search,
+      }),
+    placeholderData: (previousData) => previousData,
+  })
+}
+
 export const useInventoryDelete = (id: number) => {
   return useMutation({
     mutationKey: ['inventory', id],
@@ -33,20 +45,6 @@ export const useInventoryDelete = (id: number) => {
     },
   })
 }
-
-// export const useToggleCustomerStatus = (id: number) => {
-//   return useMutation({
-//     mutationKey: ['customers', id],
-//     mutationFn: async () => {
-//       const status = await inventoryApi.toggleStatus(id)
-//       queryClient.invalidateQueries({
-//         queryKey: ['customers'],
-//       })
-
-//       return status
-//     },
-//   })
-// }
 
 export const useInventoryCreate = () => {
   return useMutation({

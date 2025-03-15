@@ -3,8 +3,12 @@ import { INVENTORY_API_ROUTES } from '../constants/inventory-api-routes'
 import { IApiPaginatedRes } from '@/config/http/api-response'
 import { InventoryFiltersDto } from '../models/inventory-filters-dto'
 import { ensureDefaultParams } from '@/common/models/base-params-dto'
-import { IInventoryWithProductSupplier } from '../models/inventory'
+import {
+  IInventoryWithProduct,
+  IInventoryWithProductSupplier,
+} from '../models/inventory'
 import { IInventoryReq } from '../models/inventory-dto'
+import { InventorySearchDto } from '../models/req/search.dto'
 
 export const inventoryApi = {
   async findAll(params: InventoryFiltersDto) {
@@ -27,13 +31,16 @@ export const inventoryApi = {
     return response.data
   },
 
-  // async toggleStatus(id: number) {
-  //   const response = await apiClient.patch<boolean>(
-  //     INVENTORY_API_ROUTES.TOGGLE_STATUS(id),
-  //   )
+  async getBySearch(params: InventorySearchDto) {
+    const response = await apiClient.get<IInventoryWithProduct[]>(
+      INVENTORY_API_ROUTES.GET_BY_SEARCH,
+      {
+        params,
+      },
+    )
 
-  //   return response.data
-  // },
+    return response.data!
+  },
 
   async create(data: IInventoryReq) {
     const response = await apiClient.post<IInventoryWithProductSupplier>(

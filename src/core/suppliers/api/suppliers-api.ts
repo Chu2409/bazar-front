@@ -5,6 +5,7 @@ import { ISupplier } from '../models/supplier'
 import { ISupplierReq } from '../models/supplier-dto'
 import { SuppliersFiltersDto } from '../models/supplier-filters-dto'
 import { ensureDefaultParams } from '@/common/models/base-params-dto'
+import { SuppliersSearchDto } from '../models/req/search.dto'
 
 export const suppliersApi = {
   async findAll(params: SuppliersFiltersDto) {
@@ -18,6 +19,17 @@ export const suppliersApi = {
     )
 
     return response.data
+  },
+
+  async getBySearch(params: SuppliersSearchDto) {
+    const response = await apiClient.get<ISupplier[]>(
+      SUPPLIERS_API_ROUTES.GET_BY_SEARCH,
+      {
+        params,
+      },
+    )
+
+    return response.data!
   },
 
   async toggleStatus(id: number) {

@@ -3,6 +3,7 @@ import { productsApi } from '../api/products-api'
 import { IProductReq } from '../models/product-dto'
 import queryClient from '@/config/http/query-client'
 import { ProductsFiltersDto } from '../models/products-filters-dto'
+import { ProductsSearchDto } from '../models/req/products-search.dto'
 
 export const useProductsFindAll = (params: ProductsFiltersDto) => {
   return useQuery({
@@ -17,6 +18,17 @@ export const useProductsFindAll = (params: ProductsFiltersDto) => {
         sort: params.sort,
         status: params.status,
       }) || [],
+    placeholderData: (previousData) => previousData,
+  })
+}
+
+export const useGetBySearchProducts = (params: ProductsSearchDto) => {
+  return useQuery({
+    queryKey: ['products', params],
+    queryFn: () =>
+      productsApi.getBySearch({
+        search: params.search,
+      }),
     placeholderData: (previousData) => previousData,
   })
 }

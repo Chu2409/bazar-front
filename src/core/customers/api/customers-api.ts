@@ -5,6 +5,7 @@ import { CustomerFiltersDto } from '../models/customers-filters-dto'
 import { ensureDefaultParams } from '@/common/models/base-params-dto'
 import { ICustomer } from '../models/customer'
 import { ICustomerReq } from '../models/customer-dto'
+import { CustomersSearchDto } from '../models/req/search.dto'
 
 export const customersApi = {
   async findAll(params: CustomerFiltersDto) {
@@ -18,6 +19,17 @@ export const customersApi = {
     )
 
     return response.data
+  },
+
+  async getBySearch(params: CustomersSearchDto) {
+    const response = await apiClient.get<ICustomer[]>(
+      CUSTOMERS_API_ROUTES.GET_BY_SEARCH,
+      {
+        params,
+      },
+    )
+
+    return response.data!
   },
 
   async toggleStatus(id: number) {

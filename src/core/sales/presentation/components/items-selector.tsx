@@ -16,22 +16,20 @@ import {
 import { Input } from '@/ui-components/input'
 import { Button } from '@/ui-components/button'
 import { cn } from '@/common/lib/utils'
-import { IInventoryWithProductSupplier } from '@/core/inventory/models/inventory'
-import { useInventoryFindAll } from '@/core/inventory/hooks/use-inventory-service'
+import { IInventoryWithProduct } from '@/core/inventory/models/inventory'
+import { useGetBySearchInventory } from '@/core/inventory/hooks/use-inventory-service'
 
 interface Props {
-  onChange: (value: IInventoryWithProductSupplier) => void
+  onChange: (value: IInventoryWithProduct) => void
   disabled?: boolean
 }
-
-const minSearchLength = 1
 
 export function ItemsSelector({ onChange, disabled = false }: Props) {
   const [open, setOpen] = useState(false)
   const [inputValue, setInputValue] = useState<string>('')
   const [searchValue, setSearchValue] = useState<string>('')
 
-  const { data, isLoading } = useInventoryFindAll({
+  const { data, isLoading } = useGetBySearchInventory({
     search: searchValue,
   })
 
@@ -77,16 +75,11 @@ export function ItemsSelector({ onChange, disabled = false }: Props) {
               <div className='py-6 text-center text-sm text-muted-foreground'>
                 Cargando...
               </div>
-            ) : data?.records.length === 0 &&
-              searchValue.length >= minSearchLength ? (
+            ) : data?.length === 0 ? (
               <CommandEmpty>No se encontraron productos</CommandEmpty>
-            ) : searchValue.length < minSearchLength ? (
-              <div className='py-6 text-center text-sm text-muted-foreground'>
-                Ingrese al menos {minSearchLength} caracteres para buscar
-              </div>
             ) : (
               <CommandGroup>
-                {data?.records.map((option) => (
+                {data?.map((option) => (
                   <CommandItem
                     key={`${option.id}`}
                     onSelect={() => {

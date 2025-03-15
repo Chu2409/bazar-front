@@ -5,7 +5,7 @@ import { Button } from '@/ui-components/button'
 import { Input } from '@/ui-components/input'
 import { Label } from '@/ui-components/label'
 import { cn } from '@/common/lib/utils'
-import { IInventoryWithProductSupplier } from '@/core/inventory/models/inventory'
+import { IInventoryWithProduct } from '@/core/inventory/models/inventory'
 import { getError } from '@/common/utils/forms'
 import { ItemsSelector } from './items-selector'
 
@@ -16,7 +16,7 @@ interface Props {
   allowDuplicates?: boolean
 }
 
-const RHFAccumulativeItemsArray = ({
+const RHFItemsInput = ({
   name,
   label,
   disabled,
@@ -35,7 +35,7 @@ const RHFAccumulativeItemsArray = ({
 
   const error = getError(name, errors)
 
-  const handleItemSelect = (value: IInventoryWithProductSupplier) => {
+  const handleItemSelect = (value: IInventoryWithProduct) => {
     if (!allowDuplicates) {
       const exists = fields.some((field: any) => field.lotId === value.id)
       if (exists) {
@@ -196,4 +196,4 @@ const RHFAccumulativeItemsArray = ({
   )
 }
 
-export default RHFAccumulativeItemsArray
+export default RHFItemsInput

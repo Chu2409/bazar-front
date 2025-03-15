@@ -3,6 +3,7 @@ import { categoriesApi } from '../api/categories-api'
 import { ICategoryReq } from '../models/category-dto'
 import queryClient from '@/config/http/query-client'
 import { CategoryFiltersDto } from '../models/category-filters-dto'
+import { CategoriesSearchDto } from '../models/req/category-search.dto'
 
 export const useCategoriesFindAll = (params: CategoryFiltersDto) => {
   return useQuery({
@@ -14,6 +15,17 @@ export const useCategoriesFindAll = (params: CategoryFiltersDto) => {
         search: params.search,
         status: params.status,
       }) || [],
+    placeholderData: (previousData) => previousData,
+  })
+}
+
+export const useGetBySearchCategories = (params: CategoriesSearchDto) => {
+  return useQuery({
+    queryKey: ['categories', params],
+    queryFn: () =>
+      categoriesApi.getBySearch({
+        search: params.search,
+      }),
     placeholderData: (previousData) => previousData,
   })
 }
