@@ -24,7 +24,7 @@ const schema = z.object({
   items: z
     .array(
       z.object({
-        lotId: z.number({ message: 'Selecciona un producto' }).min(1, {
+        inventoryId: z.number({ message: 'Selecciona un producto' }).min(1, {
           message: 'Selecciona un producto',
         }),
         qty: z.coerce.number({ message: 'Ingresa la cantidad' }).min(0, {
@@ -61,10 +61,10 @@ export const useSaleForm = () => {
     customerId: entity?.customerId,
     items:
       entity?.items.map((item) => ({
-        lotId: item.lotId,
+        inventoryId: item.inventoryId,
         qty: item.qty,
         unitPrice: item.unitPrice,
-        itemLabel: item.lot.product.name,
+        itemLabel: item.inventory.product.name,
       })) ?? [],
   }
 

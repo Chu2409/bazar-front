@@ -6,9 +6,9 @@ import { FlagIndicator } from '@/components/flag-indicator'
 import { DataTableRowActions } from '@/components/table/data-table-row-actions'
 import { useCategoryStore } from '../../context/use-category-store'
 import { useToggleCategoryStatus } from '../../hooks/use-categories-service'
-import { ICategory } from '../../models/category'
+import { Category } from '../../models/res/category'
 
-export const categoriesColumns: ColumnDef<ICategory>[] = [
+export const categoriesColumns: ColumnDef<Category>[] = [
   {
     accessorKey: 'id',
     meta: 'Id',

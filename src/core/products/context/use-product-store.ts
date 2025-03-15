@@ -1,10 +1,10 @@
 import { create } from 'zustand'
-import { IProductWithCategory } from '../models/product'
+import { ProductWithCategory } from '../models/res/product'
 
 interface State {
   isOpen: boolean
-  onOpen: (provider?: IProductWithCategory) => void
-  product?: IProductWithCategory
+  onOpen: (provider?: ProductWithCategory) => void
+  product?: ProductWithCategory
   onClose: () => void
 }
 

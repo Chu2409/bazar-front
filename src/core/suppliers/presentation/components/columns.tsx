@@ -2,13 +2,13 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-import { ISupplier } from '../../models/supplier'
+import { Supplier } from '../../models/res/supplier'
 import { FlagIndicator } from '@/components/flag-indicator'
 import { DataTableRowActions } from '@/components/table/data-table-row-actions'
 import { useSupplierStore } from '../../context/use-supplier-store'
 import { useToggleSupplierStatus } from '../../hooks/use-suppliers-service'
 
-export const suppliersColumns: ColumnDef<ISupplier>[] = [
+export const suppliersColumns: ColumnDef<Supplier>[] = [
   {
     accessorKey: 'id',
     meta: 'Id',

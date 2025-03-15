@@ -1,9 +1,9 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { inventoryApi } from '../api/inventory-api'
-import { InventoryFiltersDto } from '../models/inventory-filters-dto'
+import { InventoryFiltersDto } from '../models/req/inventories-filters.dto'
 import queryClient from '@/config/http/query-client'
-import { IInventoryReq } from '../models/inventory-dto'
-import { InventorySearchDto } from '../models/req/search.dto'
+import { InventoryDto } from '../models/req/inventory.dto'
+import { InventorySearchDto } from '../models/req/inventories-search.dto'
 
 export const useInventoryFindAll = (params: InventoryFiltersDto) => {
   return useQuery({
@@ -49,7 +49,7 @@ export const useInventoryDelete = (id: number) => {
 export const useInventoryCreate = () => {
   return useMutation({
     mutationKey: ['inventory'],
-    mutationFn: async (data: IInventoryReq) => {
+    mutationFn: async (data: InventoryDto) => {
       const created = await inventoryApi.create(data)
       if (created)
         queryClient.invalidateQueries({
@@ -64,7 +64,7 @@ export const useInventoryCreate = () => {
 export const useInventoryUpdate = (id: number) => {
   return useMutation({
     mutationKey: ['inventory', id],
-    mutationFn: async (data: Partial<IInventoryReq>) => {
+    mutationFn: async (data: Partial<InventoryDto>) => {
       const updated = await inventoryApi.update(id, data)
       queryClient.invalidateQueries({
         queryKey: ['inventory'],

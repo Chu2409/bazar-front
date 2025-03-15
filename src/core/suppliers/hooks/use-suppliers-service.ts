@@ -1,9 +1,9 @@
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { suppliersApi } from '../api/suppliers-api'
-import { ISupplierReq } from '../models/supplier-dto'
+import { SupplierDto } from '../models/req/supplier.dto'
 import queryClient from '@/config/http/query-client'
-import { SuppliersFiltersDto } from '../models/supplier-filters-dto'
-import { SuppliersSearchDto } from '../models/req/search.dto'
+import { SuppliersFiltersDto } from '../models/req/suppliers-filters.dto'
+import { SuppliersSearchDto } from '../models/req/suppliers-search.dto'
 
 export const useSuppliersFindAll = (params: SuppliersFiltersDto) => {
   return useQuery({
@@ -47,7 +47,7 @@ export const useGetBySearchSuppliers = (params: SuppliersSearchDto) => {
 export const useCreateSupplier = () => {
   return useMutation({
     mutationKey: ['suppliers'],
-    mutationFn: async (supplier: ISupplierReq) => {
+    mutationFn: async (supplier: SupplierDto) => {
       const created = await suppliersApi.create(supplier)
       queryClient.invalidateQueries({
         queryKey: ['suppliers'],
@@ -61,7 +61,7 @@ export const useCreateSupplier = () => {
 export const useUpdateSupplier = (id: number) => {
   return useMutation({
     mutationKey: ['suppliers', id],
-    mutationFn: async (supplier: Partial<ISupplierReq>) => {
+    mutationFn: async (supplier: Partial<SupplierDto>) => {
       const updated = await suppliersApi.update(id, supplier)
       queryClient.invalidateQueries({
         queryKey: ['suppliers'],

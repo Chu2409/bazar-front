@@ -1,10 +1,3 @@
-export interface IIdentification {
-  id: number
-  type: IdentificationType
-  value: string
-  active: boolean
-}
-
 export enum IdentificationType {
   DNI = 'DNI',
   PASSPORT = 'PASSPORT',

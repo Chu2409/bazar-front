@@ -7,9 +7,9 @@ import { CornerButton } from '@/components/corner-button'
 import { DetailsContainer } from '@/common/components/layout/details-container'
 import { MainContainer } from '@/common/components/layout/main-container'
 import { DataContainer } from '@/common/components/layout/data-container'
-import { ICustomer } from '../../models/customer'
+import { Customer } from '../../models/res/customer'
 
-const CustomersView = ({ data }: { data: IApiPaginatedRes<ICustomer> }) => {
+const CustomersView = ({ data }: { data: IApiPaginatedRes<Customer> }) => {
   const isOpen = useCustomerStore((state) => state.isOpen)
   const onClose = useCustomerStore((state) => state.onClose)
   const onOpen = useCustomerStore((state) => state.onOpen)

@@ -2,14 +2,14 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-import { IProductWithCategory } from '../../models/product'
+import { ProductWithCategory } from '../../models/res/product'
 import { FlagIndicator } from '@/components/flag-indicator'
 import { formatMoney } from '@/common/utils/money-formatter'
 import { DataTableRowActions } from '@/components/table/data-table-row-actions'
 import { useProductStore } from '../../context/use-product-store'
 import { useToggleProductStatus } from '../../hooks/use-products-service'
 
-export const productsColumns: ColumnDef<IProductWithCategory>[] = [
+export const productsColumns: ColumnDef<ProductWithCategory>[] = [
   {
     accessorKey: 'id',
     meta: 'Id',

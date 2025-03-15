@@ -1,17 +1,17 @@
 import { apiClient } from '@/config/http/api-client'
 import { SUPPLIERS_API_ROUTES } from '../constants/suppliers-api-routes'
 import { IApiPaginatedRes } from '@/config/http/api-response'
-import { ISupplier } from '../models/supplier'
-import { ISupplierReq } from '../models/supplier-dto'
-import { SuppliersFiltersDto } from '../models/supplier-filters-dto'
+import { Supplier } from '../models/res/supplier'
+import { SupplierDto } from '../models/req/supplier.dto'
+import { SuppliersFiltersDto } from '../models/req/suppliers-filters.dto'
 import { ensureDefaultParams } from '@/common/models/base-params-dto'
-import { SuppliersSearchDto } from '../models/req/search.dto'
+import { SuppliersSearchDto } from '../models/req/suppliers-search.dto'
 
 export const suppliersApi = {
   async findAll(params: SuppliersFiltersDto) {
     const normalizedParams = ensureDefaultParams(params)
 
-    const response = await apiClient.get<IApiPaginatedRes<ISupplier>>(
+    const response = await apiClient.get<IApiPaginatedRes<Supplier>>(
       SUPPLIERS_API_ROUTES.FIND_ALL,
       {
         params: normalizedParams,
@@ -22,7 +22,7 @@ export const suppliersApi = {
   },
 
   async getBySearch(params: SuppliersSearchDto) {
-    const response = await apiClient.get<ISupplier[]>(
+    const response = await apiClient.get<Supplier[]>(
       SUPPLIERS_API_ROUTES.GET_BY_SEARCH,
       {
         params,
@@ -40,8 +40,8 @@ export const suppliersApi = {
     return response.data
   },
 
-  async create(supplier: ISupplierReq) {
-    const response = await apiClient.post<ISupplier>(
+  async create(supplier: SupplierDto) {
+    const response = await apiClient.post<Supplier>(
       SUPPLIERS_API_ROUTES.CREATE,
       supplier,
     )
@@ -49,8 +49,8 @@ export const suppliersApi = {
     return response.data
   },
 
-  async update(id: number, supplier: Partial<ISupplierReq>) {
-    const response = await apiClient.patch<ISupplier>(
+  async update(id: number, supplier: Partial<SupplierDto>) {
+    const response = await apiClient.patch<Supplier>(
       SUPPLIERS_API_ROUTES.UPDATE(id),
       supplier,
     )

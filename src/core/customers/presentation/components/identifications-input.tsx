@@ -3,7 +3,8 @@ import { getError } from '@/common/utils/forms'
 import {
   getIdentificationTypeLabel,
   IdentificationType,
-} from '@/core/people/models/identification'
+} from '@/core/people/models/res/identification-type'
+
 import { Button } from '@/ui-components/button'
 import { Checkbox } from '@/ui-components/checkbox'
 import { Input } from '@/ui-components/input'

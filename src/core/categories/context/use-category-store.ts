@@ -1,10 +1,10 @@
 import { create } from 'zustand'
-import { ICategory } from '../models/category'
+import { Category } from '../models/res/category'
 
 interface State {
   isOpen: boolean
-  onOpen: (data?: ICategory) => void
-  data?: ICategory
+  onOpen: (data?: Category) => void
+  data?: Category
   onClose: () => void
 }
 

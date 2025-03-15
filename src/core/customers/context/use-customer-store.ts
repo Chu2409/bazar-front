@@ -1,10 +1,10 @@
 import { create } from 'zustand'
-import { ICustomer } from '../models/customer'
+import { Customer } from '../models/res/customer'
 
 interface State {
   isOpen: boolean
-  onOpen: (data?: ICustomer) => void
-  data?: ICustomer
+  onOpen: (data?: Customer) => void
+  data?: Customer
   onClose: () => void
 }
 

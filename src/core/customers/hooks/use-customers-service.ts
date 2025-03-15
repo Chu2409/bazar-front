@@ -1,9 +1,9 @@
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { customersApi } from '../api/customers-api'
 import queryClient from '@/config/http/query-client'
-import { CustomerFiltersDto } from '../models/customers-filters-dto'
-import { ICustomerReq } from '../models/customer-dto'
-import { CustomersSearchDto } from '../models/req/search.dto'
+import { CustomerFiltersDto } from '../models/req/customers-filters.dto'
+import { CustomerDto } from '../models/req/customer.dto'
+import { CustomersSearchDto } from '../models/req/customers-search.dto'
 
 export const useCustomersFindAll = (params: CustomerFiltersDto) => {
   return useQuery({
@@ -47,7 +47,7 @@ export const useGetBySearchCustomers = (params: CustomersSearchDto) => {
 export const useCreateCustomer = () => {
   return useMutation({
     mutationKey: ['customers'],
-    mutationFn: async (data: ICustomerReq) => {
+    mutationFn: async (data: CustomerDto) => {
       const created = await customersApi.create(data)
       if (created)
         queryClient.invalidateQueries({
@@ -62,7 +62,7 @@ export const useCreateCustomer = () => {
 export const useUpdateCustomer = (id: number) => {
   return useMutation({
     mutationKey: ['customers', id],
-    mutationFn: async (data: Partial<ICustomerReq>) => {
+    mutationFn: async (data: Partial<CustomerDto>) => {
       const updated = await customersApi.update(id, data)
       queryClient.invalidateQueries({
         queryKey: ['customers'],

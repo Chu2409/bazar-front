@@ -1,10 +1,10 @@
 import { create } from 'zustand'
-import { ISale } from '../models/sale'
+import { Sale } from '../models/res/sale'
 
 interface State {
   isOpen: boolean
-  onOpen: (entity?: ISale) => void
-  entity?: ISale
+  onOpen: (entity?: Sale) => void
+  entity?: Sale
   onClose: () => void
 }
 

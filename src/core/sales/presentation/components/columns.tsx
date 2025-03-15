@@ -1,15 +1,15 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-import { ISale } from '../../models/sale'
+import { Sale } from '../../models/res/sale'
 import { formatMoney } from '@/common/utils/money-formatter'
 import { DataTableRowActions } from '@/components/table/data-table-row-actions'
 import { useSaleStore } from '../../context/use-sale-store'
 import { formatDate } from '@/common/utils/date-formatter'
-import { getIdentificationTypeLabel } from '@/core/people/models/identification'
 import { Badge } from '@/ui-components/badge'
+import { getIdentificationTypeLabel } from '@/core/people/models/res/identification-type'
 
-export const salesColumns: ColumnDef<ISale>[] = [
+export const salesColumns: ColumnDef<Sale>[] = [
   {
     accessorKey: 'id',
     meta: 'Id',

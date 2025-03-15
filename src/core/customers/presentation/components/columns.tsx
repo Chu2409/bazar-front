@@ -6,11 +6,11 @@ import { FlagIndicator } from '@/components/flag-indicator'
 import { DataTableRowActions } from '@/components/table/data-table-row-actions'
 import { useCustomerStore } from '../../context/use-customer-store'
 import { useToggleCustomerStatus } from '../../hooks/use-customers-service'
-import { ICustomer } from '../../models/customer'
+import { Customer } from '../../models/res/customer'
 import { Badge } from '@/ui-components/badge'
-import { getIdentificationTypeLabel } from '@/core/people/models/identification'
+import { getIdentificationTypeLabel } from '@/core/people/models/res/identification-type'
 
-export const customersColumns: ColumnDef<ICustomer>[] = [
+export const customersColumns: ColumnDef<Customer>[] = [
   {
     accessorKey: 'id',
     meta: 'Id',

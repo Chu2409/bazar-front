@@ -1,4 +1,4 @@
-export interface IProductReq {
+export interface ProductDto {
   name: string
   retailPrice: number
   wholesalePrice: number

@@ -1,4 +1,4 @@
-export interface ISupplierReq {
+export interface SupplierDto {
   name: string
   phone?: string
   address?: string

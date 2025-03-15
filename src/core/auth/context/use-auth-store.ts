@@ -1,17 +1,17 @@
-import { IUser } from '@/core/users/models/user'
+import { User } from '@/core/users/models/res/user'
 import { create } from 'zustand'
 
 interface AuthState {
-  user: IUser | null
+  user: User | null
   isAuthenticated: boolean
-  setUser: (user: IUser | null) => void
+  setUser: (user: User | null) => void
   clearUser: () => void
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   isAuthenticated: false,
-  setUser: (user: IUser | null) =>
+  setUser: (user: User | null) =>
     set({
       user,
       isAuthenticated: !!user,

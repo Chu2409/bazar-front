@@ -19,8 +19,8 @@ import { cn } from '@/common/lib/utils'
 import { IOption } from '@/common/types/filters'
 
 interface Params {
-  value?: IOption
-  onChange: (value?: IOption) => void
+  value?: number
+  onChange: (value?: number) => void
   options: IOption[]
   onSearchChange: (value: string) => void
   isLoading?: boolean
@@ -44,7 +44,10 @@ export function SearchableSelector({
   const [open, setOpen] = useState(false)
   const [inputValue, setInputValue] = useState<string>('')
 
-  const selectedOption = options.find((option) => option.id === value?.id)
+  const selectedOption = options.find((option) => option.id === value)
+
+  // console.log(options)
+  // console.log(value)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
@@ -99,7 +102,7 @@ export function SearchableSelector({
                   <CommandItem
                     key={`${option.id}`}
                     onSelect={() => {
-                      onChange(option.id === value?.id ? undefined : option)
+                      onChange(option.id === value ? undefined : option.id)
                       setOpen(false)
                     }}
                     className='cursor-pointer'
@@ -109,7 +112,7 @@ export function SearchableSelector({
                     <Check
                       className={cn(
                         'ml-auto h-4 w-4',
-                        value?.id === option.id ? 'opacity-100' : 'opacity-0',
+                        value === option.id ? 'opacity-100' : 'opacity-0',
                       )}
                     />
                   </CommandItem>

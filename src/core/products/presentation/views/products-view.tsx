@@ -1,7 +1,7 @@
 import { DataTable } from '@/components/table/data-table'
 import { productsColumns } from '../components/columns'
 import { IApiPaginatedRes } from '@/config/http/api-response'
-import { IProductWithCategory } from '../../models/product'
+import { ProductWithCategory } from '../../models/res/product'
 import { useProductStore } from '../../context/use-product-store'
 import { ProductForm } from '../components/product-form'
 import { CornerButton } from '@/components/corner-button'
@@ -13,7 +13,7 @@ import { useProductsFilters } from '../../hooks/use-products-filters'
 const ProductsView = ({
   data,
 }: {
-  data: IApiPaginatedRes<IProductWithCategory>
+  data: IApiPaginatedRes<ProductWithCategory>
 }) => {
   const isOpen = useProductStore((state) => state.isOpen)
   const onClose = useProductStore((state) => state.onClose)

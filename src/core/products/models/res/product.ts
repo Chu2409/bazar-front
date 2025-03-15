@@ -1,6 +1,6 @@
-import { ICategory } from '@/core/categories/models/category'
+import { Category } from '@/core/categories/models/res/category'
 
-export interface IProduct {
+export interface Product {
   id: number
   barcode: string | null
   name: string
@@ -14,6 +14,6 @@ export interface IProduct {
   categoryId: number
 }
 
-export interface IProductWithCategory extends IProduct {
-  category: ICategory
+export interface ProductWithCategory extends Product {
+  category: Category
 }

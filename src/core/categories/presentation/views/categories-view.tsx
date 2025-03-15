@@ -7,9 +7,9 @@ import { CornerButton } from '@/components/corner-button'
 import { DetailsContainer } from '@/common/components/layout/details-container'
 import { MainContainer } from '@/common/components/layout/main-container'
 import { DataContainer } from '@/common/components/layout/data-container'
-import { ICategory } from '../../models/category'
+import { Category } from '../../models/res/category'
 
-const CategoriesView = ({ data }: { data: IApiPaginatedRes<ICategory> }) => {
+const CategoriesView = ({ data }: { data: IApiPaginatedRes<Category> }) => {
   const isOpen = useCategoryStore((state) => state.isOpen)
   const onClose = useCategoryStore((state) => state.onClose)
   const onOpen = useCategoryStore((state) => state.onOpen)

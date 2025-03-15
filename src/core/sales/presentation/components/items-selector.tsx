@@ -16,11 +16,11 @@ import {
 import { Input } from '@/ui-components/input'
 import { Button } from '@/ui-components/button'
 import { cn } from '@/common/lib/utils'
-import { IInventoryWithProduct } from '@/core/inventory/models/inventory'
+import { InventoryWithProduct } from '@/core/inventory/models/res/inventory'
 import { useGetBySearchInventory } from '@/core/inventory/hooks/use-inventory-service'
 
 interface Props {
-  onChange: (value: IInventoryWithProduct) => void
+  onChange: (value: InventoryWithProduct) => void
   disabled?: boolean
 }
 

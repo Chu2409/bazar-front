@@ -5,7 +5,7 @@ import { Button } from '@/ui-components/button'
 import { Input } from '@/ui-components/input'
 import { Label } from '@/ui-components/label'
 import { cn } from '@/common/lib/utils'
-import { IInventoryWithProduct } from '@/core/inventory/models/inventory'
+import { InventoryWithProduct } from '@/core/inventory/models/res/inventory'
 import { getError } from '@/common/utils/forms'
 import { ItemsSelector } from './items-selector'
 
@@ -35,16 +35,16 @@ const RHFItemsInput = ({
 
   const error = getError(name, errors)
 
-  const handleItemSelect = (value: IInventoryWithProduct) => {
+  const handleItemSelect = (value: InventoryWithProduct) => {
     if (!allowDuplicates) {
-      const exists = fields.some((field: any) => field.lotId === value.id)
+      const exists = fields.some((field: any) => field.inventoryId === value.id)
       if (exists) {
         return
       }
     }
 
     append({
-      lotId: value.id,
+      inventoryId: value.id,
       itemLabel: value.product.name,
       qty: 1,
       unitPrice: value.product.retailPrice,

@@ -1,8 +1,8 @@
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { salesApi } from '../api/sales-api'
-import { ISalesReq } from '../models/sales-dto'
+import { SaleDto } from '../models/req/sale.dto'
 import queryClient from '@/config/http/query-client'
-import { SalesFiltersDto } from '../models/sales-filters-dto'
+import { SalesFiltersDto } from '../models/req/sales-filters.dto'
 
 export const useFindAllSales = (params: SalesFiltersDto) => {
   return useQuery({
@@ -23,7 +23,7 @@ export const useFindAllSales = (params: SalesFiltersDto) => {
 export const useCreateSale = () => {
   return useMutation({
     mutationKey: ['sales'],
-    mutationFn: async (product: ISalesReq) => {
+    mutationFn: async (product: SaleDto) => {
       const productCreated = await salesApi.create(product)
       queryClient.invalidateQueries({
         queryKey: ['sales'],
@@ -37,7 +37,7 @@ export const useCreateSale = () => {
 export const useUpdateSale = (id: number) => {
   return useMutation({
     mutationKey: ['sales', id],
-    mutationFn: async (product: Partial<ISalesReq>) => {
+    mutationFn: async (product: Partial<SaleDto>) => {
       const productUpdated = await salesApi.update(id, product)
       queryClient.invalidateQueries({
         queryKey: ['sales'],

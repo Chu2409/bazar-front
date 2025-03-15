@@ -1,16 +1,16 @@
 import { useMutation } from '@tanstack/react-query'
-import { ISignInReq } from '../models/sign-in-dto'
 import { authApi } from '../api/auth-api'
 import { getToken, removeToken, setToken } from '@/common/utils/token-storage'
 import { useAuthStore } from '../context/use-auth-store'
 import { useRouter } from 'next/navigation'
+import { SignInDto } from '../models/req/sign-in.dto'
 
 export const useSignIn = () => {
   const router = useRouter()
   const setUser = useAuthStore((state) => state.setUser)
 
   return useMutation({
-    mutationFn: async (values: ISignInReq) => {
+    mutationFn: async (values: SignInDto) => {
       const data = await authApi.signIn(values)
 
       if (data) {

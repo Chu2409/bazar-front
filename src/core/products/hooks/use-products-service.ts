@@ -1,8 +1,8 @@
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { productsApi } from '../api/products-api'
-import { IProductReq } from '../models/product-dto'
+import { ProductDto } from '../models/req/product.dto'
 import queryClient from '@/config/http/query-client'
-import { ProductsFiltersDto } from '../models/products-filters-dto'
+import { ProductsFiltersDto } from '../models/req/products-filters.dto'
 import { ProductsSearchDto } from '../models/req/products-search.dto'
 
 export const useProductsFindAll = (params: ProductsFiltersDto) => {
@@ -50,7 +50,7 @@ export const useToggleProductStatus = (id: number) => {
 export const useCreateProduct = () => {
   return useMutation({
     mutationKey: ['products'],
-    mutationFn: async (product: IProductReq) => {
+    mutationFn: async (product: ProductDto) => {
       const productCreated = await productsApi.create(product)
       queryClient.invalidateQueries({
         queryKey: ['products'],
@@ -64,7 +64,7 @@ export const useCreateProduct = () => {
 export const useUpdateProduct = (id: number) => {
   return useMutation({
     mutationKey: ['products', id],
-    mutationFn: async (product: Partial<IProductReq>) => {
+    mutationFn: async (product: Partial<ProductDto>) => {
       const productUpdated = await productsApi.update(id, product)
       queryClient.invalidateQueries({
         queryKey: ['products'],

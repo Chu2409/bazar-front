@@ -1,4 +1,4 @@
-export interface IInventoryReq {
+export interface InventoryDto {
   purchasedQty: number
   unitCost: number
   totalCost: number

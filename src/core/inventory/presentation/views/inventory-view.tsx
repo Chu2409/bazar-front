@@ -7,12 +7,12 @@ import { CornerButton } from '@/components/corner-button'
 import { DetailsContainer } from '@/common/components/layout/details-container'
 import { MainContainer } from '@/common/components/layout/main-container'
 import { DataContainer } from '@/common/components/layout/data-container'
-import { IInventoryWithProductSupplier } from '../../models/inventory'
+import { InventoryWithProductSupplier } from '../../models/res/inventory'
 
 const InventoryView = ({
   data,
 }: {
-  data: IApiPaginatedRes<IInventoryWithProductSupplier>
+  data: IApiPaginatedRes<InventoryWithProductSupplier>
 }) => {
   const isOpen = useInventoryStore((state) => state.isOpen)
   const onClose = useInventoryStore((state) => state.onClose)

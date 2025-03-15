@@ -1,10 +1,10 @@
 import { create } from 'zustand'
-import { IInventoryWithProductSupplier } from '../models/inventory'
+import { InventoryWithProductSupplier } from '../models/res/inventory'
 
 interface State {
   isOpen: boolean
-  onOpen: (data?: IInventoryWithProductSupplier) => void
-  data?: IInventoryWithProductSupplier
+  onOpen: (data?: InventoryWithProductSupplier) => void
+  data?: InventoryWithProductSupplier
   onClose: () => void
 }
 

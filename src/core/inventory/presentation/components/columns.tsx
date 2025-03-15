@@ -5,11 +5,11 @@ import { ColumnDef } from '@tanstack/react-table'
 import { FlagIndicator } from '@/components/flag-indicator'
 import { DataTableRowActions } from '@/components/table/data-table-row-actions'
 import { useInventoryStore } from '../../context/use-inventory-store'
-import { IInventoryWithProductSupplier } from '../../models/inventory'
+import { InventoryWithProductSupplier } from '../../models/res/inventory'
 import { formatMoney } from '@/common/utils/money-formatter'
 import { useInventoryDelete } from '../../hooks/use-inventory-service'
 
-export const inventoryColumns: ColumnDef<IInventoryWithProductSupplier>[] = [
+export const inventoryColumns: ColumnDef<InventoryWithProductSupplier>[] = [
   {
     accessorKey: 'id',
     meta: 'Id',
