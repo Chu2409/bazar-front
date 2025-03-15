@@ -20,8 +20,8 @@ import { cn } from '@/common/lib/utils'
 import { IOption } from '@/common/types/filters'
 
 interface SearchableSelectorProps {
-  value?: number | null // Ahora manejamos directamente el ID
-  onChange: (id?: number) => void // Callback recibe directamente el ID
+  value?: IOption // Ahora manejamos directamente el ID
+  onChange: (value?: IOption) => void // Callback recibe directamente el ID
   disabled?: boolean
   placeholder?: string
   searchPlaceholder?: string
@@ -51,7 +51,7 @@ export function SearchableSelector({
   const [isLoading, setIsLoading] = useState(false)
 
   // Encuentra la opción seleccionada actual basada en el ID
-  const selectedOption = options.find((option) => option.id === value)
+  const selectedOption = options.find((option) => option.id === value?.id)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
@@ -89,7 +89,8 @@ export function SearchableSelector({
     }
 
     performSearch()
-  }, [searchValue, fetchItems, mapToOption, minSearchLength])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchValue])
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -135,7 +136,7 @@ export function SearchableSelector({
                   <CommandItem
                     key={`${option.id}`}
                     onSelect={() => {
-                      onChange(option.id === value ? undefined : option.id)
+                      onChange(option.id === value?.id ? undefined : option)
                       setOpen(false)
                     }}
                     className='cursor-pointer'
@@ -145,7 +146,7 @@ export function SearchableSelector({
                     <Check
                       className={cn(
                         'ml-auto h-4 w-4',
-                        value === option.id ? 'opacity-100' : 'opacity-0',
+                        value?.id === option.id ? 'opacity-100' : 'opacity-0',
                       )}
                     />
                   </CommandItem>

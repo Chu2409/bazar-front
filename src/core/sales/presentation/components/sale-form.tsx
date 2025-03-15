@@ -9,11 +9,7 @@ import RHFSelector from '@/common/components/rhf/selector'
 import { IOption } from '@/common/types/filters'
 import { useSaleStore } from '../../context/use-sale-store'
 import { useCustomersFindAll } from '@/core/customers/hooks/use-customers-service'
-import RHFItemArray from './item-input'
-import { SearchableSelector } from '@/components/searchable-selector'
-import { IInventoryWithProductSupplier } from '@/core/inventory/models/inventory'
-import { useState } from 'react'
-import { inventoryApi } from '@/core/inventory/api/inventory-api'
+import RHFSearchableItemsArray from './items-input'
 
 export const SaleForm = () => {
   const { form, isPending, onSubmit, isDirty } = useSaleForm()
@@ -26,12 +22,10 @@ export const SaleForm = () => {
       label: customer.person.firstName + ' ' + customer.person.firstSurname,
     })) ?? []
 
-  const [selected, setSelected] = useState<number>()
-
   return (
     <FormProvider {...form}>
       <form onSubmit={onSubmit} className='grid gap-4'>
-        <div className='grid grid-cols-2 gap-6'>
+        <div className='grid grid-cols-2 gap-6 items-start'>
           <div className='grid gap-6'>
             <RHFSelector
               name='customerId'
@@ -65,26 +59,7 @@ export const SaleForm = () => {
           </div>
 
           <div>
-            <RHFItemArray
-              name='items'
-              label='Items'
-              buttonLabel='Agregar Item'
-            />
-
-            <SearchableSelector
-              value={selected}
-              onChange={setSelected}
-              fetchItems={async (searchTerm) => {
-                const data = await inventoryApi.findAll({ search: searchTerm })
-
-                return data?.records ?? []
-              }}
-              mapToOption={(lot: IInventoryWithProductSupplier) => ({
-                id: lot.id,
-                label: lot.product.name,
-              })}
-              placeholder='Seleccione un producto'
-            />
+            <RHFSearchableItemsArray name='items' label='Items' />
           </div>
         </div>
 
