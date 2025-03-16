@@ -1,7 +1,6 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 'use client'
 
-import { ColumnDef } from '@tanstack/react-table'
+import { ColumnDef, Row } from '@tanstack/react-table'
 import { FlagIndicator } from '@/components/flag-indicator'
 import { DataTableRowActions } from '@/components/table/data-table-row-actions'
 import { useCustomerStore } from '../../context/use-customer-store'
@@ -9,6 +8,24 @@ import { useToggleCustomerStatus } from '../../hooks/use-customers-service'
 import { Customer } from '../../models/res/customer'
 import { Badge } from '@/ui-components/badge'
 import { getIdentificationTypeLabel } from '@/core/identifications/models/res/identification-type'
+
+const ActionsCell = ({ row }: { row: Row<Customer> }) => {
+  const onOpen = useCustomerStore((state) => state.onOpen)
+  const { mutateAsync } = useToggleCustomerStatus(row.original.id)
+
+  const toggleStatus = async () => {
+    const status = await mutateAsync()
+    return status
+  }
+
+  return (
+    <DataTableRowActions
+      status={row.original.active}
+      toggleStatus={toggleStatus}
+      onEdit={() => onOpen(row.original)}
+    />
+  )
+}
 
 export const customersColumns: ColumnDef<Customer>[] = [
   {
@@ -91,22 +108,6 @@ export const customersColumns: ColumnDef<Customer>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => {
-      const onOpen = useCustomerStore.getState().onOpen
-      const { mutateAsync } = useToggleCustomerStatus(row.original.id)
-
-      const toggleStatus = async () => {
-        const status = await mutateAsync()
-        return status
-      }
-
-      return (
-        <DataTableRowActions
-          status={row.original.active}
-          toggleStatus={toggleStatus}
-          onEdit={() => onOpen(row.original)}
-        />
-      )
-    },
+    cell: ({ row }) => <ActionsCell row={row} />,
   },
 ]

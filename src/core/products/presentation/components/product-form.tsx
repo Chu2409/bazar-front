@@ -32,7 +32,12 @@ export const ProductForm = () => {
     <FormProvider {...form}>
       <form onSubmit={onSubmit} className='grid gap-5 w-full '>
         <div className='grid gap-x-2 grid-cols-2 gap-y-6'>
-          <RHFInput name='name' label='Nombre' placeholder='Ligas Multicolor' />
+          <RHFInput
+            name='name'
+            label='Nombre'
+            placeholder='Ligas Multicolor'
+            required
+          />
 
           <RHFBarcodeScanner
             name='barcode'
@@ -53,6 +58,7 @@ export const ProductForm = () => {
             label='Precio de venta'
             type='number'
             placeholder='1.25'
+            required
           />
 
           <RHFInput
@@ -60,6 +66,7 @@ export const ProductForm = () => {
             label='Precio de mayoreo'
             type='number'
             placeholder='1.15'
+            required
           />
         </div>
 
@@ -69,6 +76,7 @@ export const ProductForm = () => {
             label='Cantidad de mayoreo'
             type='number'
             placeholder='12'
+            required
           />
 
           <RHFInput
@@ -76,6 +84,7 @@ export const ProductForm = () => {
             label='Cantidad mínima en stock'
             type='number'
             placeholder='8'
+            required
           />
         </div>
 
@@ -85,6 +94,7 @@ export const ProductForm = () => {
           label='Categoría'
           placeholder='Selecciona una categoría'
           options={categories}
+          required
         />
 
         <RHFCheckbox

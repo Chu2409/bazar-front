@@ -3,16 +3,6 @@ import { Skeleton } from '../ui/skeleton'
 const LoadingSkeleton = () => {
   return (
     <div>
-      {/* Header Section */}
-      {/* <div className='flex gap-4 justify-between flex-wrap'>
-        <div className='space-y-1'>
-          <Skeleton className='h-10 w-44' />
-          <Skeleton className='h-4 w-72' />
-        </div>
-
-        <Skeleton className='h-10 w-[180px] ml-auto' />
-      </div> */}
-
       <Skeleton className='absolute top-2 right-4 z-50 h-9 w-[180px]'></Skeleton>
 
       {/* Search and Filters */}

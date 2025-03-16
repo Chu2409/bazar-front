@@ -15,8 +15,6 @@ const SalesView = ({ data }: { data: IApiPaginatedRes<Sale> }) => {
   const onClose = useSaleStore((state) => state.onClose)
   const onOpen = useSaleStore((state) => state.onOpen)
 
-  // const filters = useSalesFilters()
-
   return (
     <>
       <CornerButton title='Agregar venta' onClick={() => onOpen()} />
@@ -28,7 +26,6 @@ const SalesView = ({ data }: { data: IApiPaginatedRes<Sale> }) => {
             columns={salesColumns}
             enableStatusFilter={false}
             inputFilterKey='customer'
-            // filters={filters}
           />
         </DataContainer>
 

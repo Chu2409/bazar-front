@@ -13,6 +13,7 @@ interface Props {
   disabled?: boolean
   placeholder?: string
   buttonLabel?: string
+  required?: boolean
 }
 
 const RHFArrayMultiInput = ({
@@ -22,6 +23,7 @@ const RHFArrayMultiInput = ({
   disabled,
   placeholder,
   buttonLabel,
+  required = false,
 }: Props) => {
   const {
     control,
@@ -49,16 +51,13 @@ const RHFArrayMultiInput = ({
     <div className='flex flex-col gap-2'>
       <Label htmlFor={`${name}-0`} className={error ? 'text-red-500' : ''}>
         {label}
+        {required && <span className='text-red-500'> *</span>}
       </Label>
 
       <div className='space-y-2'>
         {fields.map((field, index) => {
           const itemErrorPath = `${name}.${index}.value`
           const itemError = getError(itemErrorPath, errors)
-
-          // const showError =
-          //   itemError &&
-          //   (getValues(`${name}.${index}.value`) || index !== fields.length - 1)
 
           return (
             <div key={field.id} className='flex space-x-2'>
@@ -98,10 +97,6 @@ const RHFArrayMultiInput = ({
                 {itemError && (
                   <p className='text-red-500 text-xs italic mt-1'>{`${itemError}`}</p>
                 )}
-
-                {/* {showError && (
-                  <p className='text-red-500 text-xs italic mt-1'>{`${itemError}`}</p>
-                )} */}
               </div>
 
               <Button

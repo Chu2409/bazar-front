@@ -5,7 +5,6 @@ export const getAllParams = (searchParams: ReadonlyURLSearchParams) => {
     [key: string]: string | string[]
   } = {}
   searchParams.forEach((value, key) => {
-    // Si el parámetro ya existe, conviértelo en array
     if (params[key]) {
       if (Array.isArray(params[key])) {
         params[key].push(value)

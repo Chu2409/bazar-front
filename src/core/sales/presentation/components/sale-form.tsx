@@ -37,6 +37,7 @@ export const SaleForm = () => {
               label='Cliente'
               placeholder='Selecciona un cliente'
               options={customers}
+              required
             />
 
             <div className='grid gap-x-2 grid-cols-2 gap-y-6'>
@@ -45,6 +46,7 @@ export const SaleForm = () => {
                 label='Sub Total'
                 placeholder='42.5'
                 type='number'
+                required
               />
 
               <RHFInput
@@ -52,6 +54,7 @@ export const SaleForm = () => {
                 label='Descuento'
                 placeholder='5'
                 type='number'
+                required
               />
 
               <RHFInput
@@ -59,6 +62,7 @@ export const SaleForm = () => {
                 label='Total'
                 placeholder='37.5'
                 type='number'
+                required
               />
             </div>
           </div>

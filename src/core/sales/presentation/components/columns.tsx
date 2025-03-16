@@ -1,6 +1,6 @@
 'use client'
 
-import { ColumnDef } from '@tanstack/react-table'
+import { ColumnDef, Row } from '@tanstack/react-table'
 import { Sale } from '../../models/res/sale'
 import { formatMoney } from '@/common/utils/money-formatter'
 import { DataTableRowActions } from '@/components/table/data-table-row-actions'
@@ -8,6 +8,17 @@ import { useSaleStore } from '../../context/use-sale-store'
 import { formatDate } from '@/common/utils/date-formatter'
 import { Badge } from '@/ui-components/badge'
 import { getIdentificationTypeLabel } from '@/core/identifications/models/res/identification-type'
+
+const ActionsCell = ({ row }: { row: Row<Sale> }) => {
+  const onOpen = useSaleStore((state) => state.onOpen)
+
+  return (
+    <DataTableRowActions
+      status={row.original.active}
+      onEdit={() => onOpen(row.original)}
+    />
+  )
+}
 
 export const salesColumns: ColumnDef<Sale>[] = [
   {
@@ -70,20 +81,6 @@ export const salesColumns: ColumnDef<Sale>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => {
-      const onOpen = useSaleStore.getState().onOpen
-
-      const toggleStatus = async () => {
-        return true
-      }
-
-      return (
-        <DataTableRowActions
-          status={row.original.active}
-          toggleStatus={toggleStatus}
-          onEdit={() => onOpen(row.original)}
-        />
-      )
-    },
+    cell: ({ row }) => <ActionsCell row={row} />,
   },
 ]

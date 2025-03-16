@@ -1,13 +1,30 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 'use client'
 
-import { ColumnDef } from '@tanstack/react-table'
+import { ColumnDef, Row } from '@tanstack/react-table'
 import { ProductWithCategory } from '../../models/res/product'
 import { FlagIndicator } from '@/components/flag-indicator'
 import { formatMoney } from '@/common/utils/money-formatter'
 import { DataTableRowActions } from '@/components/table/data-table-row-actions'
 import { useProductStore } from '../../context/use-product-store'
 import { useToggleProductStatus } from '../../hooks/use-products-service'
+
+const ActionsCell = ({ row }: { row: Row<ProductWithCategory> }) => {
+  const onOpen = useProductStore((state) => state.onOpen)
+  const { mutateAsync } = useToggleProductStatus(row.original.id)
+
+  const toggleStatus = async () => {
+    const status = await mutateAsync()
+    return status
+  }
+
+  return (
+    <DataTableRowActions
+      status={row.original.active}
+      toggleStatus={toggleStatus}
+      onEdit={() => onOpen(row.original)}
+    />
+  )
+}
 
 export const productsColumns: ColumnDef<ProductWithCategory>[] = [
   {
@@ -47,22 +64,6 @@ export const productsColumns: ColumnDef<ProductWithCategory>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => {
-      const onOpen = useProductStore.getState().onOpen
-      const { mutateAsync } = useToggleProductStatus(row.original.id)
-
-      const toggleStatus = async () => {
-        const status = await mutateAsync()
-        return status
-      }
-
-      return (
-        <DataTableRowActions
-          status={row.original.active}
-          toggleStatus={toggleStatus}
-          onEdit={() => onOpen(row.original)}
-        />
-      )
-    },
+    cell: ({ row }) => <ActionsCell row={row} />,
   },
 ]

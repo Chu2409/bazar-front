@@ -32,7 +32,7 @@ const InventoryView = ({
         </DataContainer>
 
         {isOpen && (
-          <DetailsContainer onClose={onClose}>
+          <DetailsContainer title='Detalles del inventario' onClose={onClose}>
             <InventoryForm />
           </DetailsContainer>
         )}

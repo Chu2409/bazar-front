@@ -28,7 +28,7 @@ const CustomersView = ({ data }: { data: IApiPaginatedRes<Customer> }) => {
         </DataContainer>
 
         {isOpen && (
-          <DetailsContainer onClose={onClose}>
+          <DetailsContainer title='Detalles del cliente' onClose={onClose}>
             <CustomerForm />
           </DetailsContainer>
         )}

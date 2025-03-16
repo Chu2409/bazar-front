@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 const schema = z.object({
   username: z
     .string({ message: 'Ingresa tu usuario' })
-    .min(5, { message: 'Mínimo 6 caracteres' }),
+    .min(5, { message: 'Mínimo 5 caracteres' }),
   password: z
     .string({
       message: 'Ingresa tu contraseña',
@@ -24,8 +24,7 @@ export const useAuthForm = () => {
 
   useEffect(() => {
     router.prefetch('/products')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [router])
 
   const form = useForm<FormFields>({
     resolver: zodResolver(schema),

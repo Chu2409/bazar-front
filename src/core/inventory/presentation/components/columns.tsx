@@ -1,13 +1,29 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 'use client'
 
-import { ColumnDef } from '@tanstack/react-table'
+import { ColumnDef, Row } from '@tanstack/react-table'
 import { FlagIndicator } from '@/components/flag-indicator'
 import { DataTableRowActions } from '@/components/table/data-table-row-actions'
 import { useInventoryStore } from '../../context/use-inventory-store'
 import { InventoryWithProductSupplier } from '../../models/res/inventory'
 import { formatMoney } from '@/common/utils/money-formatter'
 import { useInventoryDelete } from '../../hooks/use-inventory-service'
+
+const ActionsCell = ({ row }: { row: Row<InventoryWithProductSupplier> }) => {
+  const onOpen = useInventoryStore((state) => state.onOpen)
+  const { mutateAsync } = useInventoryDelete(row.original.id)
+
+  const onDelete = async () => {
+    const status = await mutateAsync()
+    return status
+  }
+
+  return (
+    <DataTableRowActions
+      onDelete={onDelete}
+      onEdit={() => onOpen(row.original)}
+    />
+  )
+}
 
 export const inventoryColumns: ColumnDef<InventoryWithProductSupplier>[] = [
   {
@@ -53,22 +69,6 @@ export const inventoryColumns: ColumnDef<InventoryWithProductSupplier>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => {
-      const onOpen = useInventoryStore.getState().onOpen
-
-      const { mutateAsync } = useInventoryDelete(row.original.id)
-
-      const onDelete = async () => {
-        const status = await mutateAsync()
-        return status
-      }
-
-      return (
-        <DataTableRowActions
-          onDelete={onDelete}
-          onEdit={() => onOpen(row.original)}
-        />
-      )
-    },
+    cell: ({ row }) => <ActionsCell row={row} />,
   },
 ]

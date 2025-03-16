@@ -53,7 +53,9 @@ const RHFItemsInput = ({
 
   return (
     <div className='flex flex-col gap-3'>
-      <Label className={error ? 'text-red-500' : ''}>{label}</Label>
+      <Label className={error ? 'text-red-500' : ''}>
+        {label} <span className='text-red-500'> *</span>
+      </Label>
 
       <div className='mb-2'>
         <ItemsSelector onChange={handleItemSelect} disabled={disabled} />

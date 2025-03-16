@@ -36,7 +36,7 @@ const ProductsView = ({
         </DataContainer>
 
         {isOpen && (
-          <DetailsContainer onClose={onClose}>
+          <DetailsContainer title='Detalles del producto' onClose={onClose}>
             <ProductForm />
           </DetailsContainer>
         )}

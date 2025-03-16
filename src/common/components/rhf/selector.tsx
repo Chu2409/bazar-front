@@ -23,6 +23,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   name: string
   label: string
   options: IOption[]
+  required?: boolean
   onSearchChange: (value: string) => void
 }
 
@@ -32,6 +33,7 @@ const RHFSelector = ({
   onSearchChange,
   options,
   disabled,
+  required = false,
 }: Props) => {
   const {
     control,
@@ -55,6 +57,8 @@ const RHFSelector = ({
     <div className='grid gap-2'>
       <Label htmlFor={name} className={error ? 'text-red-500' : ''}>
         {label}
+
+        {required && <span className='text-red-500'> *</span>}
       </Label>
 
       <Controller
@@ -98,7 +102,7 @@ const RHFSelector = ({
                         key={`${opt.id}`}
                         onSelect={() => {
                           onChange(opt.id === value ? '' : opt.id)
-                          setOpen(false) // Cierra el popover después de seleccionar
+                          setOpen(false)
                         }}
                         className='cursor-pointer bg-white'
                       >

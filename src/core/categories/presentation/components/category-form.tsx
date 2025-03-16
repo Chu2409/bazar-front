@@ -4,7 +4,7 @@ import { Button } from '@/ui-components/button'
 import { Pencil, Plus } from 'lucide-react'
 import RHFInput from '@/common/components/rhf/input'
 import { FormProvider } from 'react-hook-form'
-import { useCategoryForm } from '../../hooks/use-supplier-form'
+import { useCategoryForm } from '../../hooks/use-categories-form'
 import RHFCheckbox from '@/common/components/rhf/checkbox'
 import { useCategoryStore } from '../../context/use-category-store'
 
@@ -15,7 +15,12 @@ export const CategoryForm = () => {
   return (
     <FormProvider {...form}>
       <form onSubmit={onSubmit} className='grid gap-6 w-full'>
-        <RHFInput name='name' label='Nombre' placeholder='Útiles Escolares' />
+        <RHFInput
+          name='name'
+          label='Nombre'
+          placeholder='Útiles Escolares'
+          required
+        />
 
         <RHFCheckbox
           name='active'

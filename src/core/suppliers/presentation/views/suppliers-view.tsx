@@ -28,7 +28,7 @@ const SuppliersView = ({ data }: { data: IApiPaginatedRes<Supplier> }) => {
         </DataContainer>
 
         {isOpen && (
-          <DetailsContainer onClose={onClose}>
+          <DetailsContainer title='Detalles del proveedor' onClose={onClose}>
             <SupplierForm />
           </DetailsContainer>
         )}

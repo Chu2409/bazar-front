@@ -1,10 +1,8 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useInventoryStore } from '../context/use-inventory-store'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useInventoryCreate, useInventoryUpdate } from './use-inventory-service'
 import { getChangedFields } from '@/common/utils/forms'
 
@@ -51,20 +49,23 @@ export const useInventoryForm = () => {
     resolver: zodResolver(schema),
   })
 
-  const defaultValues: FormFields = {
-    purchasedQty: data?.purchasedQty,
-    stock: data?.stock,
-    unitCost: data?.unitCost,
-    totalCost: data?.totalCost,
-    productId: data?.product.id,
-    supplierId: data?.supplier.id,
-  }
+  // @ts-expect-error - product is possibly undefined
+  const defaultValues: FormFields = useMemo(
+    () => ({
+      purchasedQty: data?.purchasedQty,
+      stock: data?.stock,
+      unitCost: data?.unitCost,
+      totalCost: data?.totalCost,
+      productId: data?.product.id,
+      supplierId: data?.supplier.id,
+    }),
+    [data],
+  )
 
   useEffect(() => {
     form.reset(defaultValues)
     form.clearErrors()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data])
+  }, [defaultValues, form])
 
   const onSubmit = async (values: FormFields) => {
     if (data) {

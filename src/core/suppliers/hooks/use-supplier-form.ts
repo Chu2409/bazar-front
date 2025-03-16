@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useCreateSupplier, useUpdateSupplier } from './use-suppliers-service'
 import { useSupplierStore } from '../context/use-supplier-store'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { getChangedFields } from '@/common/utils/forms'
 
 const schema = z.object({
@@ -23,37 +23,37 @@ const schema = z.object({
 type FormFields = z.infer<typeof schema>
 
 export const useSupplierForm = () => {
-  const supplier = useSupplierStore((state) => state.supplier)
+  const data = useSupplierStore((state) => state.supplier)
   const onClose = useSupplierStore((state) => state.onClose)
 
   const { isPending: createPending, mutateAsync: createProduct } =
     useCreateSupplier()
   const { isPending: updatePending, mutateAsync: updateProduct } =
     // @ts-expect-error - product?.id is possibly undefined
-    useUpdateSupplier(supplier?.id)
+    useUpdateSupplier(data?.id)
 
   const form = useForm<FormFields>({
     resolver: zodResolver(schema),
   })
 
-  const defaultValues: FormFields = {
-    // @ts-expect-error - supplier is possibly undefined
-    name: supplier?.name,
-    phone: supplier?.phone ?? undefined,
-    address: supplier?.address ?? undefined,
-    active: supplier?.active ?? true,
-  }
+  // @ts-expect-error - product is possibly undefined
+  const defaultValues: FormFields = useMemo(
+    () => ({
+      name: data?.name,
+      phone: data?.phone ?? undefined,
+      address: data?.address ?? undefined,
+      active: data?.active ?? true,
+    }),
+    [data],
+  )
 
   useEffect(() => {
     form.reset(defaultValues)
-
     form.clearErrors()
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [supplier])
+  }, [defaultValues, form])
 
   const onSubmit = async (values: FormFields) => {
-    if (supplier) {
+    if (data) {
       const changedFields = getChangedFields(defaultValues, values)
       const updated = await updateProduct(changedFields)
       if (updated) onClose()

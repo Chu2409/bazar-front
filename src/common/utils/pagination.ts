@@ -74,8 +74,7 @@ export const formUrlArrayQuery = ({
 }) => {
   const currentUrl = qs.parse(params.toString())
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
+  // @ts-expect-error FIXME: Object is possibly 'undefined'.
   currentUrl[key] = currentUrl[key] ? Array.of(currentUrl[key], value) : value
 
   return qs.stringifyUrl(
@@ -127,8 +126,7 @@ export const removeValueFromArrayQuery = ({
 
   if (typeof values === 'object') {
     const newValues = values?.filter((value) => value !== valueToRemove)
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+    // @ts-expect-error FIXME: Object is possibly 'undefined'.
     currentUrl[keyToRemove] = Array.of(newValues)
   }
 

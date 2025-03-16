@@ -5,7 +5,7 @@ export class BaseParamsReq {
 
 export function ensureDefaultParams<T extends BaseParamsReq>(params: T): T {
   return {
-    ...new BaseParamsReq(), // Esto establece los defaults
-    ...params, // Sobrescribe con los valores proporcionados
+    ...new BaseParamsReq(),
+    ...params,
   }
 }

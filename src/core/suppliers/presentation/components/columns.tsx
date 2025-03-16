@@ -1,12 +1,29 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 'use client'
 
-import { ColumnDef } from '@tanstack/react-table'
+import { ColumnDef, Row } from '@tanstack/react-table'
 import { Supplier } from '../../models/res/supplier'
 import { FlagIndicator } from '@/components/flag-indicator'
 import { DataTableRowActions } from '@/components/table/data-table-row-actions'
 import { useSupplierStore } from '../../context/use-supplier-store'
 import { useToggleSupplierStatus } from '../../hooks/use-suppliers-service'
+
+const ActionsCell = ({ row }: { row: Row<Supplier> }) => {
+  const onOpen = useSupplierStore((state) => state.onOpen)
+  const { mutateAsync } = useToggleSupplierStatus(row.original.id)
+
+  const toggleStatus = async () => {
+    const status = await mutateAsync()
+    return status
+  }
+
+  return (
+    <DataTableRowActions
+      status={row.original.active}
+      toggleStatus={toggleStatus}
+      onEdit={() => onOpen(row.original)}
+    />
+  )
+}
 
 export const suppliersColumns: ColumnDef<Supplier>[] = [
   {
@@ -35,22 +52,6 @@ export const suppliersColumns: ColumnDef<Supplier>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => {
-      const onOpen = useSupplierStore.getState().onOpen
-      const { mutateAsync } = useToggleSupplierStatus(row.original.id)
-
-      const toggleStatus = async () => {
-        const status = await mutateAsync()
-        return status
-      }
-
-      return (
-        <DataTableRowActions
-          status={row.original.active}
-          toggleStatus={toggleStatus}
-          onEdit={() => onOpen(row.original)}
-        />
-      )
-    },
+    cell: ({ row }) => <ActionsCell row={row} />,
   },
 ]

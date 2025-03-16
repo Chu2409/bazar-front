@@ -46,8 +46,7 @@ export function DataTable<TData, TValue>({
 
   useEffect(() => {
     table.setPageSize(metadata.limit)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [metadata.limit])
+  }, [metadata.limit, table])
 
   return (
     <div className='space-y-4'>

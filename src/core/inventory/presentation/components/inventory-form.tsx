@@ -45,6 +45,7 @@ export const InventoryForm = () => {
             label='Cantidad Comprada'
             type='number'
             placeholder='10'
+            required
           />
 
           <RHFInput name='stock' label='Stock' type='number' placeholder='10' />
@@ -54,6 +55,7 @@ export const InventoryForm = () => {
             label='Costo Unitario'
             type='number'
             placeholder='1.00'
+            required
           />
 
           <RHFInput
@@ -61,6 +63,7 @@ export const InventoryForm = () => {
             label='Costo Total'
             type='number'
             placeholder='1.00'
+            required
           />
         </div>
 
@@ -70,6 +73,7 @@ export const InventoryForm = () => {
           label='Producto'
           placeholder='Selecciona un producto'
           options={products}
+          required
         />
 
         <RHFSearchableSelector
@@ -78,6 +82,7 @@ export const InventoryForm = () => {
           label='Proveedor'
           placeholder='Selecciona un proveedor'
           options={suppliers}
+          required
         />
 
         {data && (

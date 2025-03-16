@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useCreateProduct, useUpdateProduct } from './use-products-service'
 import { useProductStore } from '../context/use-product-store'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { getChangedFields } from '@/common/utils/forms'
 
 const schema = z.object({
@@ -50,42 +50,43 @@ const schema = z.object({
 type FormFields = z.infer<typeof schema>
 
 export const useProductForm = () => {
-  const product = useProductStore((state) => state.product)
+  const data = useProductStore((state) => state.product)
   const onClose = useProductStore((state) => state.onClose)
 
   const { isPending: createPending, mutateAsync: createProduct } =
     useCreateProduct()
   const { isPending: updatePending, mutateAsync: updateProduct } =
     // @ts-expect-error - product?.id is possibly undefined
-    useUpdateProduct(product?.id)
+    useUpdateProduct(data?.id)
 
   const form = useForm<FormFields>({
     resolver: zodResolver(schema),
   })
 
-  const defaultValues = {
-    barcode: product?.barcode ?? undefined,
-    description: product?.description ?? undefined,
-    image: product?.image ?? undefined,
-    name: product?.name,
-    retailPrice: product?.retailPrice,
-    wholesalePrice: product?.wholesalePrice,
-    wholesaleQty: product?.wholesaleQty,
-    minStock: product?.minStock,
-    categoryId: product?.categoryId,
-    active: product?.active ?? true,
-  }
+  // @ts-expect-error - product is possibly undefined
+  const defaultValues: FormFields = useMemo(
+    () => ({
+      barcode: data?.barcode ?? undefined,
+      description: data?.description ?? undefined,
+      image: data?.image ?? undefined,
+      name: data?.name,
+      retailPrice: data?.retailPrice,
+      wholesalePrice: data?.wholesalePrice,
+      wholesaleQty: data?.wholesaleQty,
+      minStock: data?.minStock,
+      categoryId: data?.categoryId,
+      active: data?.active ?? true,
+    }),
+    [data],
+  )
 
   useEffect(() => {
     form.reset(defaultValues)
-
     form.clearErrors()
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [product])
+  }, [defaultValues, form])
 
   const onSubmit = async (values: FormFields) => {
-    if (product) {
+    if (data) {
       const changedFields = getChangedFields(defaultValues, values)
 
       await updateProduct(changedFields)

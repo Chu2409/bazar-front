@@ -28,7 +28,7 @@ const CategoriesView = ({ data }: { data: IApiPaginatedRes<Category> }) => {
         </DataContainer>
 
         {isOpen && (
-          <DetailsContainer onClose={onClose}>
+          <DetailsContainer title='Detalles de la categoría' onClose={onClose}>
             <CategoryForm />
           </DetailsContainer>
         )}

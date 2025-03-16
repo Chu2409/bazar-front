@@ -4,7 +4,7 @@ import { Table } from '@tanstack/react-table'
 
 import { DataTableFacetedFilter } from './data-table-faceted-filter'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { ChangeEvent, useCallback, useState } from 'react'
+import { ChangeEvent, useMemo, useState } from 'react'
 import debounce from 'just-debounce-it'
 import { ITableFilter } from '@/common/types/filters'
 import {
@@ -48,26 +48,26 @@ export function DataTableToolbar<TData>({
     applyFilter(value)
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const applyFilter = useCallback(
-    debounce((value: string) => {
-      let url
-      if (value === '') {
-        url = removeValueFromQuery({
-          params: searchParams,
-          key: 'search',
-        })
-      } else {
-        url = formUrlQuery({
-          params: searchParams,
-          key: 'search',
-          value,
-        })
-      }
+  const applyFilter = useMemo(
+    () =>
+      debounce((value: string) => {
+        let url
+        if (value === '') {
+          url = removeValueFromQuery({
+            params: searchParams,
+            key: 'search',
+          })
+        } else {
+          url = formUrlQuery({
+            params: searchParams,
+            key: 'search',
+            value,
+          })
+        }
 
-      replace(url, { scroll: false })
-    }, 500),
-    [],
+        replace(url, { scroll: false })
+      }, 500),
+    [replace, searchParams],
   )
 
   const handleClearFilters = () => {

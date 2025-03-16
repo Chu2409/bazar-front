@@ -14,7 +14,7 @@ export const useCategoriesFindAll = (params: CategoriesFiltersDto) => {
         limit: params.limit,
         search: params.search,
         status: params.status,
-      }) || [],
+      }),
     placeholderData: (previousData) => previousData,
   })
 }

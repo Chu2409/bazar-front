@@ -1,12 +1,9 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useCreateCustomer, useUpdateCustomer } from './use-customers-service'
 import { useCustomerStore } from '../context/use-customer-store'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { getChangedFields } from '@/common/utils/forms'
 
 const schema = z.object({
@@ -95,28 +92,31 @@ export const useCustomerForm = () => {
     resolver: zodResolver(schema),
   })
 
-  const defaultValues: FormFields = {
-    person: {
-      email: data?.person.email,
-      firstName: data?.person.firstName,
-      firstSurname: data?.person.firstSurname,
-      secondName: data?.person.secondName ?? undefined,
-      secondSurname: data?.person.secondSurname ?? undefined,
-      phoneNumbers:
-        data?.person.phoneNumbers.map((phone) => ({
-          value: phone,
-        })) ?? [],
-      identifications: data?.person.identifications,
-    },
-    address: data?.address ?? undefined,
-    active: data?.active ?? true,
-  }
+  // @ts-expect-error - product is possibly undefined
+  const defaultValues: FormFields = useMemo(
+    () => ({
+      person: {
+        email: data?.person.email,
+        firstName: data?.person.firstName,
+        firstSurname: data?.person.firstSurname,
+        secondName: data?.person.secondName ?? undefined,
+        secondSurname: data?.person.secondSurname ?? undefined,
+        phoneNumbers:
+          data?.person.phoneNumbers.map((phone) => ({
+            value: phone,
+          })) ?? [],
+        identifications: data?.person.identifications,
+      },
+      address: data?.address ?? undefined,
+      active: data?.active ?? true,
+    }),
+    [data],
+  )
 
   useEffect(() => {
     form.reset(defaultValues)
     form.clearErrors()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data])
+  }, [defaultValues, form])
 
   const onSubmit = async (values: FormFields) => {
     const valuesForm = {

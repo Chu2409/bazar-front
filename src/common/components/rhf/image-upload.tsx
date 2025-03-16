@@ -15,9 +15,15 @@ interface Props {
   name: string
   label: string
   disabled?: boolean
+  required?: boolean
 }
 
-const RHFImageUpload: React.FC<Props> = ({ name, label, disabled }) => {
+const RHFImageUpload: React.FC<Props> = ({
+  name,
+  label,
+  disabled,
+  required,
+}) => {
   const {
     control,
     formState: { errors },
@@ -29,6 +35,7 @@ const RHFImageUpload: React.FC<Props> = ({ name, label, disabled }) => {
     <div className='grid gap-2'>
       <Label htmlFor={name} className={error ? 'text-red-500' : ''}>
         {label}
+        {required && <span className='text-red-500'> *</span>}
       </Label>
 
       <Controller

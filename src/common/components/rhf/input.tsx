@@ -10,6 +10,7 @@ import { getError } from '@/common/utils/forms'
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   name: string
   label: string
+  required?: boolean
 }
 
 const RHFInput = ({
@@ -20,6 +21,7 @@ const RHFInput = ({
   disabled,
   value: inputValue,
   placeholder,
+  required,
 }: Props) => {
   const [showPassword, setShowPassword] = useState(false)
 
@@ -34,6 +36,7 @@ const RHFInput = ({
     <div className='flex flex-col gap-2'>
       <Label htmlFor={name} className={error ? 'text-red-500' : ''}>
         {label}
+        {required && <span className='text-red-500'> *</span>}
       </Label>
 
       <Controller

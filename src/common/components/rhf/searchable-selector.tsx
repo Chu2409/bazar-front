@@ -9,6 +9,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   label: string
   options: IOption[]
   onSearchChange: (value: string) => void
+  required?: boolean
 }
 
 const RHFSearchableSelector = ({
@@ -17,6 +18,7 @@ const RHFSearchableSelector = ({
   onSearchChange,
   options,
   disabled,
+  required = false,
 }: Props) => {
   const {
     control,
@@ -29,6 +31,7 @@ const RHFSearchableSelector = ({
     <div className='grid gap-2'>
       <Label htmlFor={name} className={error ? 'text-red-500' : ''}>
         {label}
+        {required && <span className='text-red-500'> *</span>}
       </Label>
 
       <Controller

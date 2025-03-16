@@ -37,7 +37,6 @@ const RHFIdentificationArray = ({
   const {
     control,
     formState: { errors },
-    getValues,
     trigger,
   } = useFormContext()
 
@@ -72,7 +71,9 @@ const RHFIdentificationArray = ({
 
   return (
     <div className='flex flex-col gap-3'>
-      <Label className={error ? 'text-red-500' : ''}>{label}</Label>
+      <Label className={error ? 'text-red-500' : ''}>
+        {label} <span className='text-red-500'> *</span>
+      </Label>
 
       <div className='space-y-3'>
         {fields.map((field, index) => {
@@ -81,15 +82,6 @@ const RHFIdentificationArray = ({
 
           const typeError = getError(typeErrorPath, errors)
           const valueError = getError(valueErrorPath, errors)
-
-          // Solo mostrar errores si no es el último campo o tiene contenido
-          const isLastAndEmpty =
-            index === fields.length - 1 &&
-            !getValues(`${name}.${index}.type`) &&
-            !getValues(`${name}.${index}.value`)
-
-          const showTypeError = typeError && !isLastAndEmpty
-          const showValueError = valueError && !isLastAndEmpty
 
           return (
             <div key={field.id} className='flex flex-col gap-2'>
@@ -119,7 +111,7 @@ const RHFIdentificationArray = ({
                         <SelectTrigger
                           className={cn(
                             'w-full bg-background',
-                            showTypeError ? 'border-red-500' : '',
+                            typeError ? 'border-red-500' : '',
                           )}
                         >
                           <SelectValue placeholder='Tipo' />
@@ -134,7 +126,7 @@ const RHFIdentificationArray = ({
                       </Select>
                     )}
                   />
-                  {showTypeError && (
+                  {typeError && (
                     <p className='text-red-500 text-xs italic mt-1'>
                       {typeError}
                     </p>
@@ -160,14 +152,14 @@ const RHFIdentificationArray = ({
                         }}
                         className={cn(
                           'w-full bg-background',
-                          showValueError ? 'border-red-500' : '',
+                          valueError ? 'border-red-500' : '',
                         )}
                         placeholder='Número de documento'
                         disabled={disabled}
                       />
                     )}
                   />
-                  {showValueError && (
+                  {valueError && (
                     <p className='text-red-500 text-xs italic mt-1'>
                       {valueError}
                     </p>

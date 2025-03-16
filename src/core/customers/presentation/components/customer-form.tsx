@@ -21,6 +21,7 @@ export const CustomerForm = () => {
           <RHFInput
             name='person.firstName'
             label='1er Nombre'
+            required
             placeholder='Erick'
           />
 
@@ -34,6 +35,7 @@ export const CustomerForm = () => {
             name='person.firstSurname'
             label='1er Apellido'
             placeholder='Zhu'
+            required
           />
 
           <RHFInput
@@ -57,6 +59,7 @@ export const CustomerForm = () => {
         />
 
         <RHFInput
+          required
           name='person.email'
           label='Correo'
           placeholder='dzhu2409@gmail.com'

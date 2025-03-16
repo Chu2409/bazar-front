@@ -1,12 +1,29 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 'use client'
 
-import { ColumnDef } from '@tanstack/react-table'
+import { ColumnDef, Row } from '@tanstack/react-table'
 import { FlagIndicator } from '@/components/flag-indicator'
 import { DataTableRowActions } from '@/components/table/data-table-row-actions'
 import { useCategoryStore } from '../../context/use-category-store'
 import { useToggleCategoryStatus } from '../../hooks/use-categories-service'
 import { Category } from '../../models/res/category'
+
+const ActionsCell = ({ row }: { row: Row<Category> }) => {
+  const onOpen = useCategoryStore((state) => state.onOpen)
+  const { mutateAsync } = useToggleCategoryStatus(row.original.id)
+
+  const toggleStatus = async () => {
+    const status = await mutateAsync()
+    return status
+  }
+
+  return (
+    <DataTableRowActions
+      status={row.original.active}
+      toggleStatus={toggleStatus}
+      onEdit={() => onOpen(row.original)}
+    />
+  )
+}
 
 export const categoriesColumns: ColumnDef<Category>[] = [
   {
@@ -27,22 +44,6 @@ export const categoriesColumns: ColumnDef<Category>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => {
-      const onOpen = useCategoryStore.getState().onOpen
-      const { mutateAsync } = useToggleCategoryStatus(row.original.id)
-
-      const toggleStatus = async () => {
-        const status = await mutateAsync()
-        return status
-      }
-
-      return (
-        <DataTableRowActions
-          status={row.original.active}
-          toggleStatus={toggleStatus}
-          onEdit={() => onOpen(row.original)}
-        />
-      )
-    },
+    cell: ({ row }) => <ActionsCell row={row} />,
   },
 ]

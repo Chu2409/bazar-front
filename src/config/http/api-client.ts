@@ -52,36 +52,24 @@ class ApiClient {
 
       ApiClient.instance.interceptors.response.use(
         (response: AxiosResponse<IApiRes<unknown>>) => {
-          // console.log('📡 Axios Response:', response.data)
           showResponseToast(response.data)
           return response
         },
         async (error: AxiosError<IApiRes<unknown>>) => {
-          // console.log('📡 Axios Error:', error.response?.data)
-
-          // Si hay una respuesta del servidor, significa que el servidor respondió con un error HTTP
           if (error.response) {
-            // Caso específico de autenticación
             if (error.response.status === 401) {
               await removeToken()
               const clearUser = useAuthStore.getState().clearUser
               clearUser()
               showErrorToast('Vuelve a iniciar sesión')
               redirect('/sign-in')
-            }
-            // Para todos los demás casos donde el servidor respondió con un formato válido
-            else if (error.response.data) {
+            } else if (error.response.data) {
               showResponseToast(error.response.data)
-              // Retornamos la respuesta para que pueda ser manejada por el código que hizo la petición
               return Promise.resolve(error.response)
             }
-          }
-          // Error de red o timeout
-          else if (error.request) {
+          } else if (error.request) {
             showErrorToast('Error de conexión con el servidor')
-          }
-          // Otros errores
-          else {
+          } else {
             showErrorToast('Error al procesar la solicitud')
           }
 

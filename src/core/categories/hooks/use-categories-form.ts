@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useCreateCategory, useUpdateCategory } from './use-categories-service'
 import { useCategoryStore } from '../context/use-category-store'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { getChangedFields } from '@/common/utils/forms'
 
 const schema = z.object({
@@ -29,19 +29,19 @@ export const useCategoryForm = () => {
     resolver: zodResolver(schema),
   })
 
-  const defaultValues: FormFields = {
-    // @ts-expect-error - data is possibly undefined
-    name: data?.name,
-    active: data?.active ?? true,
-  }
+  // @ts-expect-error - product is possibly undefined
+  const defaultValues: FormFields = useMemo(
+    () => ({
+      name: data?.name,
+      active: data?.active ?? true,
+    }),
+    [data],
+  )
 
   useEffect(() => {
     form.reset(defaultValues)
-
     form.clearErrors()
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data])
+  }, [defaultValues, form])
 
   const onSubmit = async (values: FormFields) => {
     if (data) {

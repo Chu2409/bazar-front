@@ -17,7 +17,7 @@ export const categoriesApi = {
       },
     )
 
-    return response.data
+    return response.data!
   },
 
   async getBySearch(params: CategoriesFiltersDto) {
@@ -54,6 +54,6 @@ export const categoriesApi = {
       data,
     )
 
-    return response
+    return response.data
   },
 }

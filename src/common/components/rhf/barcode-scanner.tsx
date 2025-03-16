@@ -10,9 +10,15 @@ import { getError } from '@/common/utils/forms'
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string
   label: string
+  required?: boolean
 }
 
-const RHFBarcodeScanner = ({ name, label, placeholder }: Props) => {
+const RHFBarcodeScanner = ({
+  name,
+  label,
+  placeholder,
+  required = false,
+}: Props) => {
   const {
     control,
     setValue,
@@ -37,7 +43,7 @@ const RHFBarcodeScanner = ({ name, label, placeholder }: Props) => {
           webcamRef.current.video,
         )
 
-        setValue(name, result.getText())
+        setValue(name, result.getText(), { shouldDirty: true })
         setScanning(false)
       } catch (error) {
         if (!(error instanceof NotFoundException)) {
@@ -46,13 +52,13 @@ const RHFBarcodeScanner = ({ name, label, placeholder }: Props) => {
     }
 
     startScanning()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scanning])
+  }, [name, scanning, setValue])
 
   return (
     <div className='flex flex-col gap-2'>
       <Label htmlFor={name} className={errors[name] ? 'text-red-500' : ''}>
         {label}
+        {required && <span className='text-red-500'> *</span>}
       </Label>
       <Controller
         control={control}
