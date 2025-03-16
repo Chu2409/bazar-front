@@ -14,7 +14,6 @@ export const useInventoryFindAll = (params: InventoryFiltersDto) => {
         limit: params.limit,
         search: params.search,
         status: params.status,
-        barcode: params.barcode,
         categoryId: params.categoryId,
       }) || [],
     placeholderData: (previousData) => previousData,

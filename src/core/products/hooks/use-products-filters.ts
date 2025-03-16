@@ -1,10 +1,14 @@
 import { IOption, ITableFilter } from '@/common/types/filters'
-import { useCategoriesFindAll } from '@/core/categories/hooks/use-categories-service'
+import { useGetBySearchCategories } from '@/core/categories/hooks/use-categories-service'
+import { useState } from 'react'
 
-export const useProductsFilters = (): ITableFilter[] => {
-  const { data: categories } = useCategoriesFindAll({})
+export const useProductsFilters = () => {
+  const [categoriesSearch, setCategoriesSearch] = useState<string>('')
+  const { data: categories } = useGetBySearchCategories({
+    search: categoriesSearch,
+  })
   const categoriesMap: IOption[] =
-    categories?.records.map((category) => ({
+    categories?.map((category) => ({
       id: category.id,
       label: category.name,
     })) || []
@@ -19,5 +23,8 @@ export const useProductsFilters = (): ITableFilter[] => {
     },
   ]
 
-  return filters
+  return {
+    filters,
+    setCategoriesSearch,
+  }
 }

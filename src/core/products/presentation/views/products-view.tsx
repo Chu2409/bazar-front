@@ -19,7 +19,7 @@ const ProductsView = ({
   const onClose = useProductStore((state) => state.onClose)
   const onOpen = useProductStore((state) => state.onOpen)
 
-  const filters = useProductsFilters()
+  const { filters } = useProductsFilters()
 
   return (
     <>

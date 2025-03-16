@@ -19,7 +19,7 @@ import {
 } from '@/ui-components/table'
 import { IApiPaginatedRes } from '@/config/http/api-response'
 import { ITableFilter } from '@/common/types/filters'
-import { useEffect } from 'react'
+import { useEffect, ReactNode } from 'react'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -28,6 +28,16 @@ interface DataTableProps<TData, TValue> {
   filters?: ITableFilter[]
   enableViewOptions?: boolean
   enableStatusFilter?: boolean
+  // Nueva prop para personalizar el toolbar
+  customToolbar?:
+    | ReactNode
+    | ((props: {
+        table: ReturnType<typeof useReactTable>
+        filters?: ITableFilter[]
+        inputFilterKey?: string
+        enableViewOptions?: boolean
+        enableStatusFilter?: boolean
+      }) => ReactNode)
 }
 
 export function DataTable<TData, TValue>({
@@ -37,6 +47,7 @@ export function DataTable<TData, TValue>({
   filters,
   enableViewOptions = true,
   enableStatusFilter = true,
+  customToolbar, // Añadimos la nueva prop
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data: records,
@@ -48,8 +59,27 @@ export function DataTable<TData, TValue>({
     table.setPageSize(metadata.limit)
   }, [metadata.limit, table])
 
-  return (
-    <div className='space-y-4'>
+  // Renderizado condicional del toolbar
+  const renderToolbar = () => {
+    // Si se proporciona un customToolbar
+    if (customToolbar) {
+      // Si es una función, llamarla con los props necesarios
+      if (typeof customToolbar === 'function') {
+        return customToolbar({
+          // @ts-expect-error table no tiene un tipo definido
+          table,
+          filters,
+          inputFilterKey,
+          enableViewOptions,
+          enableStatusFilter,
+        })
+      }
+      // Si es un ReactNode, renderizarlo directamente
+      return customToolbar
+    }
+
+    // Si no se proporciona customToolbar, usar el toolbar predeterminado
+    return (
       <DataTableToolbar
         table={table}
         filters={filters}
@@ -57,6 +87,12 @@ export function DataTable<TData, TValue>({
         enableViewOptions={enableViewOptions}
         enableStatusFilter={enableStatusFilter}
       />
+    )
+  }
+
+  return (
+    <div className='space-y-4'>
+      {renderToolbar()}
 
       <div className='rounded-md border'>
         <Table>

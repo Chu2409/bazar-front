@@ -14,8 +14,6 @@ export const useProductsFindAll = (params: ProductsFiltersDto) => {
         page: params.page,
         limit: params.limit,
         search: params.search,
-        order: params.order,
-        sort: params.sort,
         status: params.status,
       }) || [],
     placeholderData: (previousData) => previousData,

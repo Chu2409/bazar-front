@@ -9,12 +9,9 @@ export const useFindAllSales = (params: SalesFiltersDto) => {
     queryKey: ['sales', params],
     queryFn: () =>
       salesApi.findAll({
-        categoryId: params.categoryId,
         page: params.page,
         limit: params.limit,
         search: params.search,
-        order: params.order,
-        sort: params.sort,
       }) || [],
     placeholderData: (previousData) => previousData,
   })

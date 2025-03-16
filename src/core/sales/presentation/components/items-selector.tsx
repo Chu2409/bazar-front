@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useCallback } from 'react'
 import { ChevronsUpDown } from 'lucide-react'
 import debounce from 'just-debounce-it'
 import {
@@ -33,19 +33,22 @@ export function ItemsSelector({ onChange, disabled = false }: Props) {
     search: searchValue,
   })
 
-  const debouncedSearch = useMemo(
-    () =>
-      debounce((value: string) => {
-        setSearchValue(value)
-      }, 600),
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedSearch = useCallback(
+    debounce((value: string) => {
+      setSearchValue(value)
+    }, 600),
     [setSearchValue],
   )
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target
-    setInputValue(value)
-    debouncedSearch(value)
-  }
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { value } = event.target
+      setInputValue(value)
+      debouncedSearch(value)
+    },
+    [debouncedSearch],
+  )
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
