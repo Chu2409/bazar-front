@@ -10,9 +10,12 @@ const schema = z.object({
   subTotal: z.coerce.number({ message: 'Ingresa el subtotal' }).min(0, {
     message: 'Mínimo 0',
   }),
-  discount: z.coerce.number({ message: 'Ingresa el descuento' }).min(0, {
-    message: 'Mínimo 0',
-  }),
+  discount: z.coerce
+    .number({ message: 'Ingresa el descuento' })
+    .min(0, {
+      message: 'Mínimo 0',
+    })
+    .optional(),
   total: z.coerce.number({ message: 'Ingresa el total' }).min(0, {
     message: 'Mínimo 0',
   }),
@@ -58,10 +61,10 @@ export const useSaleForm = () => {
       subTotal: data?.subTotal,
       discount: data?.discount,
       total: data?.total,
-      customerId: data?.customerId,
+      customerId: data?.customer.id,
       items:
         data?.items.map((item) => ({
-          inventoryId: item.inventoryId,
+          inventoryId: item.inventory.id,
           qty: item.qty,
           unitPrice: item.unitPrice,
           itemLabel: item.inventory.product.name,

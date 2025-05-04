@@ -40,7 +40,7 @@ export const categoriesApi = {
   },
 
   async create(data: CategoryDto) {
-    const response = await apiClient.post<Category>(
+    const response = await apiClient.post<boolean>(
       CATEGORIES_API_ROUTES.CREATE,
       data,
     )
@@ -49,7 +49,7 @@ export const categoriesApi = {
   },
 
   async update(id: number, data: Partial<CategoryDto>) {
-    const response = await apiClient.patch<Category>(
+    const response = await apiClient.patch<boolean>(
       CATEGORIES_API_ROUTES.UPDATE(id),
       data,
     )

@@ -17,7 +17,7 @@ interface DataTableRowActionsProps {
   status?: boolean
   toggleStatus?: () => Promise<boolean | null>
   onEdit: () => void
-  onDelete?: () => Promise<object | null>
+  onDelete?: () => Promise<boolean>
 }
 
 export function DataTableRowActions({

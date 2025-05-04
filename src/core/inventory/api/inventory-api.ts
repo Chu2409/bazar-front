@@ -3,10 +3,7 @@ import { INVENTORY_API_ROUTES } from '../constants/inventory-api-routes'
 import { IApiPaginatedRes } from '@/config/http/api-response'
 import { InventoryFiltersDto } from '../models/req/inventories-filters.dto'
 import { ensureDefaultParams } from '@/common/models/base-params-dto'
-import {
-  InventoryWithProduct,
-  InventoryWithProductSupplier,
-} from '../models/res/inventory'
+import { InventoryWithProductSupplier } from '../models/res/inventory'
 import { InventoryDto } from '../models/req/inventory.dto'
 import { InventorySearchDto } from '../models/req/inventories-search.dto'
 
@@ -24,7 +21,7 @@ export const inventoryApi = {
   },
 
   async delete(id: number) {
-    const response = await apiClient.delete<object>(
+    const response = await apiClient.delete<boolean>(
       INVENTORY_API_ROUTES.DELETE(id),
     )
 
@@ -32,7 +29,7 @@ export const inventoryApi = {
   },
 
   async getBySearch(params: InventorySearchDto) {
-    const response = await apiClient.get<InventoryWithProduct[]>(
+    const response = await apiClient.get<InventoryWithProductSupplier[]>(
       INVENTORY_API_ROUTES.GET_BY_SEARCH,
       {
         params,
@@ -43,7 +40,7 @@ export const inventoryApi = {
   },
 
   async create(data: InventoryDto) {
-    const response = await apiClient.post<InventoryWithProductSupplier>(
+    const response = await apiClient.post<boolean>(
       INVENTORY_API_ROUTES.CREATE,
       data,
     )
@@ -52,7 +49,7 @@ export const inventoryApi = {
   },
 
   async update(id: number, data: Partial<InventoryDto>) {
-    const response = await apiClient.patch<InventoryWithProductSupplier>(
+    const response = await apiClient.patch<boolean>(
       INVENTORY_API_ROUTES.UPDATE(id),
       data,
     )

@@ -14,7 +14,7 @@ const ActionsCell = ({ row }: { row: Row<InventoryWithProductSupplier> }) => {
 
   const onDelete = async () => {
     const status = await mutateAsync()
-    return status
+    return status!
   }
 
   return (

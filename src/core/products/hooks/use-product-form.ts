@@ -74,7 +74,7 @@ export const useProductForm = () => {
       wholesalePrice: data?.wholesalePrice,
       wholesaleQty: data?.wholesaleQty,
       minStock: data?.minStock,
-      categoryId: data?.categoryId,
+      categoryId: data?.category.id,
       active: data?.active ?? true,
     }),
     [data],

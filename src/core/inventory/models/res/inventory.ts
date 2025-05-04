@@ -10,8 +10,6 @@ export interface Inventory {
   stock: number
   unitCost: number
   totalCost: number
-  productId: number
-  supplierId: number
 }
 
 export interface InventoryWithProductSupplier extends Inventory {

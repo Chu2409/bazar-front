@@ -8,7 +8,6 @@ export interface Sale {
   discount: number
   total: number
   active: boolean
-  customerId: number
   customer: Customer
   items: Item[]
 }

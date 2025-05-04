@@ -4,7 +4,5 @@ export interface Item {
   id: number
   qty: number
   unitPrice: number
-  inventoryId: number
-  saleId: number
   inventory: InventoryWithProduct
 }

@@ -11,7 +11,6 @@ export interface Product {
   minStock: number
   image: string | null
   active: boolean
-  categoryId: number
 }
 
 export interface ProductWithCategory extends Product {

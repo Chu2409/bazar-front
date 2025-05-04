@@ -46,6 +46,7 @@ export const SaleForm = () => {
                 label='Sub Total'
                 placeholder='42.5'
                 type='number'
+                disabled
                 required
               />
 
@@ -53,14 +54,15 @@ export const SaleForm = () => {
                 name='discount'
                 label='Descuento'
                 placeholder='5'
+                min={0}
                 type='number'
-                required
               />
 
               <RHFInput
                 name='total'
                 label='Total'
                 placeholder='37.5'
+                disabled
                 type='number'
                 required
               />

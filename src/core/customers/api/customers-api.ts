@@ -41,7 +41,7 @@ export const customersApi = {
   },
 
   async create(data: CustomerDto) {
-    const response = await apiClient.post<Customer>(
+    const response = await apiClient.post<boolean>(
       CUSTOMERS_API_ROUTES.CREATE,
       data,
     )
@@ -50,11 +50,11 @@ export const customersApi = {
   },
 
   async update(id: number, data: Partial<CustomerDto>) {
-    const response = await apiClient.patch<Customer>(
+    const response = await apiClient.patch<boolean>(
       CUSTOMERS_API_ROUTES.UPDATE(id),
       data,
     )
 
-    return response
+    return response.data
   },
 }

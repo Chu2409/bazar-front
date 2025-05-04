@@ -21,7 +21,7 @@ export const salesApi = {
   },
 
   async create(product: SaleDto) {
-    const response = await apiClient.post<Sale>(
+    const response = await apiClient.post<boolean>(
       SALES_API_ROUTES.CREATE,
       product,
     )
@@ -30,7 +30,7 @@ export const salesApi = {
   },
 
   async update(id: number, product: Partial<SaleDto>) {
-    const response = await apiClient.patch<Sale>(
+    const response = await apiClient.patch<boolean>(
       SALES_API_ROUTES.UPDATE(id),
       product,
     )

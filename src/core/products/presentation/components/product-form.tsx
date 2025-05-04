@@ -10,7 +10,6 @@ import RHFCheckbox from '@/common/components/rhf/checkbox'
 import RHFImageUpload from '@/common/components/rhf/image-upload'
 import { useProductStore } from '../../context/use-product-store'
 import { useGetBySearchCategories } from '@/core/categories/hooks/use-categories-service'
-import RHFBarcodeScanner from '@/common/components/rhf/barcode-scanner'
 import { useMemo, useState } from 'react'
 import RHFSearchableSelector from '@/common/components/rhf/searchable-selector'
 
@@ -39,11 +38,11 @@ export const ProductForm = () => {
             required
           />
 
-          <RHFBarcodeScanner
+          {/* <RHFBarcodeScanner
             name='barcode'
             label='Código de barras'
             placeholder='Escanea o ingresa el código'
-          />
+          /> */}
         </div>
 
         <RHFInput
