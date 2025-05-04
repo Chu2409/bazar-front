@@ -68,6 +68,7 @@ export const useSaleForm = () => {
           qty: item.qty,
           unitPrice: item.unitPrice,
           itemLabel: item.inventory.product.name,
+          maxQty: item.inventory.stock + item.qty,
         })) ?? [],
     }),
     [data],

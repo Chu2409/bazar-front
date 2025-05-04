@@ -48,6 +48,7 @@ const RHFItemsInput = ({
       itemLabel: value.product.name,
       qty: 1,
       unitPrice: value.product.retailPrice,
+      maxQty: value.stock,
     })
   }
 
@@ -116,6 +117,7 @@ const RHFItemsInput = ({
                             'w-full bg-background',
                             quantityError ? 'border-red-500' : '',
                           )}
+                          max={field.maxQty}
                           placeholder='Cantidad'
                           disabled={disabled}
                         />
