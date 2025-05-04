@@ -54,6 +54,6 @@ export const inventoryApi = {
       data,
     )
 
-    return response
+    return response.data
   },
 }

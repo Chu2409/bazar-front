@@ -23,12 +23,15 @@ export const useToggleCustomerStatus = (id: number) => {
   return useMutation({
     mutationKey: ['customers', id],
     mutationFn: async () => {
-      const status = await customersApi.toggleStatus(id)
-      queryClient.invalidateQueries({
-        queryKey: ['customers'],
-      })
+      const updated = await customersApi.toggleStatus(id)
 
-      return status
+      if (updated === true) {
+        await queryClient.invalidateQueries({
+          queryKey: ['customers'],
+        })
+      }
+
+      return updated === true
     },
   })
 }
@@ -49,12 +52,12 @@ export const useCreateCustomer = () => {
     mutationKey: ['customers'],
     mutationFn: async (data: CustomerDto) => {
       const created = await customersApi.create(data)
-      if (created)
+      if (created === true)
         queryClient.invalidateQueries({
           queryKey: ['customers'],
         })
 
-      return created
+      return created === true
     },
   })
 }
@@ -64,11 +67,14 @@ export const useUpdateCustomer = (id: number) => {
     mutationKey: ['customers', id],
     mutationFn: async (data: Partial<CustomerDto>) => {
       const updated = await customersApi.update(id, data)
-      queryClient.invalidateQueries({
-        queryKey: ['customers'],
-      })
 
-      return updated
+      if (updated === true) {
+        queryClient.invalidateQueries({
+          queryKey: ['customers'],
+        })
+      }
+
+      return updated === true
     },
   })
 }

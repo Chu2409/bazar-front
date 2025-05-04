@@ -33,7 +33,7 @@ export const suppliersApi = {
   },
 
   async toggleStatus(id: number) {
-    const response = await apiClient.patch<boolean>(
+    const response = await apiClient.patch<boolean | null>(
       SUPPLIERS_API_ROUTES.TOGGLE_STATUS(id),
     )
 
@@ -41,7 +41,7 @@ export const suppliersApi = {
   },
 
   async create(supplier: SupplierDto) {
-    const response = await apiClient.post<Supplier>(
+    const response = await apiClient.post<boolean | null>(
       SUPPLIERS_API_ROUTES.CREATE,
       supplier,
     )
@@ -50,11 +50,11 @@ export const suppliersApi = {
   },
 
   async update(id: number, supplier: Partial<SupplierDto>) {
-    const response = await apiClient.patch<Supplier>(
+    const response = await apiClient.patch<boolean | null>(
       SUPPLIERS_API_ROUTES.UPDATE(id),
       supplier,
     )
 
-    return response
+    return response.data
   },
 }

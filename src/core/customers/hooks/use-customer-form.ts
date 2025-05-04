@@ -8,30 +8,37 @@ import { getChangedFields } from '@/common/utils/forms'
 
 const schema = z.object({
   person: z.object({
-    email: z.string({ message: 'Ingresa el correo del cliente' }).email({
-      message: 'Correo inválido',
-    }),
+    email: z
+      .string({ message: 'Ingresa el correo del cliente' })
+      .email({
+        message: 'Correo inválido',
+      })
+      .trim(),
     firstName: z
       .string({ message: 'Ingresa el 1er nombre del cliente' })
       .min(2, {
         message: 'Mínimo 2 caracteres',
-      }),
+      })
+      .trim(),
     secondName: z
       .string({ message: 'Ingresa el 2do nombre del cliente' })
       .min(2, {
         message: 'Mínimo 2 caracteres',
       })
+      .trim()
       .optional(),
     firstSurname: z
       .string({ message: 'Ingresa el 1er apellido del cliente' })
       .min(2, {
         message: 'Mínimo 2 caracteres',
-      }),
+      })
+      .trim(),
     secondSurname: z
       .string({ message: 'Ingresa el 2do nombre del cliente' })
       .min(2, {
         message: 'Mínimo 2 caracteres',
       })
+      .trim()
       .optional(),
     phoneNumbers: z.array(
       z.object(
@@ -39,9 +46,10 @@ const schema = z.object({
           value: z
             .string({ message: 'Ingresa el número de teléfono' })
             .regex(/^\d+$/, 'Debe contener solo números')
-            .min(8, {
-              message: 'Mínimo 8 caracteres',
+            .length(10, {
+              message: 'El número de teléfono debe tener 10 dígitos',
             })
+            .trim()
             .transform((val) => (val === '' ? undefined : val)),
         },
         { message: 'Ingresa al menos un número de teléfono' },
@@ -58,7 +66,11 @@ const schema = z.object({
             .regex(/^\d+$/, 'Debe contener solo números')
             .min(9, {
               message: 'Mínimo 9 caracteres',
-            }),
+            })
+            .max(12, {
+              message: 'Máximo 12 caracteres',
+            })
+            .trim(),
           active: z.boolean().default(true),
         }),
       )
@@ -72,6 +84,7 @@ const schema = z.object({
     .min(5, {
       message: 'Mínimo 5 caracteres',
     })
+    .trim()
     .optional(),
   active: z.boolean().default(true),
 })

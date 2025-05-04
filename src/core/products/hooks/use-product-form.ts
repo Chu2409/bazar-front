@@ -11,14 +11,18 @@ const schema = z.object({
     .string({ message: 'Ingrese el código de barras' })
     .regex(/^\d+$/, 'Debe contener solo números')
     .optional(),
-  name: z.string({ message: 'Ingresa el nombre del producto' }).min(5, {
-    message: 'Mínimo 5 caracteres',
-  }),
+  name: z
+    .string({ message: 'Ingresa el nombre del producto' })
+    .min(5, {
+      message: 'Mínimo 5 caracteres',
+    })
+    .trim(),
   description: z
     .string({ message: 'Ingresa la descripcion del producto' })
     .min(5, {
       message: 'Mínimo 5 caracteres',
     })
+    .trim()
     .optional(),
   retailPrice: z.coerce
     .number({ message: 'Ingresa el precio de venta' })
@@ -89,12 +93,12 @@ export const useProductForm = () => {
     if (data) {
       const changedFields = getChangedFields(defaultValues, values)
 
-      await updateProduct(changedFields)
+      const updated = await updateProduct(changedFields)
+      if (updated) onClose()
     } else {
-      await createProduct(values)
+      const created = await createProduct(values)
+      if (created) onClose()
     }
-
-    onClose()
   }
 
   return {

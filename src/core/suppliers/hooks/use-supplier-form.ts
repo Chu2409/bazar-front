@@ -7,15 +7,26 @@ import { useEffect, useMemo } from 'react'
 import { getChangedFields } from '@/common/utils/forms'
 
 const schema = z.object({
-  name: z.string({ message: 'Ingresa el nombre del proveedor' }).min(5, {
-    message: 'Mínimo 5 caracteres',
-  }),
+  name: z
+    .string({ message: 'Ingresa el nombre del proveedor' })
+    .min(5, {
+      message: 'Mínimo 5 caracteres',
+    })
+    .trim(),
   phone: z
     .string({ message: 'Ingresa el número de teléfono del proveedor' })
     .regex(/^\d+$/, 'Debe contener solo números')
+    .length(10, {
+      message: 'El número de teléfono debe tener 10 dígitos',
+    })
+    .trim()
     .optional(),
   address: z
     .string({ message: 'Ingresa la dirección del proveedor' })
+    .min(5, {
+      message: 'Mínimo 5 caracteres',
+    })
+    .trim()
     .optional(),
   active: z.boolean().default(true),
 })
@@ -26,9 +37,8 @@ export const useSupplierForm = () => {
   const data = useSupplierStore((state) => state.supplier)
   const onClose = useSupplierStore((state) => state.onClose)
 
-  const { isPending: createPending, mutateAsync: createProduct } =
-    useCreateSupplier()
-  const { isPending: updatePending, mutateAsync: updateProduct } =
+  const { isPending: createPending, mutateAsync: create } = useCreateSupplier()
+  const { isPending: updatePending, mutateAsync: update } =
     // @ts-expect-error - product?.id is possibly undefined
     useUpdateSupplier(data?.id)
 
@@ -55,10 +65,10 @@ export const useSupplierForm = () => {
   const onSubmit = async (values: FormFields) => {
     if (data) {
       const changedFields = getChangedFields(defaultValues, values)
-      const updated = await updateProduct(changedFields)
+      const updated = await update(changedFields)
       if (updated) onClose()
     } else {
-      const created = await createProduct(values)
+      const created = await create(values)
       if (created) onClose()
     }
   }

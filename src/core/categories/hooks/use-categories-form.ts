@@ -7,9 +7,12 @@ import { useEffect, useMemo } from 'react'
 import { getChangedFields } from '@/common/utils/forms'
 
 const schema = z.object({
-  name: z.string({ message: 'Ingresa el nombre de la categoría' }).min(5, {
-    message: 'Mínimo 5 caracteres',
-  }),
+  name: z
+    .string({ message: 'Ingresa el nombre de la categoría' })
+    .min(3, {
+      message: 'Mínimo 3 caracteres',
+    })
+    .trim(),
   active: z.boolean().default(true),
 })
 

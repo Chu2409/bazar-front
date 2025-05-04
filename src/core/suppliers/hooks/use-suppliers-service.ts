@@ -23,12 +23,15 @@ export const useToggleSupplierStatus = (id: number) => {
   return useMutation({
     mutationKey: ['suppliers', id],
     mutationFn: async () => {
-      const status = await suppliersApi.toggleStatus(id)
-      queryClient.invalidateQueries({
-        queryKey: ['suppliers'],
-      })
+      const updated = await suppliersApi.toggleStatus(id)
 
-      return status
+      if (updated === true) {
+        await queryClient.invalidateQueries({
+          queryKey: ['suppliers'],
+        })
+      }
+
+      return updated === true
     },
   })
 }
@@ -49,11 +52,14 @@ export const useCreateSupplier = () => {
     mutationKey: ['suppliers'],
     mutationFn: async (supplier: SupplierDto) => {
       const created = await suppliersApi.create(supplier)
-      queryClient.invalidateQueries({
-        queryKey: ['suppliers'],
-      })
 
-      return created
+      if (created === true) {
+        await queryClient.invalidateQueries({
+          queryKey: ['suppliers'],
+        })
+      }
+
+      return created === true
     },
   })
 }
@@ -63,11 +69,14 @@ export const useUpdateSupplier = (id: number) => {
     mutationKey: ['suppliers', id],
     mutationFn: async (supplier: Partial<SupplierDto>) => {
       const updated = await suppliersApi.update(id, supplier)
-      queryClient.invalidateQueries({
-        queryKey: ['suppliers'],
-      })
 
-      return updated
+      if (updated === true) {
+        await queryClient.invalidateQueries({
+          queryKey: ['suppliers'],
+        })
+      }
+
+      return updated === true
     },
   })
 }

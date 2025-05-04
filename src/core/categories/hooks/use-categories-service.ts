@@ -34,12 +34,15 @@ export const useToggleCategoryStatus = (id: number) => {
   return useMutation({
     mutationKey: ['categories', id],
     mutationFn: async () => {
-      const status = await categoriesApi.toggleStatus(id)
-      queryClient.invalidateQueries({
-        queryKey: ['categories'],
-      })
+      const updated = await categoriesApi.toggleStatus(id)
 
-      return status
+      if (updated === true) {
+        await queryClient.invalidateQueries({
+          queryKey: ['categories'],
+        })
+      }
+
+      return updated === true
     },
   })
 }
@@ -49,11 +52,13 @@ export const useCreateCategory = () => {
     mutationKey: ['categories'],
     mutationFn: async (data: CategoryDto) => {
       const created = await categoriesApi.create(data)
-      queryClient.invalidateQueries({
-        queryKey: ['categories'],
-      })
 
-      return created
+      if (created === true)
+        queryClient.invalidateQueries({
+          queryKey: ['categories'],
+        })
+
+      return created === true
     },
   })
 }
@@ -63,11 +68,13 @@ export const useUpdateCategory = (id: number) => {
     mutationKey: ['categories', id],
     mutationFn: async (data: Partial<CategoryDto>) => {
       const updated = await categoriesApi.update(id, data)
-      queryClient.invalidateQueries({
-        queryKey: ['categories'],
-      })
 
-      return updated
+      if (updated === true)
+        queryClient.invalidateQueries({
+          queryKey: ['categories'],
+        })
+
+      return updated === true
     },
   })
 }

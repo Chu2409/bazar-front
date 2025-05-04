@@ -35,12 +35,15 @@ export const useToggleProductStatus = (id: number) => {
   return useMutation({
     mutationKey: ['products', id],
     mutationFn: async () => {
-      const status = await productsApi.toggleStatus(id)
-      queryClient.invalidateQueries({
-        queryKey: ['products'],
-      })
+      const updated = await productsApi.toggleStatus(id)
 
-      return status
+      if (updated === true) {
+        await queryClient.invalidateQueries({
+          queryKey: ['products'],
+        })
+      }
+
+      return updated === true
     },
   })
 }
@@ -49,12 +52,15 @@ export const useCreateProduct = () => {
   return useMutation({
     mutationKey: ['products'],
     mutationFn: async (product: ProductDto) => {
-      const productCreated = await productsApi.create(product)
-      queryClient.invalidateQueries({
-        queryKey: ['products'],
-      })
+      const created = await productsApi.create(product)
 
-      return productCreated
+      if (created === true) {
+        queryClient.invalidateQueries({
+          queryKey: ['products'],
+        })
+      }
+
+      return created === true
     },
   })
 }
@@ -63,12 +69,15 @@ export const useUpdateProduct = (id: number) => {
   return useMutation({
     mutationKey: ['products', id],
     mutationFn: async (product: Partial<ProductDto>) => {
-      const productUpdated = await productsApi.update(id, product)
-      queryClient.invalidateQueries({
-        queryKey: ['products'],
-      })
+      const updated = await productsApi.update(id, product)
 
-      return productUpdated
+      if (updated) {
+        queryClient.invalidateQueries({
+          queryKey: ['products'],
+        })
+      }
+
+      return updated === true
     },
   })
 }

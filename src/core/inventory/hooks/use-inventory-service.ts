@@ -36,11 +36,14 @@ export const useInventoryDelete = (id: number) => {
     mutationKey: ['inventory', id],
     mutationFn: async () => {
       const deleted = await inventoryApi.delete(id)
-      queryClient.invalidateQueries({
-        queryKey: ['inventory'],
-      })
 
-      return deleted
+      if (deleted === true) {
+        queryClient.invalidateQueries({
+          queryKey: ['inventory'],
+        })
+      }
+
+      return deleted === true
     },
   })
 }
@@ -50,12 +53,12 @@ export const useInventoryCreate = () => {
     mutationKey: ['inventory'],
     mutationFn: async (data: InventoryDto) => {
       const created = await inventoryApi.create(data)
-      if (created)
+      if (created === true)
         queryClient.invalidateQueries({
           queryKey: ['inventory'],
         })
 
-      return created
+      return created === true
     },
   })
 }
@@ -65,11 +68,13 @@ export const useInventoryUpdate = (id: number) => {
     mutationKey: ['inventory', id],
     mutationFn: async (data: Partial<InventoryDto>) => {
       const updated = await inventoryApi.update(id, data)
-      queryClient.invalidateQueries({
-        queryKey: ['inventory'],
-      })
 
-      return updated
+      if (updated === true)
+        queryClient.invalidateQueries({
+          queryKey: ['inventory'],
+        })
+
+      return updated === true
     },
   })
 }

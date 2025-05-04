@@ -55,6 +55,6 @@ export const productsApi = {
       product,
     )
 
-    return response
+    return response.data
   },
 }

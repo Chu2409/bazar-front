@@ -21,12 +21,15 @@ export const useCreateSale = () => {
   return useMutation({
     mutationKey: ['sales'],
     mutationFn: async (product: SaleDto) => {
-      const productCreated = await salesApi.create(product)
-      queryClient.invalidateQueries({
-        queryKey: ['sales'],
-      })
+      const created = await salesApi.create(product)
 
-      return productCreated
+      if (created === true) {
+        await queryClient.invalidateQueries({
+          queryKey: ['sales'],
+        })
+      }
+
+      return created === true
     },
   })
 }
@@ -35,12 +38,15 @@ export const useUpdateSale = (id: number) => {
   return useMutation({
     mutationKey: ['sales', id],
     mutationFn: async (product: Partial<SaleDto>) => {
-      const productUpdated = await salesApi.update(id, product)
-      queryClient.invalidateQueries({
-        queryKey: ['sales'],
-      })
+      const updated = await salesApi.update(id, product)
 
-      return productUpdated
+      if (updated === true) {
+        await queryClient.invalidateQueries({
+          queryKey: ['sales'],
+        })
+      }
+
+      return updated === true
     },
   })
 }
