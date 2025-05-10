@@ -74,8 +74,16 @@ export const formUrlArrayQuery = ({
 }) => {
   const currentUrl = qs.parse(params.toString())
 
-  // @ts-expect-error FIXME: Object is possibly 'undefined'.
-  currentUrl[key] = currentUrl[key] ? Array.of(currentUrl[key], value) : value
+  if (Array.isArray(currentUrl[key])) {
+    // Si ya es un array, añade el valor
+    currentUrl[key].push(value)
+  } else if (currentUrl[key]) {
+    // Si existe pero no es un array, conviértelo en array
+    currentUrl[key] = [currentUrl[key], value]
+  } else {
+    // Si no existe, crea el valor directamente
+    currentUrl[key] = value
+  }
 
   return qs.stringifyUrl(
     {
@@ -121,13 +129,20 @@ export const removeValueFromArrayQuery = ({
   const values = currentUrl[keyToRemove]
 
   if (typeof values === 'string') {
-    delete currentUrl[keyToRemove]
-  }
+    // Si el único valor es el que se va a eliminar, borra la clave
+    if (values === valueToRemove) {
+      delete currentUrl[keyToRemove]
+    }
+  } else if (Array.isArray(values)) {
+    // Filtra el array para eliminar el valor deseado
+    const newValues = values.filter((value) => value !== valueToRemove)
 
-  if (typeof values === 'object') {
-    const newValues = values?.filter((value) => value !== valueToRemove)
-    // @ts-expect-error FIXME: Object is possibly 'undefined'.
-    currentUrl[keyToRemove] = Array.of(newValues)
+    if (newValues.length > 0) {
+      currentUrl[keyToRemove] = newValues
+    } else {
+      // Si el array queda vacío, elimina la clave
+      delete currentUrl[keyToRemove]
+    }
   }
 
   return qs.stringifyUrl(

@@ -142,6 +142,7 @@ export const useCustomerForm = () => {
 
     if (data) {
       const changedFields = getChangedFields(data, valuesForm)
+      if (Object.keys(changedFields).length === 0) return
 
       const updated = await updateProduct({
         ...changedFields,

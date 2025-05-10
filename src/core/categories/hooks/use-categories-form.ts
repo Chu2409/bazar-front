@@ -49,6 +49,8 @@ export const useCategoryForm = () => {
   const onSubmit = async (values: FormFields) => {
     if (data) {
       const changedFields = getChangedFields(defaultValues, values)
+      if (Object.keys(changedFields).length === 0) return
+
       const updated = await updateProduct(changedFields)
       if (updated) onClose()
     } else {

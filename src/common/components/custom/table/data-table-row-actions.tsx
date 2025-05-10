@@ -15,7 +15,7 @@ import { Ban, Ellipsis, Eye, RefreshCcw, Trash } from 'lucide-react'
 
 interface DataTableRowActionsProps {
   status?: boolean
-  toggleStatus?: () => Promise<boolean | null>
+  toggleStatus?: () => Promise<boolean>
   onEdit: () => void
   onDelete?: () => Promise<boolean>
 }
@@ -71,12 +71,12 @@ export function DataTableRowActions({
         description={
           onDelete
             ? 'Esta acción no se puede deshacer'
-            : '¿Estás seguro de que deseas cambiar el estado?'
+            : 'Estás seguro de que deseas cambiar el estado?'
         }
         isOpen={isOpen}
         isLoading={isLoading}
         onClose={() => setIsOpen(false)}
-        onConfirm={onDeleteClick || onToggleClick}
+        onConfirm={onDelete ? onDeleteClick : onToggleClick}
       />
 
       <DropdownMenu>

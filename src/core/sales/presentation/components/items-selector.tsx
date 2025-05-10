@@ -16,11 +16,12 @@ import {
 import { Input } from '@/ui-components/input'
 import { Button } from '@/ui-components/button'
 import { cn } from '@/common/lib/utils'
-import { InventoryWithProduct } from '@/core/inventory/models/res/inventory'
+import { InventoryWithProductSupplier } from '@/core/inventory/models/res/inventory'
 import { useGetBySearchInventory } from '@/core/inventory/hooks/use-inventory-service'
+import { Badge } from '@/ui-components/badge'
 
 interface Props {
-  onChange: (value: InventoryWithProduct) => void
+  onChange: (value: InventoryWithProductSupplier) => void
   disabled?: boolean
 }
 
@@ -89,9 +90,12 @@ export function ItemsSelector({ onChange, disabled = false }: Props) {
                       onChange(option)
                       setOpen(false)
                     }}
-                    className='cursor-pointer'
+                    className='cursor-pointer flex gap-4'
                   >
                     {option.product.name}
+                    <Badge className='p-0.5 text-[10px] '>
+                      {option.supplier.name}
+                    </Badge>
                   </CommandItem>
                 ))}
               </CommandGroup>

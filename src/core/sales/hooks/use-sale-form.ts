@@ -97,17 +97,21 @@ export const useSaleForm = () => {
       return acc + itemTotal
     }, 0)
 
-    form.setValue('subTotal', subTotal, { shouldDirty: true })
+    form.setValue('subTotal', parseFloat(subTotal.toFixed(2)), {
+      shouldDirty: true,
+    })
 
     const discount = watchDiscount || 0
     const total = Math.max(0, subTotal - discount)
 
-    form.setValue('total', total, { shouldDirty: true })
+    form.setValue('total', parseFloat(total.toFixed(2)), { shouldDirty: true })
   }, [watchItems, watchDiscount, form])
 
   const onSubmit = async (values: FormFields) => {
     if (data) {
       const changedFields = getChangedFields(defaultValues, values)
+      if (Object.keys(changedFields).length === 0) return
+
       const updated = await updateProduct(changedFields)
       if (updated) onClose()
     } else {

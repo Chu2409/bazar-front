@@ -5,9 +5,10 @@ import { Button } from '@/ui-components/button'
 import { Input } from '@/ui-components/input'
 import { Label } from '@/ui-components/label'
 import { cn } from '@/common/lib/utils'
-import { InventoryWithProduct } from '@/core/inventory/models/res/inventory'
+import { InventoryWithProductSupplier } from '@/core/inventory/models/res/inventory'
 import { getError } from '@/common/utils/forms'
 import { ItemsSelector } from './items-selector'
+import { Badge } from '@/ui-components/badge'
 
 interface Props {
   name: string
@@ -35,7 +36,7 @@ const RHFItemsInput = ({
 
   const error = getError(name, errors)
 
-  const handleItemSelect = (value: InventoryWithProduct) => {
+  const handleItemSelect = (value: InventoryWithProductSupplier) => {
     if (!allowDuplicates) {
       const exists = fields.some((field: any) => field.inventoryId === value.id)
       if (exists) {
@@ -49,6 +50,7 @@ const RHFItemsInput = ({
       qty: 1,
       unitPrice: value.product.retailPrice,
       maxQty: value.stock,
+      supplierName: value.supplier.name,
     })
   }
 
@@ -64,7 +66,7 @@ const RHFItemsInput = ({
 
       {fields.length > 0 ? (
         <div className='space-y-4'>
-          {fields.map((field: any, index) => {
+          {fields.map((fieldMain: any, index) => {
             const quantityErrorPath = `${name}.${index}.qty`
             const priceErrorPath = `${name}.${index}.unitPrice`
 
@@ -73,23 +75,32 @@ const RHFItemsInput = ({
 
             return (
               <div
-                key={field.id}
+                key={fieldMain.id}
                 className='flex flex-col gap-2 p-3 py-2 border rounded-md bg-slate-50'
               >
-                <div className='flex items-start gap-2'>
+                <div className='flex gap-2 items-center py-2'>
                   {/* Mostrar el item seleccionado */}
                   <Controller
                     control={control}
                     name={`${name}.${index}.itemLabel`}
                     render={({ field }) => (
-                      <div className='flex-1 pt-6'>
-                        <div className='font-medium'>{field.value}</div>
+                      <div className='flex-1'>
+                        <div className='font-medium flex items-center gap-2'>
+                          {field.value}{' '}
+                          <span className='text-sm text-red-500/80'>
+                            ({fieldMain.maxQty})
+                          </span>
+                        </div>
+
+                        <Badge className='bg-black/80'>
+                          {fieldMain.supplierName}
+                        </Badge>
                       </div>
                     )}
                   />
 
                   {/* Input para la cantidad */}
-                  <div className='w-20'>
+                  <div className='w-24'>
                     <Label className='text-sm mb-1 block'>Cantidad</Label>
 
                     <Controller
@@ -117,7 +128,7 @@ const RHFItemsInput = ({
                             'w-full bg-background',
                             quantityError ? 'border-red-500' : '',
                           )}
-                          max={field.maxQty}
+                          max={fieldMain.maxQty}
                           placeholder='Cantidad'
                           disabled={disabled}
                         />
@@ -131,7 +142,7 @@ const RHFItemsInput = ({
                     )}
                   </div>
 
-                  <div className='w-40'>
+                  <div className='w-24'>
                     <Label className='text-sm mb-1 block'>Precio</Label>
 
                     <Controller

@@ -174,6 +174,7 @@ const RHFIdentificationArray = ({
                     render={({ field: { onChange, value } }) => (
                       <Checkbox
                         checked={value}
+                        defaultChecked={true}
                         onCheckedChange={onChange}
                         disabled={disabled}
                         id={`${name}-${index}-active`}
